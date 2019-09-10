@@ -10,7 +10,7 @@ from flask import send_from_directory
 
 app = Flask(__name__)
 app.register_blueprint(routes)
-db = Database("inventorymanagementsystem")
+db = Database("inventorymanagementsystem","9993revilo")
 
 @app.route('/favicon.ico')
 def favicon():
@@ -40,5 +40,8 @@ def main():
     return render_template("index.html")
 
 if __name__ == "__main__":
-    app.run(debug=True,port=4000,host="127.0.0.1")
+    try:
+        app.run(debug=True,port=4000,host="127.0.0.1")
+    except:
+        app.run(debug=True,port=4000,host="0.0.0.0")
 

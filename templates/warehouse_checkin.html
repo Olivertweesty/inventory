@@ -258,7 +258,7 @@
                             <br>
                             <div class="form-group row">
                                 <div class="col-md-6">
-                                    <select class="form-control" styles="height:30px">
+                                    <select class="form-control" id="units_of_measure" styles="height:30px">
                                       <option>Unit of Measurement</option>
                                       <option>Kg</option>
                                       <option>Units</option>
@@ -277,7 +277,7 @@
                             
                             <br>
                             <div class="text-right">
-                                <a class="btn btn-primary col-md-4" href="#" data-toggle="modal" data-target="#confirmCheckinModal" onclick="">Check in</a>
+                                <a class="btn btn-primary col-md-4" href="#" data-toggle="modal" onclick="confirm()">Check in</a>
                             </div>
                         </form>
                         
@@ -347,7 +347,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body"><span>500 kg</span> of <span></span></div>
+        <div class="modal-body"><span id="conf_quantity">500 kg</span> of <span id="conf_name"></span></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="login.html">Yes</a>
@@ -486,11 +486,16 @@
     function Summary(from,to){
         $(to).text($(from).val());
 
-
         if(from == "#unit_price"){
           var total = $("#quantity").val() * $(from).val()
           $("#total_div").text("Total : Ksh. "+total)
         }
+    }
+
+    function confirm(){
+       $("#conf_quantity").text($("#quantity").val()+" "+$("#units_of_measure").children("option:selected").text());
+       $("#conf_name").text($("#products_name").children("option:selected").text());
+       $("#confirmCheckinModal").modal('show');
     }
 
   

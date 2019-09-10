@@ -3,9 +3,9 @@ import json
 import utils.tables as tb
 
 class Database:
-	def __init__(self, databasename):
+	def __init__(self, databasename,_password):
 		self.databasename = databasename
-		self.password = ""
+		self.password = "9993revilo"
 		#Creating the database if it does not exist
 		connection = pymysql.connect(host='localhost',
                              user='root',

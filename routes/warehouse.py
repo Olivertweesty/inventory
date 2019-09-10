@@ -4,7 +4,7 @@ from flask import jsonify
 from flask import request
 from utils.Database import Database
 
-db = Database("inventorymanagementsystem")
+db = Database("inventorymanagementsystem","9993revilo")
 
 @routes.route('/warehouse')
 def warehouse():
