@@ -5,10 +5,11 @@ import utils.tables as tb
 class Database:
 	def __init__(self, databasename):
 		self.databasename = databasename
+		self.password = ""
 		#Creating the database if it does not exist
 		connection = pymysql.connect(host='localhost',
                              user='root',
-                             password='',
+                             password=self.password,
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 		cursor = connection.cursor()
@@ -21,7 +22,7 @@ class Database:
 	def connectToDatabase(self):
 		connection = pymysql.connect(host='localhost',
                              user='root',
-                             password='',
+                             password=self.password,
                              db=self.databasename,
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)

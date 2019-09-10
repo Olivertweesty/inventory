@@ -453,7 +453,7 @@
         productname : productname
       }
       ajaxObj = $.ajax({ 
-      url: "http://127.0.0.1:5000/addproductname",
+      url: "http://"+window.location.hostname+":5000/addproductname",
       data: JSON.stringify(product),
       type: "POST",
       contentType: "application/json",  
