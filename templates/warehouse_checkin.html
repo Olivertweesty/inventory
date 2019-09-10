@@ -251,7 +251,7 @@
                             <br>
                             <div class="input-group">
                               <select onchange="add_name(event)" id="products_name" class="form-control select2" style="height:50px;">
-                      
+                                <option>Product Name</option>
                                 <option>Add Product</option>
                               </select>
                             </div>
@@ -266,13 +266,13 @@
                                      
                                 </div>
                                 <div class="col-md-6">
-                                   <input type="text" class="form-control" id="inputType" placeholder="Quantity">
+                                   <input type="text" onkeyup="Summary('#quantity','#Summary_quantity')" class="form-control" id="quantity" placeholder="Quantity">
                                 </div>
                             </div>
                             <br>
                             
                             <div class="input-group">
-                                <input type="text" id = "illness" class="form-control" placeholder="Unit Purchase Price"  aria-describedby="basic-addon2">
+                                <input type="text" id = "unit_price" onkeyup="Summary('#unit_price','#Summary_price')" class="form-control" placeholder="Unit Purchase Price"  aria-describedby="basic-addon2">
                             </div>
                             
                             <br>
@@ -302,8 +302,8 @@
                       <p id = "Summary_price"></p>
                     
                   </div>
-                  <div class="card-footer bg-transparent border-primary">
-                  Total :
+                  <div class="card-footer bg-transparent border-primary" id="total_div">
+                    Total :
                   </div>
                 </div>
               </div>
@@ -347,7 +347,7 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-body"><span>500 kg</span> of <span></span></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="login.html">Yes</a>
@@ -437,10 +437,11 @@
 
   <script>
     function add_name(evt){
+      
       if (evt.target.value === "Add Product") {
         $("#addproduct").modal('show');
       }else{
-        $("#Summary_name").text($("#products_name").children("option:selected"). text())
+        $("#Summary_name").text($("#products_name").children("option:selected").text())
       }
     }
   </script>
@@ -448,12 +449,11 @@
   <script>
     function addproduct(){
       var productname = $("#productname").val();
-      alert(productname)
       var product = {
         productname : productname
       }
       ajaxObj = $.ajax({ 
-      url: "http://"+window.location.hostname+":5000/addproductname",
+      url: "http://"+window.location.hostname+":4000/addproductname",
       data: JSON.stringify(product),
       type: "POST",
       contentType: "application/json",  
@@ -466,7 +466,7 @@
 
     function retrivedata(service){
       ajaxObj = $.ajax({ 
-        url: "http://127.0.0.1:5000/getdatafromtable/"+service,
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -482,6 +482,17 @@
     }
 
     retrivedata("products_name")
+
+    function Summary(from,to){
+        $(to).text($(from).val());
+
+
+        if(from == "#unit_price"){
+          var total = $("#quantity").val() * $(from).val()
+          $("#total_div").text("Total : Ksh. "+total)
+        }
+    }
+
   
   </script>
 
