@@ -1,5 +1,10 @@
 from flask import render_template
 from . import routes
+from flask import jsonify
+from flask import request
+from utils.Database import Database
+
+db = Database("inventorymanagementsystem")
 
 @routes.route('/warehouse')
 def warehouse():
@@ -17,3 +22,34 @@ def warehousepages(name):
         return render_template("warehouse_stocktaking.html")
     else:
         return render_template("404.html")
+@routes.route('/checkinproducts',methods = ["POST"])
+def checkin_products():
+    manufacterer = str(request.json.get("manufacterer"))
+    productname = str(request.json.get("productname"))
+    unit_of_measument = str(request.json.get("unit_of_measument"))
+    quantity = str(request.json.get("quantity"))
+    purchase_price = str(request.json.get("purchase_price"))
+
+    return ""
+
+@routes.route('/addproductname',methods = ["POST"])
+def addproductname():
+    product_name = str(request.json.get("productname"))
+    
+    sql = "INSERT INTO products_name VALUES(0,%s)"
+    reponse = db.insertDataToTable(sql,product_name)
+    print(reponse)
+    if reponse:
+        return jsonify({"response":"successful added product","code":200})
+    else:
+        return jsonify({"response":"failed to add product","code":300})
+
+@routes.route('/getdatafromtable/<name>',methods = ["POST"])
+def getdatafromtable(name):
+    response = db.selectAllFromtables(name)
+
+    if not response:
+        return jsonify({"response":"failed to retrieve data","code":300})
+    else:
+        return jsonify({"response":response,"code":300})
+    

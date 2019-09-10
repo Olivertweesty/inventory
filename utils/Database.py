@@ -32,6 +32,8 @@ class Database:
 		cursor = conn.cursor()
 		cursor.execute(tb.appusers)
 		cursor.execute(tb.products)
+		cursor.execute(tb.product_names)
+		cursor.execute(tb.manufacterer)
 		conn.commit()
 		conn.close()
 	
@@ -40,7 +42,7 @@ class Database:
 		builds an sql statement, Query for data then returns the results"""
 
 		values = tuple([value for key, value in kwargs.items()])
-		print(values)
+		
 		conn = self.connectToDatabase()
 		cursor = conn.cursor()
 		sql = "SELECT * FROM {} WHERE ".format(table)
@@ -51,12 +53,39 @@ class Database:
 			else:
 				sql = sql+and_or+" "+key+" = %s "
 			count = count + 1
-		print(sql)
+		
 		cursor.execute(sql,values)
 		response = cursor.fetchall()
 		return response
 
-	def insertDataToTable(self,table,*args):
+
+
+	def insertDataToTable(self,sql,*args):
 		"""This method is used to enter data into a table"""
 		values = tuple([value for  value in args])
-		print(values)
+		
+		try:
+			conn = self.connectToDatabase()
+			cursor = conn.cursor()
+			cursor.execute(sql,values)
+			conn.commit()
+		except:
+			return False
+
+		return True
+
+	def selectAllFromtables(self,table):
+		sql = "SELECT * FROM {}".format(table)
+		try:
+			conn = self.connectToDatabase()
+			cursor = conn.cursor()
+			cursor.execute(sql)
+			response = cursor.fetchall()
+			conn.commit()
+			return response
+		except:
+			return False
+			
+			
+
+		

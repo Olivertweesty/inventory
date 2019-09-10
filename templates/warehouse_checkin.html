@@ -250,8 +250,8 @@
                             </div>
                             <br>
                             <div class="input-group">
-                              <select class="form-control select2" style="height:50px;">
-                                <option>Alabama</option>
+                              <select onchange="add_name(event)" id="products_name" class="form-control select2" style="height:50px;">
+                      
                                 <option>Add Product</option>
                               </select>
                             </div>
@@ -277,7 +277,7 @@
                             
                             <br>
                             <div class="text-right">
-                                <a class="btn btn-primary col-md-4" href="" onclick="">Check in</a>
+                                <a class="btn btn-primary col-md-4" href="#" data-toggle="modal" data-target="#confirmCheckinModal" onclick="">Check in</a>
                             </div>
                         </form>
                         
@@ -294,8 +294,16 @@
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-
+                      <h6 class="m-0 font-weight-bold text-primary">Item Name:</h6>
+                      <p id="Summary_name"></p>
+                      <h6 class="m-0 font-weight-bold text-primary">Quantity:</h6>
+                      <p id = "Summary_quantity"></p>
+                      <h6 class="m-0 font-weight-bold text-primary">Unit Price:</h6>
+                      <p id = "Summary_price"></p>
                     
+                  </div>
+                  <div class="card-footer bg-transparent border-primary">
+                  Total :
                   </div>
                 </div>
               </div>
@@ -329,6 +337,25 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!-- Confirm checkin Modal-->
+  <div class="modal fade" id="confirmCheckinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are You sure you want to check in</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Yes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -343,6 +370,31 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Product Modal-->
+  <div class="modal fade" id="addproduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="input-group">
+                    <input type="text" id = "productname" class="form-control " placeholder="Product Name"  aria-describedby="basic-addon2">
+                </div>   
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="" onclick="addproduct()">Add</a>
         </div>
       </div>
     </div>
@@ -382,6 +434,56 @@
    <!-- Select2 -->
 	<script src="static/select2/dist/js/select2.full.js"></script>
   <script src="static/js/advanced-form-element.js"></script>
+
+  <script>
+    function add_name(evt){
+      if (evt.target.value === "Add Product") {
+        $("#addproduct").modal('show');
+      }else{
+        $("#Summary_name").text($("#products_name").children("option:selected"). text())
+      }
+    }
+  </script>
+
+  <script>
+    function addproduct(){
+      var productname = $("#productname").val();
+      alert(productname)
+      var product = {
+        productname : productname
+      }
+      ajaxObj = $.ajax({ 
+      url: "http://127.0.0.1:5000/addproductname",
+      data: JSON.stringify(product),
+      type: "POST",
+      contentType: "application/json",  
+      success: function(result){
+         alert(result["response"])
+          
+      } 
+    });
+    }
+
+    function retrivedata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://127.0.0.1:5000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#products_name");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['product_name'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
+    retrivedata("products_name")
+  
+  </script>
 
 </body>
 
