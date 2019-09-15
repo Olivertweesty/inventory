@@ -60,7 +60,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
             <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
-            <a class="collapse-item" href="">Report Damage</a>
+            <a class="collapse-item" href="warehouse_damage">Report Damage</a>
             <a class="collapse-item" href="warehouse_allproducts">All Products</a>
           </div>
         </div>
@@ -242,7 +242,23 @@
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-
+                    <div class="table-responsive">
+                          <table class="table table-bordered" id="products" width="100%" cellspacing="0">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Product Code</th>
+                                <th>Manufacturer</th>
+                                <th>Product Name</th>
+                                <th>Quantity</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                        
+                            </tbody>
+                        
+                          </table>
+                        </div>
                     
                   </div>
                 </div>
@@ -330,6 +346,37 @@
    <!-- Select2 -->
 	<script src="static/select2/dist/js/select2.full.js"></script>
   <script src="static/js/advanced-form-element.js"></script>
+
+  <script>
+    $(document).ready(function() {
+    $('#products').DataTable({
+        "processing" : true,
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getallproducts",
+            dataSrc : ''
+        },
+        "columns" : [ {
+            "data" : "id"
+        }, {
+            "data" : "manufacturer"
+        }, {
+            "data" : "product_code"
+        }, {
+            "data" : "product_name"
+        }, {
+            "data" : "quantity"
+        }]
+    });
+
+    /*$('#consultation tbody').on( 'click', 'tr', function () {
+			var id = $(this).find("td:first").text();
+			selected_data = id;
+      console.log(selected_data);
+      getsinglecons(selected_data)
+		});*/
+
+});
+  </script>
 </body>
 
 </html>

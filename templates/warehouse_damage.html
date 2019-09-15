@@ -246,9 +246,8 @@
 
                         <form>
                             <div class="input-group">
-                              <select class="form-control select2" style="height:50px;">
-                                <option>Alabama</option>
-                                <option>Add Product</option>
+                              <select id="products_name" class="form-control select2" style="height:50px;">
+                                
                               </select>
                             </div>
                             <br>
@@ -367,6 +366,27 @@
    <!-- Select2 -->
 	<script src="static/select2/dist/js/select2.full.js"></script>
   <script src="static/js/advanced-form-element.js"></script>
+  <script>
+
+  function retrivedata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#products_name");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['product_name'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
+    retrivedata("products_name")
+  </script>
 </body>
 
 </html>

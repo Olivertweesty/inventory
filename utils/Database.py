@@ -75,8 +75,8 @@ class Database:
 
 		return True
 
-	def selectAllFromtables(self,table):
-		sql = "SELECT * FROM {}".format(table)
+	def selectAllFromtables(self,sql):
+		
 		try:
 			conn = self.connectToDatabase()
 			cursor = conn.cursor()
@@ -86,6 +86,8 @@ class Database:
 			return response
 		except:
 			return False
+
+	
 			
 			
 

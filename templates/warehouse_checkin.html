@@ -19,6 +19,7 @@
   <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
   <!-- Select2 -->
 	<link rel="stylesheet" href="static/select2/dist/css/select2.min.css">
+  <link rel="stylesheet" href="static/css/sweetalert2.min.css">
 
 </head>
 
@@ -246,7 +247,11 @@
 
                         <form>
                             <div class="input-group">
-                                <input type="text" id = "illness" class="form-control" placeholder="Manufacturer"  aria-describedby="basic-addon2">
+                                <!--<input type="text" id = "manufacterer" class="form-control" placeholder="Manufacturer"  aria-describedby="basic-addon2">-->
+                                <select onchange="add_manu(event)" id="manufacterer" class="form-control select2" style="height:50px;">
+                                <option>Manufacturer Name</option>
+                                <option>Add Manufacturer</option>
+                              </select>
                             </div>
                             <br>
                             <div class="input-group">
@@ -350,7 +355,7 @@
         <div class="modal-body"><span id="conf_quantity">500 kg</span> of <span id="conf_name"></span></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Yes</a>
+          <a class="btn btn-primary" onclick="submit_checkin()" href="">Yes</a>
         </div>
       </div>
     </div>
@@ -369,7 +374,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary"  href="">Logout</a>
         </div>
       </div>
     </div>
@@ -395,6 +400,31 @@
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="" onclick="addproduct()">Add</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Manufacturer Modal-->
+  <div class="modal fade" id="addmanufacturer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Manufacturer</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="input-group">
+                    <input type="text" id = "manufacterername" class="form-control " placeholder="Manufacturer Name"  aria-describedby="basic-addon2">
+                </div>   
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="" onclick="addmanufacturer()">Add</a>
         </div>
       </div>
     </div>
@@ -434,6 +464,7 @@
    <!-- Select2 -->
 	<script src="static/select2/dist/js/select2.full.js"></script>
   <script src="static/js/advanced-form-element.js"></script>
+  <script src="static/js/sweetalert2.all.min.js"></script>
 
   <script>
     function add_name(evt){
@@ -444,27 +475,54 @@
         $("#Summary_name").text($("#products_name").children("option:selected").text())
       }
     }
+
+    function add_manu(evt){
+      
+      if (evt.target.value === "Add Manufacturer") {
+        $("#addmanufacturer").modal('show');
+      }
+    }
   </script>
 
   <script>
     function addproduct(){
-      var productname = $("#productname").val();
-      var product = {
-        productname : productname
-      }
-      ajaxObj = $.ajax({ 
-      url: "http://"+window.location.hostname+":4000/addproductname",
-      data: JSON.stringify(product),
-      type: "POST",
-      contentType: "application/json",  
-      success: function(result){
-         alert(result["response"])
-          
-      } 
-    });
+        var productname = $("#productname").val();
+        var product = {
+          productname : productname
+        }
+        ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/addproductname",
+          data: JSON.stringify(product),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+            alert(result["response"])
+              
+          } 
+        });
     }
 
-    function retrivedata(service){
+    function addmanufacturer(){
+      
+        var manufacterername = $("#manufacterername").val();
+        var manufacturer = {
+          manufacturer_name : manufacterername
+        }
+        console.log(manufacturer);
+        alert(manufacturer.manufacturer_name)
+        ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/addmanufacturername",
+          data: JSON.stringify(manufacturer),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+            alert(result["response"])
+              
+          } 
+        });
+    }
+
+    function retrivePdata(service){
       ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
@@ -481,7 +539,26 @@
       });
     }
 
-    retrivedata("products_name")
+    function retriveMdata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#manufacterer");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['manufacterer'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
+    retrivePdata("products_name")
+    retriveMdata("manufacterer")
+    
 
     function Summary(from,to){
         $(to).text($(from).val());
@@ -496,6 +573,35 @@
        $("#conf_quantity").text($("#quantity").val()+" "+$("#units_of_measure").children("option:selected").text());
        $("#conf_name").text($("#products_name").children("option:selected").text());
        $("#confirmCheckinModal").modal('show');
+    }
+
+    function submit_checkin(){
+      var product_data = {
+        manufacterer : $("#manufacterer").val(),
+        productname : $("#products_name").val(),
+        unit_of_measument : $("#units_of_measure").val(),
+        quantity: $("#quantity").val(),
+        purchase_price : $("#unit_price").val()
+      }
+
+      $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/checkinproducts",
+        type: "POST",
+        data: JSON.stringify(product_data),
+        contentType: "application/json",  
+        success: function(result){
+              alert(result);
+              if(result["code"] == 200){
+                Swal.fire({
+                    title: "Successful",
+                    text: "Check in successful",
+                    type: 'success',
+                    showConfirmButton: true,
+                    allowOutsideClick: false
+                  });
+              }        
+        } 
+      });
     }
 
   

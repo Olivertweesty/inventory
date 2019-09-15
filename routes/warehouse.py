@@ -3,6 +3,7 @@ from . import routes
 from flask import jsonify
 from flask import request
 from utils.Database import Database
+import utils.tables as tb
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -22,6 +23,9 @@ def warehousepages(name):
         return render_template("warehouse_stocktaking.html")
     else:
         return render_template("404.html")
+
+
+
 @routes.route('/checkinproducts',methods = ["POST"])
 def checkin_products():
     manufacterer = str(request.json.get("manufacterer"))
@@ -29,8 +33,24 @@ def checkin_products():
     unit_of_measument = str(request.json.get("unit_of_measument"))
     quantity = str(request.json.get("quantity"))
     purchase_price = str(request.json.get("purchase_price"))
+    print("Hello")
+    product_code = (manufacterer[0:4]+productname[0:4])
 
-    return ""
+    existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
+    if len(existance) == 0:
+        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,'',%s)"
+        reponse = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,quantity)
+    else:
+        new_quantity = existance[0]['quantity'] + quantity
+        sql = "UPDATE products SET quantity = %s"
+        response = db.insertDataToTable(sql,new_quantity)
+
+    if reponse == True:
+        return jsonify({"response":"successful product Checkin","code":200})
+    else:
+        return jsonify({"response":"failed to checkin product","code":300})
+
+
 
 @routes.route('/addproductname',methods = ["POST"])
 def addproductname():
@@ -40,16 +60,47 @@ def addproductname():
     reponse = db.insertDataToTable(sql,product_name)
     print(reponse)
     if reponse:
+        return jsonify({"response":"successful added Manufacterer","code":200})
+    else:
+        return jsonify({"response":"failed to add Manufacterer","code":300})
+
+
+
+@routes.route('/addmanufacturername',methods = ["POST"])
+def addmanufacturername():
+    manufacturer_name = str(request.json.get("manufacturer_name"))
+    
+    sql = "INSERT INTO manufacterer VALUES(0,%s)"
+    reponse = db.insertDataToTable(sql,manufacturer_name)
+    print(reponse)
+    if reponse:
         return jsonify({"response":"successful added product","code":200})
     else:
         return jsonify({"response":"failed to add product","code":300})
 
+
+
 @routes.route('/getdatafromtable/<name>',methods = ["POST"])
 def getdatafromtable(name):
-    response = db.selectAllFromtables(name)
+    sql = "SELECT * FROM {}".format(name)
+    response = db.selectAllFromtables(sql)
 
     if not response:
         return jsonify({"response":"failed to retrieve data","code":300})
     else:
         return jsonify({"response":response,"code":300})
+
+
+
+@routes.route('/getallproducts',methods = ["POST","GET"])
+def getallproducts():
+    response = db.selectAllFromtables(tb.selectallproduct)
+
+    return jsonify(response)
+
+@routes.route('/getposproducts',methods = ["POST","GET"])
+def getposproducts():
+    response = db.selectAllFromtables(tb.selectproductPOS)
+
+    return jsonify(response)
     
