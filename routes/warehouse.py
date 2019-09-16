@@ -4,6 +4,7 @@ from flask import jsonify
 from flask import request
 from utils.Database import Database
 import utils.tables as tb
+from datetime import date
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -98,9 +99,28 @@ def getallproducts():
 
     return jsonify(response)
 
-@routes.route('/getposproducts',methods = ["POST","GET"])
-def getposproducts():
-    response = db.selectAllFromtables(tb.selectproductPOS)
+
+
+@routes.route('/adddamagedproduct',methods = ["POST","GET"])
+def adddamagedproduct():
+    manufacturer_name = str(request.json.get("manufacturer"))
+    product_name = str(request.json.get("productname"))
+    quantity = str(request.json.get("quantity"))
+    message = str(request.json.get("message"))
+    today = date.today()
+    dateT = today.strftime("%b-%d-%Y")
+    sql = "INSERT INTO damages VALUES(0,%s,%s,%s,%s,%s)"
+
+    reponse = db.insertDataToTable(sql,manufacturer_name,product_name,quantity,message,dateT)
+
+    if reponse:
+        return jsonify({"response":"successful added product","code":200})
+    else:
+        return jsonify({"response":"failed to add product","code":300})
+
+@routes.route('/getdamagedproducts',methods = ["POST","GET"])
+def getdamagedproducts():
+    response = db.selectAllFromtables(tb.selectdamaged)
 
     return jsonify(response)
     

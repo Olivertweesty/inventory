@@ -246,22 +246,28 @@
 
                         <form>
                             <div class="input-group">
-                              <select id="products_name" class="form-control select2" style="height:50px;">
-                                
+                              <select id="manufacturer_name" class="form-control select2" style="height:50px;">
+                                <option>SELECT MANUFACTURER</option>
                               </select>
                             </div>
                             <br>
                             <div class="input-group">
-                                <input type="text" id = "illness" class="form-control" placeholder="Quantity"  aria-describedby="basic-addon2">
+                              <select id="products_name" class="form-control select2" style="height:50px;">
+                                <option>SELECT PRODUCT NAME</option>
+                              </select>
                             </div>
                             <br>
                             <div class="input-group">
-                                <textarea class="form-control" id = "recommendations" placeholder="Message" cols="10" rows="4"></textarea>      
+                                <input type="text" id = "quantity" class="form-control" placeholder="Quantity"  aria-describedby="basic-addon2">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <textarea class="form-control" id = "message" placeholder="Message" cols="10" rows="4"></textarea>      
                             </div>
                             
                             <br>
                             <div class="text-right">
-                                <a class="btn btn-primary col-md-4" href="" onclick="">Submit</a>
+                                <a class="btn btn-primary col-md-4" href="" onclick="submit_damaged()">Submit</a>
                             </div>
                         </form>
                         
@@ -279,7 +285,19 @@
                   <!-- Card Body -->
                   <div class="card-body">
 
-                    
+                    <div class="table-responsive">
+                          <table class="table table-bordered" id="damageproducts" width="100%" cellspacing="0">
+                            <thead>
+                              <tr>
+                                <th>Product Name</th>
+                                <th>Manufacturer</th>
+                                <th>Quantity</th>
+                                <th>Date Damaged</th>
+                              </tr>
+                            </thead>
+                            
+                          </table>
+                        </div>
                   </div>
                 </div>
               </div>
@@ -368,7 +386,36 @@
   <script src="static/js/advanced-form-element.js"></script>
   <script>
 
-  function retrivedata(service){
+  function submit_damaged(){
+    var product_data = {
+        manufacturer : $("#manufacturer_name").val(),
+        productname : $("#products_name").val(),
+        quantity: $("#quantity").val(),
+        message : $("#message").val()
+      }
+
+
+      $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/adddamagedproduct",
+        type: "POST",
+        data: JSON.stringify(product_data),
+        contentType: "application/json",  
+        success: function(result){
+              alert(result);
+              if(result["code"] == 200){
+                Swal.fire({
+                    title: "Successful",
+                    text: "Added successful",
+                    type: 'success',
+                    showConfirmButton: true,
+                    allowOutsideClick: false
+                  });
+              }        
+        } 
+      });
+  }
+
+  function retrivePdata(service){
       ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
@@ -385,7 +432,55 @@
       });
     }
 
-    retrivedata("products_name")
+    retrivePdata("products_name")
+
+    function retriveMdata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#manufacturer_name");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['manufacterer'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
+    retriveMdata("manufacterer")
+  </script>
+
+  <script>
+    $(document).ready(function() {
+    $('#damageproducts').DataTable({
+        "processing" : true,
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getdamagedproducts",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "product_name"
+        }, {
+            "data" : "manufacterer"
+        }, {
+            "data" : "quantity"
+        }, {
+            "data" : "date"
+        }]
+    });
+
+    /*$('#consultation tbody').on( 'click', 'tr', function () {
+			var id = $(this).find("td:first").text();
+			selected_data = id;
+      console.log(selected_data);
+      getsinglecons(selected_data)
+		});*/
+
+    });
   </script>
 </body>
 

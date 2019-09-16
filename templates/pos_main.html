@@ -234,6 +234,7 @@
                           <table class="table table-bordered" id="posproducts" width="100%" cellspacing="0">
                             <thead>
                               <tr>
+                                <th>ID</th>
                                 <th>Product Name</th>
                                 <th>Manufacturer</th>
                                 <th>Price</th>
@@ -257,38 +258,10 @@
                     <h6 class="m-0 font-weight-bold text-primary">Order</h6>
                   </div>
                   <!-- Card Body -->
-                  <div class="card-body">
-                    <div class="card">
-                        
-                        <div class="card-body">
-                            <div class="row">
-                              <div class="col-sm-10">
-                              <p style="font-size: 15px;">Metal Bars 20cm x 10000cm</p>
-                              </div>
-                              <div class="col-sm-2 text-right">
-                                <i class="fa fa-trash pull-right" style="margin-right:3px;"></i>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-sm-6">
-                                <div class="input-group mb-3">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-minus pull-right" style="margin-right:3px;"></i></span>
-                                  </div>
-                                  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-                                  <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fa fa-plus pull-right" style="margin-right:3px;"></i></span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-6">
-                                <p style="font-size: 20px;">Ksh.300000</p>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
+                  <div class="card-body" id="selected" style="overflow-y: scroll; height:400px;">
+                    
                   </div>
-                  <div class="btn btn-primary">Checkout</div>
+                  <div class="btn btn-primary" onclick="showcheckout()">Checkout</div>
                 </div>
               </div>
             </div>
@@ -326,22 +299,99 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Checkout Modal-->
+  <div class="modal fade" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Selected Products</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="checkoutproducts" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                </tr>
+              </thead>
+              <tbody>
+          
+              </tbody>
+          
+            </table>
+          </div>
+          <p style="font-size: 15px;" id="item_name">Payment Method</p>
+          <div class="row">
+            <div class="col-sm-4">
+              <select class="form-control" id="units_of_measure" styles="height:30px">
+                <option>Mpesa</option>
+                <option>Cash</option>
+                <option>Cheque</option>
+                <option>Credit</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <input type="Number" class="form-control" id="amount" placeholder="Amount">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="amount" placeholder="Cheque No /Confirmation">
+            </div>
+          </div>
+          <p style="font-size: 15px;" id="item_name">Others</p>
+          <div class="row">
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="transport" placeholder="Transport">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="discount" placeholder="Discount">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="" value="16%" placeholder="Tax" disabled>
+            </div>
+          </div>
+        </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="login.html">Process</a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="card invisible" id="eachItem" style="margin-bottom:20px;display:none">
+                        
+    <div class="card-body">
+        <div class="row">
+          <div class="col-sm-10">
+          <p style="font-size: 15px;" id="item_name">Metal Bars 20cm x 10000cm</p>
+          </div>
+          
+          <div class="col-sm-2 text-right">
+            <i onclick="removeCartItem(this)" class="fa fa-trash pull-right" style="margin-right:3px;"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-minus pull-right" onclick="reduceproduct(this)" style="margin-right:3px;"></i></span>
+              </div>
+              <input type="text" id="quantity" class="form-control" value="1" aria-label="Amount (to the nearest dollar)">
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fa fa-plus pull-right" onclick="increasequantity(this)" style="margin-right:3px;"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            </span><p style="font-size: 20px;" >Ksh. <span id="item_price">300000</span></p><span class="invisible" style="display:none" id = "item_id">
+          </div>
+          <!---->
+        </div>
     </div>
   </div>
 
@@ -358,8 +408,9 @@
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+  
   <script>
+    var items = new Object();
     $(document).ready(function() {
     $('#posproducts').DataTable({
         "processing" : true,
@@ -368,6 +419,8 @@
             dataSrc : ''
         },
         "columns" : [{
+            "data" : "id"
+        },{
             "data" : "product_name"
         }, {
             "data" : "manufacterer"
@@ -375,16 +428,91 @@
             "data" : "selling_price"
         }]
     });
+    
 
-    /*$('#consultation tbody').on( 'click', 'tr', function () {
+    
+
+    $('#posproducts tbody').on( 'click', 'tr', function () {
 			var id = $(this).find("td:first").text();
-			selected_data = id;
-      console.log(selected_data);
-      getsinglecons(selected_data)
-		});*/
+      var item_name = $(this).find("td:nth-child(2)").text();
+      var item_price = $(this).find("td:nth-child(4)").text();
 
-});
+      if(items['item'+id] === undefined){
+        var divtoadd = $('#eachItem').clone().prop('id', 'item'+id );
+        divtoadd.addClass('visible');
+        divtoadd.removeClass('invisible');
+        divtoadd.css('display','')
+        divtoadd.find('#item_id').text(id);
+        divtoadd.find('#item_name').text(item_name);
+        divtoadd.find('#item_price').text(item_price);
+        $('#selected').append(divtoadd);
+        items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name}
+      }else{
+        var divm = $("#item"+id);
+        var quantity = parseInt(divm.find('#quantity').val()) + 1;
+        divm.find('#quantity').val(quantity);
+        var price = parseInt(items['item'+id].price) * quantity;
+        divm.find('#item_price').text(price);
+      }
+      
+      
+      
+      
+		});
+
+    });
+
+    function removeCartItem(event){
+      var cardid = $(event).parent().parent().parent().parent().attr('id');
+      $("#"+cardid).remove();
+      delete items[cardid]
+    }
+
   </script>
+
+  <script>
+  function reduceproduct(item){
+    var cardid = $(item).parent().parent().parent().parent().parent().parent().parent().attr('id');
+    if (parseInt(items[cardid].quantity) == 1){
+      return
+    }
+    var quantity = parseInt(items[cardid].quantity) - 1;
+    items[cardid].quantity = quantity;
+    
+    var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
+    
+    divm.find('#quantity').val(quantity);
+    var price = parseInt(items[cardid].price) * quantity;
+    divm.find('#item_price').text(price);
+    
+  }
+
+  function increasequantity(item){
+    var cardid = $(item).parent().parent().parent().parent().parent().parent().parent().attr('id');
+    
+    var quantity = parseInt(items[cardid].quantity) + 1;
+    items[cardid].quantity = quantity;
+    
+    var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
+    
+    divm.find('#quantity').val(quantity);
+    var price = parseInt(items[cardid].price) * quantity;
+    divm.find('#item_price').text(price);
+  }
+  </script>
+
+  <script>
+    function showcheckout(){
+      $("#checkoutmodal").modal('show');
+      $("#checkoutmodal tr").remove();
+      //$("#checkoutproducts").append('<tr><td></td><td></td><td></td></tr>');
+      for(var key in items){
+        $("#checkoutproducts").append('<tr><td>'+items[key].name+'</td><td>'+items[key].quantity+'</td><td>Ksh. '+items[key].price+'</td></tr>');
+        console.log(key);
+      }
+    }
+  </script>
+  
 
 </body>
 
