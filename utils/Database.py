@@ -36,6 +36,8 @@ class Database:
 		cursor.execute(tb.product_names)
 		cursor.execute(tb.manufacterer)
 		cursor.execute(tb.damages)
+		cursor.execute(tb.customers)
+		cursor.execute(tb.orders)
 		conn.commit()
 		conn.close()
 	

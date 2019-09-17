@@ -73,11 +73,7 @@
           <i class="fas fa-fw fa-table"></i>
           <span>History</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Logs</span></a>
-      </li>
+      
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -298,6 +294,31 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
+  <!-- add customer Modal-->
+  <div class="modal fade" id="addcustomerModal" tabindex="-1" style="z-index: 1600;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Customer</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" id="customer_name" placeholder="Name">
+          <br>
+          <input type="text" class="form-control" id="comp_name" placeholder="Company Name">
+          <br>
+          <input type="text" class="form-control" id="mobile_number" placeholder="Mobile Number">
+          <br>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" onclick="submitcustomer()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Checkout Modal-->
   <div class="modal fade" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -325,10 +346,20 @@
           
             </table>
           </div>
+          <p style="font-size: 15px;" id="item_name">Customer's Details</p>
+          <div class="row">
+            <div class="col-sm-12">
+              <select onchange="add_name(event)" class="form-control" id="customerdetails" styles="height:30px">
+                <option>Select Customer</option>
+                <option>Add Customer</option> 
+              </select>
+            </div>
+            
+          </div>
           <p style="font-size: 15px;" id="item_name">Payment Method</p>
           <div class="row">
             <div class="col-sm-4">
-              <select class="form-control" id="units_of_measure" styles="height:30px">
+              <select class="form-control" id="payment" styles="height:30px">
                 <option>Mpesa</option>
                 <option>Cash</option>
                 <option>Cheque</option>
@@ -357,7 +388,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Process</a>
+          <a class="btn btn-primary" href="" onclick="submitOrder()">Process</a>
         </div>
       </div>
     </div>
@@ -410,6 +441,17 @@
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   
   <script>
+
+    function add_name(evt){
+      
+      if (evt.target.value === "Add Customer") {
+        $("#addcustomerModal").modal('show');
+      }else{
+        //$("#Summary_name").text($("#products_name").children("option:selected").text())
+      }
+    }
+
+
     var items = new Object();
     $(document).ready(function() {
     $('#posproducts').DataTable({
@@ -510,6 +552,81 @@
         $("#checkoutproducts").append('<tr><td>'+items[key].name+'</td><td>'+items[key].quantity+'</td><td>Ksh. '+items[key].price+'</td></tr>');
         console.log(key);
       }
+    }
+  </script>
+
+  <script>
+
+    //retrieving customer details
+    function retriveCdata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#customerdetails");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['name'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
+    retriveCdata("customers");
+
+    //Sumitting customer details to the server
+    function submitcustomer(){
+      var customerdata = {
+        name : $("#customer_name").val(),
+        company_name : $("#comp_name").val(),
+        mobile_number : $("#mobile_number").val()
+      }
+
+      ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/addcustomer",
+          data: JSON.stringify(customerdata),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+            alert(result["response"])
+            $('#addcustomerModal').modal('toggle');
+            retriveCdata("customers");
+          } 
+      });
+    }
+
+    
+
+
+    function submitOrder(){
+      var products = []
+      for(var key in items){
+        var pr = {item : items[key].id, quantity : items[key].quantity}
+        products.push(pr);
+      }
+
+      var orderdata = {
+        orderitems : products,
+        payment: $("#payment").val(),
+        customer_id : $("#customerdetails").val(),
+        discount : $("#discount").val(),
+        transport : $("#transport").val()
+      }
+      console.log(orderdata)
+      
+      ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/submitorder",
+          data: JSON.stringify(orderdata),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+            alert(result["response"])
+          } 
+      });
+
     }
   </script>
   

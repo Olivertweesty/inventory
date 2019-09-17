@@ -22,6 +22,8 @@ def warehousepages(name):
         return render_template("warehouse_allproducts.html")
     elif name == "stock_taking":
         return render_template("warehouse_stocktaking.html")
+    elif name == "pending_orders":
+        return render_template("warehouse_pending_order.html")
     else:
         return render_template("404.html")
 
@@ -96,6 +98,22 @@ def getdatafromtable(name):
 @routes.route('/getallproducts',methods = ["POST","GET"])
 def getallproducts():
     response = db.selectAllFromtables(tb.selectallproduct)
+
+    return jsonify(response)
+
+@routes.route('/getallorders',methods = ["POST","GET"])
+def getsingleorders():
+    response = db.selectAllFromtables(tb.selectOrdersPending)
+
+    return jsonify(response)
+
+@routes.route('/getsingleorder/<id>',methods = ["POST","GET"])
+def getallorders(id):
+    sql = "SELECT orderid,items FROM orders WHERE id = '{}'".format(id)
+    response = db.selectAllFromtables(sql)
+    ids = [x for x in response[0]['items']]
+    print(ids)
+    #sql2 = "SELECT product_name FROM products WHERE id IN {}".format(ids)
 
     return jsonify(response)
 
