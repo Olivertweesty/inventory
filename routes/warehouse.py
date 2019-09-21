@@ -40,7 +40,7 @@ def warehousepages(name):
     elif name == "dailyreport":
         return render_template("head_sales_report_daily.html")
     elif name == "manageusers":
-        return render_template("head_sales_report_daily.html")
+        return render_template("head_manage_users.html")
     else:
         return render_template("404.html")
 
