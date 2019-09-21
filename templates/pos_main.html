@@ -604,7 +604,7 @@
     function submitOrder(){
       var products = []
       for(var key in items){
-        var pr = {item : items[key].id, quantity : items[key].quantity}
+        var pr = {item : items[key].id, quantity : items[key].quantity,price:items[key].price}
         products.push(pr);
       }
 

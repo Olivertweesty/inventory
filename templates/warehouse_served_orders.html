@@ -273,7 +273,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Order ID:</h6>
                     <p id="order_id"></p>
                     <h6 class="m-0 font-weight-bold text-primary">Date Served:</h6>
-                    <p id="d_pat_id"></p>
+                    <p id="date_served"></p>
                     <h6 class="m-0 font-weight-bold text-primary">Items:</h6>
                     <div id="items"></div>
                     
@@ -353,7 +353,7 @@
           //alert(result)
           
           $("#order_id").text(result['orderid'])
-
+          $("#date_served").text(result['date_served'])
           for(var item in result['items']){
             console.log(result['items'][item])
             var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'

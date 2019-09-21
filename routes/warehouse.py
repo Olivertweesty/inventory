@@ -40,7 +40,7 @@ def warehousepages(name):
     elif name == "dailyreport":
         return render_template("head_sales_report_daily.html")
     elif name == "manageusers":
-        return render_template("head_sales_report_daily.html")
+        return render_template("head_manage_users.html")
     else:
         return render_template("404.html")
 
@@ -147,11 +147,11 @@ def getItemNameByID(id):
 
 @routes.route('/getsingleorder/<id>',methods = ["POST","GET"])
 def getallorders(id):
-    sql = "SELECT orderid,items FROM orders WHERE id = '{}'".format(id)
+    sql = "SELECT orderid,items,date_served FROM orders WHERE id = '{}'".format(id)
     response = db.selectAllFromtables(sql)
     ids = dict(response[0])['items']
     ids = json.loads(ids.replace("'",'"'))
-    response = {"orderid" : dict(response[0])['orderid'] , "items":[]}
+    response = {"orderid" : dict(response[0])['orderid'],"date_served": dict(response[0])['date_served'], "items":[]}
     for id_ in ids:
         itemName = getItemNameByID(id_['item'])
         itemName['quantity'] = id_['quantity']

@@ -73,7 +73,8 @@ class Database:
 			cursor = conn.cursor()
 			cursor.execute(sql,values)
 			conn.commit()
-		except:
+		except pymysql.InternalError as error:
+			print(error)
 			return False
 
 		return True

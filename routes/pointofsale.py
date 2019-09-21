@@ -54,9 +54,9 @@ def submitorder():
     dateTimeObj = datetime.now()
     dateT = dateTimeObj.strftime("%b-%d-%Y %H:%M:%S")
 
-    sql = "INSERT INTO orders VALUES(0,%s,%s,%s,%s,%s,%s,%s,'')"
+    sql = "INSERT INTO orders VALUES(0,%s,%s,%s,%s,%s,%s,%s,'pending','')"
     reponse = db.insertDataToTable(sql,orderID,orderitems,payment_type,dateT,customer_id,transport,discount)
-
+    print(reponse)
     if reponse:
         return jsonify({"response":"successful Placed Order","code":200})
     else:
