@@ -75,7 +75,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Orders:</h6>
             <a class="collapse-item" href="pending_orders">Pending</a>
-            <a class="collapse-item" href="register.html">Served</a>
+            <a class="collapse-item" href="served_orders">Served</a>
             
           </div>
         </div>
@@ -83,7 +83,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="stock_taking">
+        <a class="nav-link" href="stocktaking">
           <i class="fas fa-fw fa-table"></i>
           <span>Stock Taking</span></a>
       </li>
@@ -247,8 +247,8 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Order ID</th>
+                                <th>Customer</th>
                                 <th>Date Ordered</th>
-                                <th>Customer Name</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -271,10 +271,10 @@
                   <!-- Card Body -->
                   <div class="card-body">
                     <h6 class="m-0 font-weight-bold text-primary">Order ID:</h6>
-                    <p id="d_pat_id"></p>
+                    <p id="order_id"></p>
                     <h6 class="m-0 font-weight-bold text-primary">Items:</h6>
-                    <p id = "d_illness"></p>
-                    
+                    <div id="items"></div>
+                    <button class="col-sm-12 btn btn-primary invisible"  id="serve" data-toggle="modal" data-target="#served">Process</button>                    
                   </div>
                 </div>
               </div>
@@ -327,6 +327,25 @@
     </div>
   </div>
 
+  <!-- processing Modal-->
+  <div class="modal fade" id="served" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Process An Order</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Are You sure the order has been processed fully?</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" onclick="processOrder()">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -342,6 +361,40 @@
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <script>
+    var selected_order = 0;
+    function processOrder(){
+      alert(1)
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/processOrder/"+selected_order,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          alert(result['response'])
+
+        } 
+      });
+    }
+    function getSingleOrder(id){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result)
+          $('#serve').addClass('visible');
+          $('#serve').removeClass('invisible');
+          $("#order_id").text(result['orderid'])
+
+          for(var item in result['items']){
+            console.log(result['items'][item])
+            var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'
+            $("#items").append(txt);
+            $("#items").append('<hr>');
+          }
+        } 
+      });
+    }
+
     $(document).ready(function() {
     $('#pending').DataTable({
         "processing" : true,
@@ -360,14 +413,15 @@
         }]
     });
 
-    /*$('#consultation tbody').on( 'click', 'tr', function () {
+    $('#pending tbody').on( 'click', 'tr', function () {
 			var id = $(this).find("td:first").text();
-			selected_data = id;
-      console.log(selected_data);
-      getsinglecons(selected_data)
-		});*/
+      selected_order = id;
+      getSingleOrder(id);
+		});
 
     });
+
+
   
   </script>
   

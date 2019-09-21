@@ -8,6 +8,8 @@ from datetime import datetime
 
 db = Database("inventorymanagementsystem","9993revilo")
 
+    
+
 def generateOderID():
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d%m%Y%H%M%S")

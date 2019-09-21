@@ -78,6 +78,19 @@ class Database:
 
 		return True
 
+	def updaterecords(self,sql):
+		"""This method is used to enter data into a table"""
+		
+		try:
+			conn = self.connectToDatabase()
+			cursor = conn.cursor()
+			cursor.execute(sql)
+			conn.commit()
+		except:
+			return False
+
+		return True
+
 	def selectAllFromtables(self,sql):
 		
 		try:

@@ -57,9 +57,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="">Checkin Product</a>
-            <a class="collapse-item" href="">Report Damage</a>
             <a class="collapse-item" href="">All Products</a>
+            <a class="collapse-item" href="">Damaged Products</a>
+            
           </div>
         </div>
       </li>
@@ -75,7 +75,26 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Orders:</h6>
             <a class="collapse-item" href="forgot-password.html">Pending</a>
-            <a class="collapse-item" href="served_orders">Served</a>
+            <a class="collapse-item" href="register.html">Payed</a>
+            
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Report</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="register.html">Monthly</a>
+            <h6 class="collapse-header">Customer:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="register.html">Monthly</a>
             
           </div>
         </div>
@@ -83,9 +102,9 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="stocktaking">
+        <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-table"></i>
-          <span>Stock Taking</span></a>
+          <span>Manage users</span></a>
       </li>
 
       <!-- Divider -->
@@ -226,11 +245,88 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Stock Taking</h1>
+            <h1 class="h3 mb-0 text-gray-800">Daily Sales Report</h1>
+            Select A day:
+            <input type="date" placeholder="Select A Day" class="form-control col-sm-4">
           </div>
 
           <!-- Content Row -->
+          <div class="row">
 
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Sales</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Revenue Generated</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Revenue in Credit</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sales made</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Row -->
           <div class="row">
 
               <!-- Area Chart -->
@@ -238,17 +334,19 @@
                 <div class="card shadow mb-4">
                   
                       <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Sales</h6>
                       </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="served" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
-                                <th>Product ID</th>
+                                <th>ID</th>
                                 <th>Name</th>
-                                <th>Description</th>
                                 <th>Quantity</th>
+                                <th>Price Per Unit</th>
+                                <th>Discount</th>
+                                <th>Total</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -265,6 +363,12 @@
             
 
           </div>
+          </div>
+
+          <!-- Content Row -->
+          
+
+        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -319,11 +423,33 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
+<!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script>
   
+  $(document).ready(function() {
+    $('#reportTable').DataTable({
+        "processing" : true,
+        "bFilter":false,
+        "sDom":'t',
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getposproducts",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "id"
+        },{
+            "data" : "product_name"
+        }, {
+            "data" : "manufacterer"
+        }, {
+            "data" : "selling_price"
+        }]
+    });
+  });
+  </script>
 
 </body>
 

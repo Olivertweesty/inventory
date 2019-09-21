@@ -54,6 +54,7 @@ orders = """CREATE TABLE IF NOT EXISTS orders(
                                     `transport` varchar(20),
                                     `discount` varchar(20),
                                     `status` varchar(20),
+                                    `date_served` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
@@ -74,4 +75,5 @@ selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
 selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
 selectdamaged = """SELECT m.manufacterer,p.product_name,d.quantity,d.date FROM damages AS d JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = d.product_id AND m.id = d.manufacterer_id"""
 
-selectOrdersPending = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id"
+selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.status = '{}'"
+selectProductnameById = "SELECT p.product_name, n.selling_price FROM products AS n JOIN products_name AS p WHERE n.product_name = p.id AND n.id ='{}'"

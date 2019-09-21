@@ -57,10 +57,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Payment:</h6>
-            <a class="collapse-item" href="">Mpesa</a>
-            <a class="collapse-item" href="">Cash</a>
-            <a class="collapse-item" href="">Cheque</a>
-            <a class="collapse-item" href="">Credit</a>
+            <a class="collapse-item" href="mpesa">Mpesa</a>
+            <a class="collapse-item" href="cash">Cash</a>
+            <a class="collapse-item" href="cheque">Cheque</a>
+            <a class="collapse-item" href="credit">Credit</a>
           </div>
         </div>
       </li>
@@ -68,7 +68,7 @@
     
 
       <!-- Nav Item - Tables -->
-      <li class="nav-item">
+      <li class="nav-item" style="display: none">
         <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-table"></i>
           <span>History</span></a>
@@ -488,7 +488,7 @@
         divtoadd.find('#item_name').text(item_name);
         divtoadd.find('#item_price').text(item_price);
         $('#selected').append(divtoadd);
-        items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name}
+        items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name,"item_price":item_price}
       }else{
         var divm = $("#item"+id);
         var quantity = parseInt(divm.find('#quantity').val()) + 1;
