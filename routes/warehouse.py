@@ -56,13 +56,20 @@ def getSingleItemFromTable(table, **kwargs):
 @routes.route('/checkinproducts',methods = ["POST"])
 def checkin_products():
     manufacterer = str(request.json.get("manufacterer"))
-    manufacterer_name = getSingleItemFromTable("manufacterer",id=manufacterer)[0]
+
+    manufacterer_name = getSingleItemFromTable("manufacterer",id=manufacterer)
+    manufacterer_name = (manufacterer_name[0]['manufacterer']).upper()
     productname = str(request.json.get("productname"))
+    product_name = getSingleItemFromTable("products_name",id=productname)
+    product_name = (product_name[0]['product_name']).upper()
+    
     unit_of_measument = str(request.json.get("unit_of_measument"))
     quantity = str(request.json.get("quantity"))
     purchase_price = str(request.json.get("purchase_price"))
     
-    product_code = (manufacterer_name[0:4]+productname[0:4])
+    product_code = (manufacterer_name[0:4]+product_name[0:4])
+
+    print(product_code)
 
     existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
     if len(existance) == 0:
