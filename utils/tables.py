@@ -67,9 +67,9 @@ customers = """CREATE TABLE IF NOT EXISTS customers(
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
 selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
-                            manufacturer FROM products 
+                            m.manufacterer FROM products 
                             AS p JOIN products_name 
-                            AS n WHERE p.product_name = n.id;"""
+                            AS n JOIN manufacterer as m WHERE p.product_name = n.id AND m.id = p.manufacturer"""
 
 
 selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
