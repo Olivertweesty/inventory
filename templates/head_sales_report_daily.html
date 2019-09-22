@@ -248,7 +248,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Select Date</div>
               </div>
-              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+              <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
             </div>
             
           </div>
@@ -430,29 +430,53 @@
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <script>
-  
-  $(document).ready(function() {
-    $('#reportTable').DataTable({
-        "processing" : true,
-        "bFilter":false,
-        "sDom":'t',
-        "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getdailyreport",
-            dataSrc : ''
-        },
-        "columns" : [{
-            "data" : "id"
-        },{
-            "data" : "item_name"
-        }, {
-            "data" : "quantity"
-        }, {
-            "data" : "price_per_item"
-        }, {
-            "data" : "total"
-        }]
-    });
-  });
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth()+1; //January is 0!
+    var yyyy = todayDate.getFullYear();
+
+    var today = yyyy+'-'+mm +'-'+ dd;
+    
+    function retrivePdata(mydate){
+      var data_to_send = {
+        thedate : mydate
+      }
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        type: "POST",
+        data: JSON.stringify(data_to_send),
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          $('#reportTable').DataTable({
+              "processing" : true,
+              "bFilter":false,
+              "sDom":'t',
+              "data":result,
+              "columns" : [{
+                  "data" : "id"
+              },{
+                  "data" : "item_name"
+              }, {
+                  "data" : "quantity"
+              }, {
+                  "data" : "price_per_item"
+              }, {
+                  "data" : "total"
+              }]
+          });
+          
+        } 
+      });
+    }
+    retrivePdata(today)
+
+  function getDate(th){
+      
+      var d = new Date(th.value);
+      var today_ = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      retrivePdata(today_);
+  }
   </script>
 
 </body>

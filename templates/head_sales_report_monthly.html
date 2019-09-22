@@ -438,43 +438,40 @@
   <script>
   
   $(document).ready(function() {
-
-    function retrivePdata(service){
+    
+    function retrivePdata(){
+      var data_to_send = {
+        thedate : 
+      }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport,
+        url: "http://"+window.location.hostname+":4000/getdailyreport",
         type: "POST",
         contentType: "application/json",  
         success: function(result){
           //alert(result["response"])
-          response_data = result["response"]
-          var options = $("#products_name");
-          for(var i = 0; i< response_data.length;i++){
-              console.log(response_data[i]);
-              options.append(new Option(response_data[i]['product_name'],response_data[i]['id']));
-          } 
+          $('#reportTable').DataTable({
+              "processing" : true,
+              "bFilter":false,
+              "sDom":'t',
+              "data":result,
+              "columns" : [{
+                  "data" : "id"
+              },{
+                  "data" : "item_name"
+              }, {
+                  "data" : "quantity"
+              }, {
+                  "data" : "price_per_item"
+              }, {
+                  "data" : "total"
+              }]
+          });
+          
         } 
       });
     }
-    $('#reportTable').DataTable({
-        "processing" : true,
-        "bFilter":false,
-        "sDom":'t',
-        "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getdailyreport",
-            dataSrc : ''
-        },
-        "columns" : [{
-            "data" : "id"
-        },{
-            "data" : "item_name"
-        }, {
-            "data" : "quantity"
-        }, {
-            "data" : "price_per_item"
-        }, {
-            "data" : "total"
-        }]
-    });
+    retrivePdata()
+    
   });
   </script>
 

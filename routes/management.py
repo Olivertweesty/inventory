@@ -5,6 +5,7 @@ import utils.tables as tb
 from flask import jsonify
 from flask import request
 import json
+from datetime import datetime
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -40,11 +41,19 @@ def addSystemUsers():
 		return jsonify({"response":"successful added user","code":200})
 	else:
 		return jsonify({"response":"failed to add user","code":300})
+def getOnlyRequired(thedate,data):
+	for order in data:
+		print(order)
+	return
 
 @routes.route("/getdailyreport", methods = ["POST","GET"])
 def getdailyreport():
+	thedate = str(request.json.get("thedate"))
+	datetime_object = datetime.strptime(thedate, '%Y-%m-%d')
+	
 	sql = "SELECT items FROM orders"
 	response = db.selectAllFromtables(sql)
+	getOnlyRequired(datetime_object,response)
 	items_to_return = []
 	count = 1
 	for item in response:
