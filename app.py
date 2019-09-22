@@ -39,6 +39,51 @@ def main():
     db.insertDataToTable("products", "Watiti","Oliver")
     return render_template("index.html")
 
+@app.route('/<name>')
+def warehousepages(name):
+    if name == "warehouse_checkin":
+        return render_template("warehouse_checkin.html")
+    elif name == "warehouse_damage":
+        return render_template("warehouse_damage.html")
+    elif name == "warehouse_allproducts":
+        return render_template("warehouse_allproducts.html")
+    elif name == "stock_taking":
+        return render_template("warehouse_stocktaking.html")
+    elif name == "pending_orders":
+        return render_template("warehouse_pending_order.html")
+    elif name == "mpesa":
+        return render_template("pos_mpesa_payment.html")
+    elif name == "cash":
+        return render_template("pos_cash_payment.html")
+    elif name == "cheque":
+        return render_template("pos_cheque_payment.html")
+    elif name == "credit":
+        return render_template("pos_credit_payment.html")
+    elif name == "served_orders":
+        return render_template("warehouse_served_orders.html")
+    elif name == "stocktaking":
+        return render_template("warehouse_stocktaking.html")
+    elif name == "dailyreport":
+        return render_template("head_sales_report_daily.html")
+    elif name == "monthlyreport":
+        return render_template("head_sales_report_monthly.html")
+    elif name == "manageusers":
+        return render_template("head_manage_users.html")
+    elif name == "posorders":
+        return render_template("pos_order.html")
+    elif name == "warehousetransactions":
+        return render_template("warehouse_transactions.html")
+    elif name == "head_all_products":
+        return render_template("head_allproducts.html")
+    elif name == "head_damaged":
+        return render_template("head_damaged_products.html")
+    elif name == "head_pending_orders":
+        return render_template("head_pending_order.html")
+    elif name == "head_served_orders":
+        return render_template("head_served_order.html")
+    else:
+        return render_template("404.html")
+
 if __name__ == "__main__":
     app.run(debug=True,port=4000,host="127.0.0.1")
     

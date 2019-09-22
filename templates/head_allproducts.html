@@ -17,8 +17,6 @@
 
   <!-- Custom styles for this template-->
   <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
-  <!-- Select2 -->
-	<link rel="stylesheet" href="static/select2/dist/css/select2.min.css">
 
 </head>
 
@@ -59,9 +57,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
-            <a class="collapse-item" href="">Report Damage</a>
-            <a class="collapse-item" href="warehouse_allproducts">All Products</a>
+            <a class="collapse-item" href="head_all_products">All Products</a>
+            <a class="collapse-item" href="head_damaged">Damaged Products</a>
+            
           </div>
         </div>
       </li>
@@ -76,8 +74,25 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Orders:</h6>
-            <a class="collapse-item" href="pending_orders">Pending</a>
-            <a class="collapse-item" href="served_orders">Served</a>
+            <a class="collapse-item" href="forgot-password.html">Pending</a>
+            <a class="collapse-item" href="register.html">Served</a>
+            <a class="collapse-item" href="register.html">Payed</a>
+            
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Report</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="register.html">Monthly</a>
             
           </div>
         </div>
@@ -85,9 +100,9 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="stocktaking">
+        <a class="nav-link" href="tables.html">
           <i class="fas fa-fw fa-table"></i>
-          <span>Stock Taking</span></a>
+          <span>Manage users</span></a>
       </li>
 
       <!-- Divider -->
@@ -228,83 +243,44 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Report Damage Product</h1>
+            <h1 class="h3 mb-0 text-gray-800">All Products</h1>
           </div>
 
           <!-- Content Row -->
-
           <div class="row">
-
-              
-              <div class="col-xl-4 col-lg-3">
-                <div class="card shadow mb-4">
-                  
-                      <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Report</h6>
-                      </div>
-                      <div class="card-body">
-
-                        <form>
-                            <div class="input-group">
-                              <select id="manufacturer_name" class="form-control select2" style="height:50px;">
-                                <option>SELECT MANUFACTURER</option>
-                              </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                              <select id="products_name" class="form-control select2" style="height:50px;">
-                                <option>SELECT PRODUCT NAME</option>
-                              </select>
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <input type="text" id = "quantity" class="form-control" placeholder="Quantity"  aria-describedby="basic-addon2">
-                            </div>
-                            <br>
-                            <div class="input-group">
-                                <textarea class="form-control" id = "message" placeholder="Message" cols="10" rows="4"></textarea>      
-                            </div>
-                            
-                            <br>
-                            <div class="text-right">
-                                <a class="btn btn-primary col-md-4" href="" onclick="submit_damaged()">Submit</a>
-                            </div>
-                        </form>
-                        
-                      </div>
-                  </div>
-              </div>
-
-             
-              <div class="col-xl-8 col-lg-9">
+              <div class="col-xl-12 col-lg-12">
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Damaged Products</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Products</h6>
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-
                     <div class="table-responsive">
-                          <table class="table table-bordered" id="damageproducts" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="products" width="100%" cellspacing="0">
                             <thead>
                               <tr>
+                                <th>ID</th>
+                                <th>Product Code</th>
                                 <th>Product Name</th>
                                 <th>Manufacturer</th>
                                 <th>Quantity</th>
-                                <th>Date Damaged</th>
                               </tr>
                             </thead>
-                            
+                            <tbody>
+                        
+                            </tbody>
+                        
                           </table>
                         </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
-            
+          
 
-          </div>
+        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -359,129 +335,40 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  
-  <!-- date-range-picker -->
-	<script src="static/moment/min/moment.min.js"></script>
-	<script src="static/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-  <!-- bootstrap datepicker -->
-	<script src="static/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-
-  <!-- iCheck 1.0.1 -->
-	<script src="static/iCheck/icheck.min.js"></script>
-
-  <!-- bootstrap time picker -->
-	<script src="static/timepicker/bootstrap-timepicker.min.js"></script>
- 
-  <!-- InputMask -->
-	<script src="static/input-mask/jquery.inputmask.js"></script>
-	<script src="static/input-mask/jquery.inputmask.date.extensions.js"></script>
-	<script src="static/input-mask/jquery.inputmask.extensions.js"></script>
-   <!-- Select2 -->
-	<script src="static/select2/dist/js/select2.full.js"></script>
-  <script src="static/js/advanced-form-element.js"></script>
-  <script>
-
-  function submit_damaged(){
-    var product_data = {
-        manufacturer : $("#manufacturer_name").val(),
-        productname : $("#products_name").val(),
-        quantity: $("#quantity").val(),
-        message : $("#message").val()
-      }
-
-
-      $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/adddamagedproduct",
-        type: "POST",
-        data: JSON.stringify(product_data),
-        contentType: "application/json",  
-        success: function(result){
-              alert(result);
-              if(result["code"] == 200){
-                Swal.fire({
-                    title: "Successful",
-                    text: "Added successful",
-                    type: 'success',
-                    showConfirmButton: true,
-                    allowOutsideClick: false
-                  });
-              }        
-        } 
-      });
-  }
-
-  function retrivePdata(service){
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          //alert(result["response"])
-          response_data = result["response"]
-          var options = $("#products_name");
-          for(var i = 0; i< response_data.length;i++){
-              console.log(response_data[i]);
-              options.append(new Option(response_data[i]['product_name'],response_data[i]['id']));
-          } 
-        } 
-      });
-    }
-
-    retrivePdata("products_name")
-
-    function retriveMdata(service){
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          //alert(result["response"])
-          response_data = result["response"]
-          var options = $("#manufacturer_name");
-          for(var i = 0; i< response_data.length;i++){
-              console.log(response_data[i]);
-              options.append(new Option(response_data[i]['manufacterer'],response_data[i]['id']));
-          } 
-        } 
-      });
-    }
-
-    retriveMdata("manufacterer")
-  </script>
-
   <script>
     $(document).ready(function() {
-    $('#damageproducts').DataTable({
+    $('#products').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getdamagedproducts",
+            "url" :"http://"+window.location.hostname+":4000/getallproducts",
             dataSrc : ''
         },
-        "columns" : [{
+        "columns" : [ {
+            "data" : "id"
+        }, {
+            "data" : "product_code"
+        }, {
             "data" : "product_name"
         }, {
             "data" : "manufacterer"
         }, {
             "data" : "quantity"
-        }, {
-            "data" : "date"
         }]
     });
 
     /*$('#consultation tbody').on( 'click', 'tr', function () {
-			var id = $(this).find("td:first").text();
-			selected_data = id;
+      var id = $(this).find("td:first").text();
+      selected_data = id;
       console.log(selected_data);
       getsinglecons(selected_data)
-		});*/
+    });*/
 
-    });
+});
   </script>
+
 </body>
 
 </html>
