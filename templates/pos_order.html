@@ -26,7 +26,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="pointofsale">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Main</span></a>
       </li>
@@ -64,8 +64,6 @@
           </div>
         </div>
       </li>
-
-    
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
@@ -213,27 +211,30 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Point Of Sale</h1>
-            
+            <h1 class="h3 mb-0 text-gray-800">Orders</h1>
           </div>
 
           <!-- Content Row -->
+
           <div class="row">
-          <div class="col-xl-7 col-lg-8">
+
+              <!-- Area Chart -->
+              <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4">
                   
                       <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Served Oders</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">All Orders</h6>
                       </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="posproducts" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="pending" width="100%" cellspacing="0">
                             <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Product Name</th>
-                                <th>Manufacturer</th>
-                                <th>Price</th>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date Ordered</th>
+                                <th>Status</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -246,29 +247,27 @@
                   </div>
               </div>
 
-
-              <div class="col-xl-5 col-lg-6">
+              <!-- Pie Chart -->
+              <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Order</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">DETAILS</h6>
                   </div>
                   <!-- Card Body -->
-                  <div class="card-body" id="selected" style="overflow-y: scroll; height:400px;">
-                    
+                  <div class="card-body">
+                   <h6 class="m-0 font-weight-bold text-primary">Order ID:</h6>
+                    <p id="order_id"></p>
+                    <h6 class="m-0 font-weight-bold text-primary">Items:</h6>
+                    <div id="items"></div>
+                    <button class="col-sm-12 btn btn-primary invisible"  id="serve" data-toggle="modal" data-target="#cancelled">Cancel Order</button>                    
                   </div>
-                  <div class="btn btn-primary" onclick="showcheckout()">Checkout</div>
                 </div>
               </div>
             </div>
-            </div>
             
+
           </div>
-
-        
-          
-
-        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -294,135 +293,42 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
-  <!-- add customer Modal-->
-  <div class="modal fade" id="addcustomerModal" tabindex="-1" style="z-index: 1600;" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Customer</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">
-          <input type="text" class="form-control" id="customer_name" placeholder="Name">
-          <br>
-          <input type="text" class="form-control" id="comp_name" placeholder="Company Name">
-          <br>
-          <input type="text" class="form-control" id="mobile_number" placeholder="Mobile Number">
-          <br>
-        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" onclick="submitcustomer()">Save</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Checkout Modal-->
-  <div class="modal fade" id="checkoutmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- processing Modal-->
+  <div class="modal fade" id="cancelled" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Selected Products</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Cancel Order</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="checkoutproducts" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>Product Name</th>
-                  <th>Quantity</th>
-                  <th>Unit Price</th>
-                </tr>
-              </thead>
-              <tbody>
-          
-              </tbody>
-          
-            </table>
-          </div>
-          <p style="font-size: 15px;" id="item_name">Customer's Details</p>
-          <div class="row">
-            <div class="col-sm-12">
-              <select onchange="add_name(event)" class="form-control" id="customerdetails" styles="height:30px">
-                <option>Select Customer</option>
-                <option>Add Customer</option> 
-              </select>
-            </div>
-            
-          </div>
-          <p style="font-size: 15px;" id="item_name">Payment Method</p>
-          <div class="row">
-            <div class="col-sm-4">
-              <select class="form-control" id="payment" styles="height:30px">
-                <option>Mpesa</option>
-                <option>Cash</option>
-                <option>Cheque</option>
-                <option>Credit</option>
-              </select>
-            </div>
-            <div class="col-sm-4">
-              <input type="Number" class="form-control" id="amount" placeholder="Amount">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="amount" placeholder="Cheque No /Confirmation">
-            </div>
-          </div>
-          <p style="font-size: 15px;" id="item_name">Others</p>
-          <div class="row">
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="transport" placeholder="Transport">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="discount" placeholder="Discount">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="" value="16%" placeholder="Tax" disabled>
-            </div>
-          </div>
-        </div>
+        <div class="modal-body">Are You sure you want to cancel the order?</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="" onclick="submitOrder()">Process</a>
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+          <button class="btn btn-primary" onclick="cancelOrder()">Yes</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="card invisible" id="eachItem" style="margin-bottom:20px;display:none">
-                        
-    <div class="card-body">
-        <div class="row">
-          <div class="col-sm-10">
-          <p style="font-size: 15px;" id="item_name">Metal Bars 20cm x 10000cm</p>
-          </div>
-          
-          <div class="col-sm-2 text-right">
-            <i onclick="removeCartItem(this)" class="fa fa-trash pull-right" style="margin-right:3px;"></i>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fa fa-minus pull-right" onclick="reduceproduct(this)" style="margin-right:3px;"></i></span>
-              </div>
-              <input type="text" id="quantity" class="form-control" value="1" aria-label="Amount (to the nearest dollar)">
-              <div class="input-group-append">
-                <span class="input-group-text"><i class="fa fa-plus pull-right" onclick="increasequantity(this)" style="margin-right:3px;"></i></span>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            </span><p style="font-size: 20px;" >Ksh. <span id="item_price">300000</span></p><span class="invisible" style="display:none" id = "item_id">
-          </div>
-          <!---->
-        </div>
     </div>
   </div>
 
@@ -439,195 +345,79 @@
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  
-  <script>
-
-    function add_name(evt){
-      
-      if (evt.target.value === "Add Customer") {
-        $("#addcustomerModal").modal('show');
-      }else{
-        //$("#Summary_name").text($("#products_name").children("option:selected").text())
-      }
-    }
-
-
-    var items = new Object();
-    $(document).ready(function() {
-    $('#posproducts').DataTable({
-        "processing" : true,
-        "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getposproducts",
-            dataSrc : ''
-        },
-        "columns" : [{
-            "data" : "id"
-        },{
-            "data" : "product_name"
-        }, {
-            "data" : "manufacterer"
-        }, {
-            "data" : "selling_price"
-        }]
-    });
-    
-
-    
-
-    $('#posproducts tbody').on( 'click', 'tr', function () {
-			var id = $(this).find("td:first").text();
-      var item_name = $(this).find("td:nth-child(2)").text();
-      var item_price = $(this).find("td:nth-child(4)").text();
-
-      if(items['item'+id] === undefined){
-        var divtoadd = $('#eachItem').clone().prop('id', 'item'+id );
-        divtoadd.addClass('visible');
-        divtoadd.removeClass('invisible');
-        divtoadd.css('display','')
-        divtoadd.find('#item_id').text(id);
-        divtoadd.find('#item_name').text(item_name);
-        divtoadd.find('#item_price').text(item_price);
-        $('#selected').append(divtoadd);
-        items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name,"item_price":item_price}
-      }else{
-        var divm = $("#item"+id);
-        var quantity = parseInt(divm.find('#quantity').val()) + 1;
-        divm.find('#quantity').val(quantity);
-        var price = parseInt(items['item'+id].price) * quantity;
-        divm.find('#item_price').text(price);
-      }
-      
-      
-      
-      
-		});
-
-    });
-
-    function removeCartItem(event){
-      var cardid = $(event).parent().parent().parent().parent().attr('id');
-      $("#"+cardid).remove();
-      delete items[cardid]
-    }
-
-  </script>
 
   <script>
-  function reduceproduct(item){
-    var cardid = $(item).parent().parent().parent().parent().parent().parent().parent().attr('id');
-    if (parseInt(items[cardid].quantity) == 1){
-      return
-    }
-    var quantity = parseInt(items[cardid].quantity) - 1;
-    items[cardid].quantity = quantity;
-    
-    var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
-    
-    divm.find('#quantity').val(quantity);
-    var price = parseInt(items[cardid].price) * quantity;
-    divm.find('#item_price').text(price);
-    
-  }
-
-  function increasequantity(item){
-    var cardid = $(item).parent().parent().parent().parent().parent().parent().parent().attr('id');
-    
-    var quantity = parseInt(items[cardid].quantity) + 1;
-    items[cardid].quantity = quantity;
-    
-    var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
-    
-    divm.find('#quantity').val(quantity);
-    var price = parseInt(items[cardid].price) * quantity;
-    divm.find('#item_price').text(price);
-  }
-  </script>
-
-  <script>
-    function showcheckout(){
-      $("#checkoutmodal").modal('show');
-      $("#checkoutmodal tr").remove();
-      //$("#checkoutproducts").append('<tr><td></td><td></td><td></td></tr>');
-      for(var key in items){
-        $("#checkoutproducts").append('<tr><td>'+items[key].name+'</td><td>'+items[key].quantity+'</td><td>Ksh. '+items[key].price+'</td></tr>');
-        console.log(key);
-      }
-    }
-  </script>
-
-  <script>
-
-    //retrieving customer details
-    function retriveCdata(service){
+    var selected_order = 0;
+    function cancelOrder(){
+      
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: "http://"+window.location.hostname+":4000/cancelOrder/"+selected_order,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
-          //alert(result["response"])
-          response_data = result["response"]
-          var options = $("#customerdetails");
-          for(var i = 0; i< response_data.length;i++){
-              console.log(response_data[i]);
-              options.append(new Option(response_data[i]['name'],response_data[i]['id']));
-          } 
+          $('#cancelled').modal('hide');
+          alert(result['response'])
+          location.reload();
+
+        } 
+      });
+    }
+    function getSingleOrder(id,status){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result)
+          if(status == "pending"){
+              $('#serve').addClass('visible');
+              $('#serve').removeClass('invisible');
+          }
+          
+          $("#order_id").text(result['orderid'])
+          $("#items").html("");
+          for(var item in result['items']){
+            console.log(result['items'][item])
+            var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;">&emsp;&emsp; X '+result['items'][item]['quantity']+'</span><p>'
+            $("#items").append(txt);
+            $("#items").append('<hr>');
+          }
         } 
       });
     }
 
-    retriveCdata("customers");
+    $(document).ready(function() {
+    $('#pending').DataTable({
+        "processing" : true,
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getallposorders",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "id"
+        }, {
+            "data" : "orderid"
+        }, {
+            "data" : "name"
+        }, {
+            "data" : "date"
+        }, {
+            "data" : "status"
+        }]
+    });
 
-    //Sumitting customer details to the server
-    function submitcustomer(){
-      var customerdata = {
-        name : $("#customer_name").val(),
-        company_name : $("#comp_name").val(),
-        mobile_number : $("#mobile_number").val()
-      }
-
-      ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addcustomer",
-          data: JSON.stringify(customerdata),
-          type: "POST",
-          contentType: "application/json",  
-          success: function(result){
-            alert(result["response"])
-            $('#addcustomerModal').modal('toggle');
-            retriveCdata("customers");
-          } 
-      });
-    }
-
-    
-
-
-    function submitOrder(){
-      var products = []
-      for(var key in items){
-        var pr = {item : items[key].id, quantity : items[key].quantity,price:items[key].price}
-        products.push(pr);
-      }
-
-      var orderdata = {
-        orderitems : products,
-        payment: $("#payment").val(),
-        customer_id : $("#customerdetails").val(),
-        discount : $("#discount").val(),
-        transport : $("#transport").val()
-      }
-      console.log(orderdata)
+    $('#pending tbody').on( 'click', 'tr', function () {
+			var id = $(this).find("td:first").text();
+      var status = $(this).find("td:nth-child(5)").text();
       
-      ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/submitorder",
-          data: JSON.stringify(orderdata),
-          type: "POST",
-          contentType: "application/json",  
-          success: function(result){
-            alert(result["response"])
-          } 
-      });
+      selected_order = id;
+      getSingleOrder(id,status);
+		});
 
-    }
+    });
+
+
+  
   </script>
   
 

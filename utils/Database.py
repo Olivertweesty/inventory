@@ -38,6 +38,7 @@ class Database:
 		cursor.execute(tb.damages)
 		cursor.execute(tb.customers)
 		cursor.execute(tb.orders)
+		cursor.execute(tb.transactions)
 		conn.commit()
 		conn.close()
 	
@@ -73,7 +74,8 @@ class Database:
 			cursor = conn.cursor()
 			cursor.execute(sql,values)
 			conn.commit()
-		except:
+		except pymysql.InternalError as error:
+			print(error)
 			return False
 
 		return True

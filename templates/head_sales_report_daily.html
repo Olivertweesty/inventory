@@ -92,9 +92,6 @@
             <h6 class="collapse-header">Sales:</h6>
             <a class="collapse-item" href="dailyreport">Daily</a>
             <a class="collapse-item" href="register.html">Monthly</a>
-            <h6 class="collapse-header">Customer:</h6>
-            <a class="collapse-item" href="dailyreport">Daily</a>
-            <a class="collapse-item" href="register.html">Monthly</a>
             
           </div>
         </div>
@@ -345,7 +342,6 @@
                                 <th>Name</th>
                                 <th>Quantity</th>
                                 <th>Price Per Unit</th>
-                                <th>Discount</th>
                                 <th>Total</th>
                               </tr>
                             </thead>
@@ -435,17 +431,19 @@
         "bFilter":false,
         "sDom":'t',
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getposproducts",
+            "url" :"http://"+window.location.hostname+":4000/getdailyreport",
             dataSrc : ''
         },
         "columns" : [{
             "data" : "id"
         },{
-            "data" : "product_name"
+            "data" : "item_name"
         }, {
-            "data" : "manufacterer"
+            "data" : "quantity"
         }, {
-            "data" : "selling_price"
+            "data" : "price_per_item"
+        }, {
+            "data" : "total"
         }]
     });
   });
