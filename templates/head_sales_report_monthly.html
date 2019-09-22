@@ -41,9 +41,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="pointofsale">
+        <a class="nav-link" href="index.html">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Main</span></a>
+          <span>Dashboard</span></a>
       </li>
 
       <!-- Divider -->
@@ -52,21 +52,58 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Payment</span>
+          <span>Products</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header"> Payment:</h6>
-            <a class="collapse-item" href="mpesa">Mpesa</a>
-            <a class="collapse-item" href="cash">Cash</a>
-            <a class="collapse-item" href="cheque">Cheque</a>
-            <a class="collapse-item" href="credit">Credit</a>
+            <h6 class="collapse-header"> Products:</h6>
+            <a class="collapse-item" href="">All Products</a>
+            <a class="collapse-item" href="">Damaged Products</a>
+            
           </div>
         </div>
       </li>
 
       
-      
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Orders</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Orders:</h6>
+            <a class="collapse-item" href="forgot-password.html">Pending</a>
+            <a class="collapse-item" href="register.html">Served</a>
+            <a class="collapse-item" href="register.html">Payed</a>
+            
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Report</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="monthlyreport">Monthly</a>
+            
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="manageusers">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Manage users</span></a>
+      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -206,31 +243,118 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">CREDIT</h1>
+            <h1 class="h3 mb-0 text-gray-800">Monthly Sales Report</h1>
+            <div class="input-group mb-2 col-sm-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">From</div>
+              </div>
+              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+            </div>
+            <div class="input-group mb-2 col-sm-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">To</div>
+              </div>
+              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+            </div>
+            
           </div>
 
           <!-- Content Row -->
+          <div class="row">
 
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Sales</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Revenue Generated</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Revenue in Credit</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sales made</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Content Row -->
           <div class="row">
 
               <!-- Area Chart -->
-              <div class="col-xl-8 col-lg-7">
+              <div class="col-xl-12 col-lg-12">
                 <div class="card shadow mb-4">
                   
                       <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"> CREDIT PAYMENTS</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Sales</h6>
                       </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="pending" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Customer Name</th>
-                                <th>status</th>
-                                <th>Date Paid</th>
-                                <th>Amount</th>
-
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price Per Unit</th>
+                                <th>Total</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -243,31 +367,16 @@
                   </div>
               </div>
 
-              <!-- Pie Chart -->
-              <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                  <!-- Card Header - Dropdown -->
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">DETAILS</h6>
-                  </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                    <h6 class="m-0 font-weight-bold text-primary">Status:</h6>
-                    <p id="order_id"></p>
-                    <h6 class="m-0 font-weight-bold text-primary">Customer Name:</h6>
-                    <p id="order_id"></p>
-                    <h6 class="m-0 font-weight-bold text-primary">Date Paid:</h6>
-                    <p id="order_id"></p>
-                    <h6 class="m-0 font-weight-bold text-primary">Amount:</h6>
-                    <p id="order_id"></p>
-                    <button class="col-sm-12 btn btn-primary invisible"  id="serve" data-toggle="modal" data-target="#served">Process</button>                    
-                  </div>
-                </div>
-              </div>
             </div>
             
 
           </div>
+          </div>
+
+          <!-- Content Row -->
+          
+
+        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -313,25 +422,6 @@
     </div>
   </div>
 
-  <!-- processing Modal-->
-  <div class="modal fade" id="served" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Process An Order</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Are You sure the order has been processed fully?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" onclick="processOrder()">Yes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -341,78 +431,35 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-
-  <!-- Page level plugins -->
+<!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <script>
-    var selected_order = 0;
-    function processOrder(){
-      alert(1)
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/processOrder/"+selected_order,
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          alert(result['response'])
-
-        } 
-      });
-    }
-    function getSingleOrder(id){
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          //alert(result)
-          $('#serve').addClass('visible');
-          $('#serve').removeClass('invisible');
-          $("#order_id").text(result['orderid'])
-
-          for(var item in result['items']){
-            console.log(result['items'][item])
-            var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'
-            $("#items").append(txt);
-            $("#items").append('<hr>');
-          }
-        } 
-      });
-    }
-
-    $(document).ready(function() {
-    $('#pending').DataTable({
+  
+  $(document).ready(function() {
+    $('#reportTable').DataTable({
         "processing" : true,
+        "bFilter":false,
+        "sDom":'t',
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getallorders",
+            "url" :"http://"+window.location.hostname+":4000/getdailyreport",
             dataSrc : ''
         },
         "columns" : [{
             "data" : "id"
+        },{
+            "data" : "item_name"
         }, {
-            "data" : "orderid"
+            "data" : "quantity"
         }, {
-            "data" : "name"
+            "data" : "price_per_item"
         }, {
-            "data" : "date"
-        }, {
-            "data" : "date"
+            "data" : "total"
         }]
     });
-
-    $('#pending tbody').on( 'click', 'tr', function () {
-			var id = $(this).find("td:first").text();
-      selected_order = id;
-      getSingleOrder(id);
-		});
-
-    });
-
-
-  
+  });
   </script>
-  
 
 </body>
 
