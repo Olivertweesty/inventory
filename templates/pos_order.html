@@ -41,9 +41,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="pointofsale">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Main</span></a>
       </li>
 
       <!-- Divider -->
@@ -52,60 +52,26 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Products</span>
+          <span>Payment</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="">All Products</a>
-            <a class="collapse-item" href="">Damaged Products</a>
-            
-          </div>
-        </div>
-      </li>
-
-      
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Orders</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Orders:</h6>
-            <a class="collapse-item" href="forgot-password.html">Pending</a>
-            <a class="collapse-item" href="register.html">Payed</a>
-            
-          </div>
-        </div>
-      </li>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Report</span>
-        </a>
-        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Sales:</h6>
-            <a class="collapse-item" href="dailyreport">Daily</a>
-            <a class="collapse-item" href="register.html">Monthly</a>
-            <h6 class="collapse-header">Customer:</h6>
-            <a class="collapse-item" href="dailyreport">Daily</a>
-            <a class="collapse-item" href="register.html">Monthly</a>
-            
+            <h6 class="collapse-header"> Payment:</h6>
+            <a class="collapse-item" href="mpesa">Mpesa</a>
+            <a class="collapse-item" href="cash">Cash</a>
+            <a class="collapse-item" href="cheque">Cheque</a>
+            <a class="collapse-item" href="credit">Credit</a>
           </div>
         </div>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="posorders">
           <i class="fas fa-fw fa-table"></i>
-          <span>Manage users</span></a>
+          <span>All Orders</span></a>
       </li>
+      
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -245,42 +211,30 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">System Users</h1>
-            
+            <h1 class="h3 mb-0 text-gray-800">Orders</h1>
           </div>
 
           <!-- Content Row -->
+
           <div class="row">
 
               <!-- Area Chart -->
-              <div class="col-xl-12 col-lg-12">
+              <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4">
                   
-                      <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header"> Actions:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#adduserModal">Add User</a>
-                      
-                    </div>
-                  </div>
-                </div>
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">All Orders</h6>
+                      </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="pending" width="100%" cellspacing="0">
                             <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Access Rights</th>
-                                <th>Phone</th>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date Ordered</th>
+                                <th>Status</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -293,16 +247,27 @@
                   </div>
               </div>
 
+              <!-- Pie Chart -->
+              <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">DETAILS</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                   <h6 class="m-0 font-weight-bold text-primary">Order ID:</h6>
+                    <p id="order_id"></p>
+                    <h6 class="m-0 font-weight-bold text-primary">Items:</h6>
+                    <div id="items"></div>
+                    <button class="col-sm-12 btn btn-primary invisible"  id="serve" data-toggle="modal" data-target="#cancelled">Cancel Order</button>                    
+                  </div>
+                </div>
+              </div>
             </div>
             
 
           </div>
-          </div>
-
-          <!-- Content Row -->
-          
-
-        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -348,46 +313,20 @@
     </div>
   </div>
 
-  <!-- add user Modal-->
-  <div class="modal fade" id="adduserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- processing Modal-->
+  <div class="modal fade" id="cancelled" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Cancel Order</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">
-
-          
-          <input type="text" class="form-control" id="fullname" placeholder="Full Name">
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="username">
-          <br>
-          <select class="form-control" id="payment" styles="height:30px">
-                <option>Gender</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-          </select>
-          <br>
-          <input type="text" class="form-control" id="email" placeholder="Email">
-          <br>
-          <input type="text" class="form-control" id="phone" placeholder="Phone Number">
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="Password">
-          <br>
-          <select class="form-control" id="payment" styles="height:30px">
-                <option>Access Rights</option>
-                <option value="pointofsale,warehouse">POS + WAREHOUSE</option>
-                <option value="warehouse">WAREHOUSE</option>
-                <option value="pointofsale">POS</option>
-                <option value="management">MANAGEMENT</option>
-              </select>
-        </div>
+        <div class="modal-body">Are You sure you want to cancel the order?</div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" onclick="adduser()">Add User</button> 
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+          <button class="btn btn-primary" onclick="cancelOrder()">Yes</button>
         </div>
       </div>
     </div>
@@ -402,65 +341,85 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-<!-- Page level plugins -->
+
+  <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <script>
-  
-  $(document).ready(function() {
-    $('#reportTable').DataTable({
+    var selected_order = 0;
+    function cancelOrder(){
+      
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/cancelOrder/"+selected_order,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          $('#cancelled').modal('hide');
+          alert(result['response'])
+          location.reload();
+
+        } 
+      });
+    }
+    function getSingleOrder(id,status){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result)
+          if(status == "pending"){
+              $('#serve').addClass('visible');
+              $('#serve').removeClass('invisible');
+          }
+          
+          $("#order_id").text(result['orderid'])
+          $("#items").html("");
+          for(var item in result['items']){
+            console.log(result['items'][item])
+            var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;">&emsp;&emsp; X '+result['items'][item]['quantity']+'</span><p>'
+            $("#items").append(txt);
+            $("#items").append('<hr>');
+          }
+        } 
+      });
+    }
+
+    $(document).ready(function() {
+    $('#pending').DataTable({
         "processing" : true,
-        "bFilter":false,
-        "sDom":'t',
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getsystemusers",
+            "url" :"http://"+window.location.hostname+":4000/getallposorders",
             dataSrc : ''
         },
         "columns" : [{
             "data" : "id"
-        },{
+        }, {
+            "data" : "orderid"
+        }, {
             "data" : "name"
         }, {
-            "data" : "email"
+            "data" : "date"
         }, {
-            "data" : "username"
-        }, {
-            "data" : "access_rights"
-        }, {
-            "data" : "phone"
+            "data" : "status"
         }]
     });
-  });
+
+    $('#pending tbody').on( 'click', 'tr', function () {
+			var id = $(this).find("td:first").text();
+      var status = $(this).find("td:nth-child(5)").text();
+      
+      selected_order = id;
+      getSingleOrder(id,status);
+		});
+
+    });
+
+
+  
   </script>
-
-  <script type="text/javascript">
-  function adduser(){
-      var userdata = {
-        email: $("#email").val(),
-        username: $("#username").val(),
-        phone: $("#phone").val(),
-        gender: $("#gender").val(),
-        password: $("#password").val(),
-        access_rights : $("#access_rights").val(),
-        full_name : $("#fullname").val()
-      }
-      alert(userdata)
-
-       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/addsystemuser",
-        type: "POST",
-        data: JSON.stringify(userdata),
-        contentType: "application/json",  
-        success: function(result){
-          alert(result)
-          
-        } 
-      });
-
-
-  }
-  </script>
+  
 
 </body>
 

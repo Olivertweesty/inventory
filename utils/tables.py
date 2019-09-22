@@ -10,6 +10,15 @@ appusers = """CREATE TABLE IF NOT EXISTS users(
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
+transactions = """CREATE TABLE IF NOT EXISTS transactions(
+                                    `id` int(11) AUTO_INCREMENT,
+                                    `product_id` int(11) NOT NULL,
+                                    `quantity` int(20) NOT NULL,
+                                    `date` VARCHAR(20) NOT NULL,
+                                    `status` VARCHAR(20) NOT NULL,
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
 products = """CREATE TABLE IF NOT EXISTS products(
                                     `id` int(11) AUTO_INCREMENT,
                                     `product_code` varchar(200) NOT NULL UNIQUE,
@@ -77,3 +86,5 @@ selectdamaged = """SELECT m.manufacterer,p.product_name,d.quantity,d.date FROM d
 
 selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.status = '{}'"
 selectProductnameById = "SELECT p.product_name, n.selling_price FROM products AS n JOIN products_name AS p WHERE n.product_name = p.id AND n.id ='{}'"
+selectAllOrders = "SELECT o.id, o.orderid, o.date, c.name,o.status FROM orders as o JOIN customers as c WHERE c.id = o.customer_id"
+selectTransactions = "SELECT t.*,p.product_name,p.manufacturer FROM transactions AS t JOIN products AS p WHERE t.product_id = p.id"

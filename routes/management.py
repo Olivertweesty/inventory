@@ -17,6 +17,29 @@ def getItemNameByID(id):
     sql = tb.selectProductnameById.format(id)
     response = db.selectAllFromtables(sql)
     return response[0]
+@routes.route("/getsystemusers", methods = ["POST","GET"])
+def getSystemUsers():
+    sql = "SELECT id, name, email,phone,access_rights,username FROM users"
+    response = db.selectAllFromtables(sql)
+    return jsonify(response)
+
+
+@routes.route("/addsystemuser", methods = ["POST","GET"])
+def addSystemUsers():
+	username = str(request.json.get("username"))
+	name = str(request.json.get("full_name"))
+	phone = str(request.json.get("phone"))
+	access_rights = str(request.json.get("access_rights"))
+	password = str(request.json.get("password"))
+	gender = str(request.json.get("gender"))
+	email = str(request.json.get("email"))
+    
+	sql = "INSERT INTO users VALUES(0,%s,%s,%s,%s,%s,%s,%s)"
+	reponse = db.insertDataToTable(sql,name,email,username,access_rights,phone,gender,password)
+	if reponse:
+		return jsonify({"response":"successful added user","code":200})
+	else:
+		return jsonify({"response":"failed to add user","code":300})
 
 @routes.route("/getdailyreport", methods = ["POST","GET"])
 def getdailyreport():

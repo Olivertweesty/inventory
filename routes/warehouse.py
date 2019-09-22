@@ -41,6 +41,10 @@ def warehousepages(name):
         return render_template("head_sales_report_daily.html")
     elif name == "manageusers":
         return render_template("head_manage_users.html")
+    elif name == "posorders":
+        return render_template("pos_order.html")
+    elif name == "warehousetransactions":
+        return render_template("warehouse_transactions.html")
     else:
         return render_template("404.html")
 
@@ -74,13 +78,20 @@ def checkin_products():
     existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
     if len(existance) == 0:
         sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,'',%s)"
-        reponse = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,quantity)
+        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,quantity)
     else:
         new_quantity = int(existance[0]['quantity']) + int(quantity)
-        sql = "UPDATE products SET quantity = %s"
-        response = db.insertDataToTable(sql,new_quantity)
+        sql = "UPDATE products SET quantity = %s WHERE product_code=%s AND manufacturer=%s AND product_name=%s"
+        response = db.insertDataToTable(sql,new_quantity,product_code,manufacterer,productname)
 
-    if reponse == True:
+    existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
+    product_id = existance[0]['id']
+    today = date.today()
+    dateT = today.strftime("%b-%d-%Y")
+    sql2 = "INSERT INTO transactions VALUES(0,%s,%s,%s,'active')"
+    response2 = db.insertDataToTable(sql2,product_id,quantity,dateT)
+
+    if response == True:
         return jsonify({"response":"successful product Checkin","code":200})
     else:
         return jsonify({"response":"failed to checkin product","code":300})
@@ -176,6 +187,22 @@ def processOrder(id):
         return jsonify({"response":"failed to process order","code":300})
 
 
+@routes.route('/gettransactions',methods = ["POST","GET"])
+def gettransactions():
+    response = db.selectAllFromtables(tb.selectTransactions)
+    response2 = []
+    for transaction in response:
+        data = {}
+        data['id'] = transaction['id']
+        data['product_name'] = getSingleItemFromTable("products_name",id=transaction['product_name'])[0]['product_name']
+        data['manufacturer'] = getSingleItemFromTable("manufacterer",id=transaction['manufacturer'])[0]['manufacterer']
+        data['date'] = transaction['date']
+        data['status'] = transaction['status']
+        data['quantity'] = transaction['quantity']
+        response2.append(data)
+    return jsonify(response2)
+
+
 
 
 @routes.route('/adddamagedproduct',methods = ["POST","GET"])
@@ -200,4 +227,29 @@ def getdamagedproducts():
     response = db.selectAllFromtables(tb.selectdamaged)
 
     return jsonify(response)
+
+@routes.route('/reversetransaction/<id>',methods = ["POST","GET"])
+def reversetransaction(id):
+    sql = "SELECT product_id,quantity FROM transactions WHERE id='{}'".format(id)
+    response = db.selectAllFromtables(sql)
+    product_id = response[0]['product_id']
+    quantity = response[0]['quantity']
+
+    sql2 = "SELECT quantity FROM products WHERE id = '{}'".format(product_id)
+    response2 = db.selectAllFromtables(sql2)
+    quantity_2 = response2[0]['quantity']
+
+    new_quantity = quantity_2 - quantity
+    if new_quantity < 0:
+        return jsonify({"response":"Unable to reverse transaction"})
+    else:
+        sql3 = "UPDATE products SET quantity=%s,status='reversed' WHERE id=%s"
+        response = db.insertDataToTable(sql3,new_quantity,product_id)
+        if response:
+            return jsonify({"response":"Reversal successful"})
+        else:
+            return jsonify({"response":"Unable to reverse transaction"})
+
+    return jsonify(new_quantity)
+
     

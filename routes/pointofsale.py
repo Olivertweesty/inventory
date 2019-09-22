@@ -63,3 +63,19 @@ def submitorder():
         return jsonify({"response":"failed to Place Order","code":300})
 
 
+@routes.route('/getallposorders',methods = ["POST","GET"])
+def getallPosorders():
+    response = db.selectAllFromtables(tb.selectAllOrders)
+
+    return jsonify(response)
+
+@routes.route('/cancelOrder/<id>', methods = ['POST','GET'])
+def cancelOrder(id):
+    sql = "UPDATE orders SET status='cancelled' WHERE id = '{}'".format(id)
+    response = db.updaterecords(sql)
+    if response:
+        return jsonify({"response":"Order Cancelled successfully","code":200})
+    else:
+        return jsonify({"response":"Order Cancelled Failed","code":300})
+
+
