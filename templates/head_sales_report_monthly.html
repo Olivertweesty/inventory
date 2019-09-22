@@ -438,6 +438,23 @@
   <script>
   
   $(document).ready(function() {
+
+    function retrivePdata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdailyreport,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#products_name");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['product_name'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
     $('#reportTable').DataTable({
         "processing" : true,
         "bFilter":false,
