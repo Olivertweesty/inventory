@@ -36,7 +36,6 @@ def login():
 
 @app.route("/",methods=["GET","POST"])
 def main():
-    db.insertDataToTable("products", "Watiti","Oliver")
     return render_template("index.html")
 
 @app.route('/<name>')
