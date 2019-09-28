@@ -41,21 +41,45 @@ def addSystemUsers():
 		return jsonify({"response":"successful added user","code":200})
 	else:
 		return jsonify({"response":"failed to add user","code":300})
+
+def getPayedAndNot(data):
+	totalsales = 0.0
+	totaloncredit = 0.0
+	totalpaid = 0.0
+	for item in data:
+		items = item['items']
+		items = json.loads(items.replace("'",'"'))
+		for each in items:
+			 totalsales = totalsales + float(each['price']) * int(each['quantity'])
+
+	for item in data:
+		if item['payment_type'] == "Credit":
+			items = item['items']
+			
+			items = json.loads(items.replace("'",'"'))
+			for each in items:
+				 totaloncredit = totaloncredit + float(each['price']) * int(each['quantity'])
+	totalpaid = totalsales - totaloncredit
+	return {"totalsale":totalsales,"oncredit":totaloncredit,"paid":totalpaid,"sales":len(data)}
+
 def getOnlyRequired(thedate,data):
+	data_to_return = []
 	for order in data:
-		print(order)
-	return
+		order_date = datetime.strptime(order['date'],"%b-%d-%Y %H:%M:%S")
+		if order_date.date() == thedate.date():
+			data_to_return.append(order)
+	return data_to_return
 
 @routes.route("/getdailyreport", methods = ["POST","GET"])
 def getdailyreport():
 	thedate = str(request.json.get("thedate"))
 	datetime_object = datetime.strptime(thedate, '%Y-%m-%d')
 	
-	sql = "SELECT items FROM orders"
-	response = db.selectAllFromtables(sql)
-	getOnlyRequired(datetime_object,response)
+	sql = "SELECT items,date,payment_type FROM orders"
+	response = getOnlyRequired(datetime_object, db.selectAllFromtables(sql))
 	items_to_return = []
 	count = 1
+	other = getPayedAndNot(response)
 	for item in response:
 		items = item['items']
 		items = json.loads(items.replace("'",'"'))
@@ -71,4 +95,4 @@ def getdailyreport():
 		count = count + 1
 		items_to_return.append(the_items)
 
-	return jsonify(items_to_return)
+	return jsonify({"table_data":items_to_return,"other":other})

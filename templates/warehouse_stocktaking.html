@@ -29,11 +29,11 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon">
+          <img src="static/img/logo1.png" style="width:50px; height:50px">
         </div>
-        <div class="sidebar-brand-text mx-3">Company Name</div>
+        <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD</div>
       </a>
 
       <!-- Divider -->
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="warehouse">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -57,9 +57,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="">Checkin Product</a>
-            <a class="collapse-item" href="">Report Damage</a>
-            <a class="collapse-item" href="">All Products</a>
+            <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
+            <a class="collapse-item" href="warehouse_damage">Report Damage</a>
+            <a class="collapse-item" href="warehouse_allproducts">All Products</a>
+            <a class="collapse-item" href="warehousetransactions">Check In Transaction</a>
           </div>
         </div>
       </li>
@@ -74,7 +75,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Orders:</h6>
-            <a class="collapse-item" href="forgot-password.html">Pending</a>
+            <a class="collapse-item" href="pending_orders">Pending</a>
             <a class="collapse-item" href="served_orders">Served</a>
             
           </div>
@@ -191,8 +192,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
+                <img class="img-profile rounded-circle" src="static/img/user.png">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -242,12 +243,12 @@
                       </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="served" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="stock" width="100%" cellspacing="0">
                             <thead>
                               <tr>
                                 <th>Product ID</th>
                                 <th>Name</th>
-                                <th>Description</th>
+                                <th>Manufacturer</th>
                                 <th>Quantity</th>
                               </tr>
                             </thead>
@@ -323,6 +324,35 @@
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+    $('#stock').dataTable({
+        "processing" : true,
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getallproducts",
+            dataSrc : ''
+        },
+        "columns" : [ {
+            "data" : "product_code"
+        }, {
+            "data" : "product_name"
+        }, {
+            "data" : "manufacterer"
+        }, {
+            "data" : "quantity"
+        }]
+    });
+
+    /*$('#consultation tbody').on( 'click', 'tr', function () {
+      var id = $(this).find("td:first").text();
+      selected_data = id;
+      console.log(selected_data);
+      getsinglecons(selected_data)
+    });*/
+
+});
+  </script>
   
 
 </body>

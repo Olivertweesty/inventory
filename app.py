@@ -80,6 +80,8 @@ def warehousepages(name):
         return render_template("head_pending_order.html")
     elif name == "head_served_orders":
         return render_template("head_served_order.html")
+    elif name == "receipt":
+        return render_template("receipt.html")
     else:
         return render_template("404.html")
 

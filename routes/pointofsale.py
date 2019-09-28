@@ -5,6 +5,7 @@ import utils.tables as tb
 from flask import jsonify
 from flask import request
 from datetime import datetime
+import json
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -53,6 +54,9 @@ def submitorder():
     orderID = generateOderID()
     dateTimeObj = datetime.now()
     dateT = dateTimeObj.strftime("%b-%d-%Y %H:%M:%S")
+
+    items = json.loads(orderitems.replace("'",'"'))
+    print(items)
 
     sql = "INSERT INTO orders VALUES(0,%s,%s,%s,%s,%s,%s,%s,'pending','')"
     reponse = db.insertDataToTable(sql,orderID,orderitems,payment_type,dateT,customer_id,transport,discount)

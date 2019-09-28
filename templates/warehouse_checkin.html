@@ -32,11 +32,11 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon">
+          <img src="static/img/logo1.png" style="width:50px; height:50px">
         </div>
-        <div class="sidebar-brand-text mx-3">Company Name</div>
+        <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD</div>
       </a>
 
       <!-- Divider -->
@@ -44,7 +44,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="warehouse">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -60,9 +60,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="">Checkin Product</a>
+            <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
             <a class="collapse-item" href="warehouse_damage">Report Damage</a>
             <a class="collapse-item" href="warehouse_allproducts">All Products</a>
+            <a class="collapse-item" href="warehousetransactions">Check In Transaction</a>
           </div>
         </div>
       </li>
@@ -194,8 +195,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
+                <img class="img-profile rounded-circle" src="static/img/user.png">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -278,6 +279,10 @@
                             
                             <div class="input-group">
                                 <input type="text" id = "unit_price" onkeyup="Summary('#unit_price','#Summary_price')" class="form-control" placeholder="Unit Purchase Price"  aria-describedby="basic-addon2">
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <input type="text" id = "unit_s_price" class="form-control" placeholder="Unit Selling Price"  aria-describedby="basic-addon2">
                             </div>
                             
                             <br>
@@ -581,7 +586,8 @@
         productname : $("#products_name").val(),
         unit_of_measument : $("#units_of_measure").val(),
         quantity: $("#quantity").val(),
-        purchase_price : $("#unit_price").val()
+        purchase_price : $("#unit_price").val(),
+        selling_price : $("#unit_s_price").val()
       }
 
       $.ajax({ 

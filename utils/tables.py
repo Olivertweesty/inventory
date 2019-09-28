@@ -81,7 +81,7 @@ selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
                             AS n JOIN manufacterer as m WHERE p.product_name = n.id AND m.id = p.manufacturer"""
 
 
-selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
+selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price,ap.quantity FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
 selectdamaged = """SELECT m.manufacterer,p.product_name,d.quantity,d.date FROM damages AS d JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = d.product_id AND m.id = d.manufacterer_id"""
 
 selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.status = '{}'"

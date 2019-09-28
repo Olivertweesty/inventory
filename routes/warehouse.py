@@ -37,6 +37,7 @@ def checkin_products():
     unit_of_measument = str(request.json.get("unit_of_measument"))
     quantity = str(request.json.get("quantity"))
     purchase_price = str(request.json.get("purchase_price"))
+    selling_price = str(request.json.get("selling_price"))
     
     product_code = (manufacterer_name[0:4]+product_name[0:4])
 
@@ -44,12 +45,12 @@ def checkin_products():
 
     existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
     if len(existance) == 0:
-        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,'',%s)"
-        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,quantity)
+        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,%s,%s)"
+        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,selling_price,quantity)
     else:
         new_quantity = int(existance[0]['quantity']) + int(quantity)
-        sql = "UPDATE products SET quantity = %s WHERE product_code=%s AND manufacturer=%s AND product_name=%s"
-        response = db.insertDataToTable(sql,new_quantity,product_code,manufacterer,productname)
+        sql = "UPDATE products SET quantity = %s WHERE product_code=%s AND manufacturer=%s AND product_name=%s AND selling_price = %s"
+        response = db.insertDataToTable(sql,new_quantity,product_code,manufacterer,productname,selling_price)
 
     existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
     product_id = existance[0]['id']

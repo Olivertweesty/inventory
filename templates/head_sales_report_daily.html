@@ -29,8 +29,8 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon">
           <img src="static/img/logo1.png" style="width:50px; height:50px">
         </div>
         <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD</div>
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="management">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -57,8 +57,8 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="">All Products</a>
-            <a class="collapse-item" href="">Damaged Products</a>
+            <a class="collapse-item" href="head_all_products">All Products</a>
+            <a class="collapse-item" href="head_damaged">Damaged Products</a>
             
           </div>
         </div>
@@ -74,9 +74,9 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Orders:</h6>
-            <a class="collapse-item" href="forgot-password.html">Pending</a>
-            <a class="collapse-item" href="register.html">Served</a>
-            <a class="collapse-item" href="register.html">Payed</a>
+            <a class="collapse-item" href="head_pending_orders">Pending</a>
+            <a class="collapse-item" href="head_served_orders">Served</a>
+            <a class="collapse-item" href="">Payed</a>
             
           </div>
         </div>
@@ -263,7 +263,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Sales</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalsales">Ksh. 40,000.00</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -279,8 +279,8 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Revenue Generated</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Amount Generated</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="amount_paid">21</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -296,10 +296,10 @@
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Revenue in Credit</div>
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Amount in Credit</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="amount_in_credit">50</div>
                         </div>
                       </div>
                     </div>
@@ -318,7 +318,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sales made</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="salesmade">18</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -436,23 +436,11 @@
     var yyyy = todayDate.getFullYear();
 
     var today = yyyy+'-'+mm +'-'+ dd;
-    
-    function retrivePdata(mydate){
-      var data_to_send = {
-        thedate : mydate
-      }
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport",
-        type: "POST",
-        data: JSON.stringify(data_to_send),
-        contentType: "application/json",  
-        success: function(result){
-          //alert(result["response"])
-          $('#reportTable').DataTable({
+
+    var dtable = $('#reportTable').dataTable({
               "processing" : true,
               "bFilter":false,
               "sDom":'t',
-              "data":result,
               "columns" : [{
                   "data" : "id"
               },{
@@ -465,6 +453,29 @@
                   "data" : "total"
               }]
           });
+
+    function refreshtable(data){
+      dtable.fnClearTable();
+      dtable.fnAddData(data);
+      dtable.fnDraw();
+    }
+    
+    function retrivePdata(mydate){
+      var data_to_send = {
+        thedate : mydate
+      }
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        type: "POST",
+        data: JSON.stringify(data_to_send),
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result);
+          $("#totalsales").text("Ksh. "+result['other']['totalsale']);
+          $("#amount_paid").text("Ksh. "+result['other']['paid']);
+          $("#amount_in_credit").text("Ksh. "+result['other']['oncredit'])
+          $("#salesmade").text("Ksh. "+result['other']['sales'])
+          refreshtable(result['table_data']);
           
         } 
       });

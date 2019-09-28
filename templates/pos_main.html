@@ -29,8 +29,8 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+        <div class="sidebar-brand-icon">
           <img src="static/img/logo1.png" style="width:50px; height:50px">
         </div>
         <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD</div>
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Main</span></a>
       </li>
@@ -495,6 +495,7 @@
         divm.find('#quantity').val(quantity);
         var price = parseInt(items['item'+id].price) * quantity;
         divm.find('#item_price').text(price);
+        items["item"+id].quantity = quantity;
       }
       
       
