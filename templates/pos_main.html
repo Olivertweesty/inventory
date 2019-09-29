@@ -209,7 +209,7 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: url('static/img/logo1.png') no-repeat center; background-size: 50% 100%; height: 80%;">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -453,6 +453,35 @@
 
 
     var items = new Object();
+    var quantities = new Object();
+    function getQuantities(){
+       ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getposproducts",
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result;
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              quantities[response_data[i].id] = response_data[i].quantity;
+          }
+          console.log(quantities);
+        } 
+      });
+    }
+
+    getQuantities();
+
+    function checkQuantity(id,quantity){
+      if(quantities[id]< quantity){
+        alert("The is only "+quantities[id]+" Units in Store");
+        return false
+      }else{
+        return true
+      }
+    }
+
     $(document).ready(function() {
     $('#posproducts').DataTable({
         "processing" : true,
@@ -488,14 +517,20 @@
         divtoadd.find('#item_name').text(item_name);
         divtoadd.find('#item_price').text(item_price);
         $('#selected').append(divtoadd);
-        items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name,"item_price":item_price}
+        if(checkQuantity(id,1)){
+          items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name,"item_price":item_price}
+        }
+        
       }else{
         var divm = $("#item"+id);
         var quantity = parseInt(divm.find('#quantity').val()) + 1;
-        divm.find('#quantity').val(quantity);
-        var price = parseInt(items['item'+id].price) * quantity;
-        divm.find('#item_price').text(price);
-        items["item"+id].quantity = quantity;
+        if(checkQuantity(id,quantity)){
+          divm.find('#quantity').val(quantity);
+          var price = parseInt(items['item'+id].price) * quantity;
+          divm.find('#item_price').text(price);
+          items["item"+id].quantity = quantity;
+        }
+        
       }
       
       
@@ -534,13 +569,17 @@
     var cardid = $(item).parent().parent().parent().parent().parent().parent().parent().attr('id');
     
     var quantity = parseInt(items[cardid].quantity) + 1;
-    items[cardid].quantity = quantity;
+    var i_d = cardid.replace("item","")
+    if(checkQuantity(i_d,quantity)){
+      items[cardid].quantity = quantity;
     
-    var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
+      var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
+      
+      divm.find('#quantity').val(quantity);
+      var price = parseInt(items[cardid].price) * quantity;
+      divm.find('#item_price').text(price);
+    }
     
-    divm.find('#quantity').val(quantity);
-    var price = parseInt(items[cardid].price) * quantity;
-    divm.find('#item_price').text(price);
   }
   </script>
 

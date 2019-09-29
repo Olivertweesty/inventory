@@ -33,7 +33,7 @@
         <div class="sidebar-brand-icon">
           <img src="static/img/logo1.png" style="width:50px; height:50px">
         </div>
-        <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD/div>
+        <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD</div>
       </a>
 
       <!-- Divider -->
@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="management">
+        <a class="nav-link" href="">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -50,61 +50,52 @@
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link" href="invoices">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Products</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="head_all_products">All Products</a>
-            <a class="collapse-item" href="head_damaged">Damaged Products</a>
-            
-          </div>
-        </div>
+          <span>Invoice</span></a>
       </li>
+      
 
       
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Orders</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Orders:</h6>
-            <a class="collapse-item" href="head_pending_orders">Pending</a>
-            <a class="collapse-item" href="head_served_orders">Served</a>
-            <a class="collapse-item" href="">Payed</a>
-            
-          </div>
-        </div>
+        <a class="nav-link" href="expenses">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Expenses</span></a>
+      </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="payments">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Payments</span></a>
+      </li>
+      <!-- Nav Item - Order -->
+      <li class="nav-item">
+        <a class="nav-link" href="orders">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Orders</span></a>
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
           <i class="fas fa-fw fa-folder"></i>
-          <span>Report</span>
+          <span>Reports</span>
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Expense:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="monthlyreport">Monthly</a>
             <h6 class="collapse-header">Sales:</h6>
             <a class="collapse-item" href="dailyreport">Daily</a>
             <a class="collapse-item" href="monthlyreport">Monthly</a>
-            
             
           </div>
         </div>
       </li>
 
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="manageusers">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Manage users</span></a>
-      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -209,8 +200,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
+                <img class="img-profile rounded-circle" src="static/img/user.png">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -240,11 +231,11 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: url('static/img/logo1.png') no-repeat center; background-size: 50% 100%; height: 80%;">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">System Users</h1>
+            <h1 class="h3 mb-0 text-gray-800">Payments</h1>
             
           </div>
 
@@ -257,14 +248,14 @@
                   
                       <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Payment Details</h6>
                   <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                       <div class="dropdown-header"> Actions:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#adduserModal">Add User</a>
+                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#adduserModal">Add Expense</a>
                       
                     </div>
                   </div>
@@ -274,12 +265,11 @@
                           <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Username</th>
-                                <th>Access Rights</th>
-                                <th>Phone</th>
+                                <th>Expense Number</th>
+                                <th>Reason</th>
+                                <th>Date Created</th>
+                                <th>Amount</th>
+                                <th>Status</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -291,10 +281,6 @@
                       </div>
                   </div>
               </div>
-          </div>
-            
-
-          </div>
           </div>
 
           <!-- Content Row -->
@@ -346,51 +332,6 @@
     </div>
   </div>
 
-  <!-- add user Modal-->
-  <div class="modal fade" id="adduserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-
-          
-          <input type="text" class="form-control" id="fullname" placeholder="Full Name">
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="username">
-          <br>
-          <select class="form-control" id="payment" styles="height:30px">
-                <option>Gender</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-          </select>
-          <br>
-          <input type="text" class="form-control" id="email" placeholder="Email">
-          <br>
-          <input type="text" class="form-control" id="phone" placeholder="Phone Number">
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="Password">
-          <br>
-          <select class="form-control" id="payment" styles="height:30px">
-                <option>Access Rights</option>
-                <option value="pointofsale,warehouse">POS + WAREHOUSE</option>
-                <option value="warehouse">WAREHOUSE</option>
-                <option value="pointofsale">POS</option>
-                <option value="management">MANAGEMENT</option>
-              </select>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" onclick="adduser()">Add User</button> 
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -400,65 +341,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-<!-- Page level plugins -->
-  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <script>
-  
-  $(document).ready(function() {
-    $('#reportTable').DataTable({
-        "processing" : true,
-        "bFilter":false,
-        "sDom":'t',
-        "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getsystemusers",
-            dataSrc : ''
-        },
-        "columns" : [{
-            "data" : "id"
-        },{
-            "data" : "name"
-        }, {
-            "data" : "email"
-        }, {
-            "data" : "username"
-        }, {
-            "data" : "access_rights"
-        }, {
-            "data" : "phone"
-        }]
-    });
-  });
-  </script>
-
-  <script type="text/javascript">
-  function adduser(){
-      var userdata = {
-        email: $("#email").val(),
-        username: $("#username").val(),
-        phone: $("#phone").val(),
-        gender: $("#gender").val(),
-        password: $("#password").val(),
-        access_rights : $("#access_rights").val(),
-        full_name : $("#fullname").val()
-      }
-      alert(userdata)
-
-       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/addsystemuser",
-        type: "POST",
-        data: JSON.stringify(userdata),
-        contentType: "application/json",  
-        success: function(result){
-          alert(result)
-          
-        } 
-      });
-
-
-  }
-  </script>
 
 </body>
 

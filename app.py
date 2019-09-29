@@ -82,6 +82,14 @@ def warehousepages(name):
         return render_template("head_served_order.html")
     elif name == "receipt":
         return render_template("receipt.html")
+    elif name == "invoices":
+        return render_template("account_invoices.html")
+    elif name == "expenses":
+        return render_template("account_expenses.html")
+    elif name == "payments":
+        return render_template("account_payments.html")
+    elif name == "orders":
+        return render_template("account_orders.html")
     else:
         return render_template("404.html")
 
