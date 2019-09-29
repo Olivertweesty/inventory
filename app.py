@@ -90,6 +90,14 @@ def warehousepages(name):
         return render_template("account_payments.html")
     elif name == "orders":
         return render_template("account_orders.html")
+    elif name == "dailyexpense":
+        return render_template("account_daily_expense.html")
+    elif name == "monthlyexpense":
+        return render_template("account_monthly_expense.html")
+    elif name == "monthlysales":
+        return render_template("account_monthly_sales.html")
+    elif name == "dailysales":
+        return render_template("account_daily_sales.html")
     else:
         return render_template("404.html")
 
