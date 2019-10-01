@@ -74,7 +74,14 @@ customers = """CREATE TABLE IF NOT EXISTS customers(
                                     `mobile_number` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
-
+expenses = """CREATE TABLE IF NOT EXISTS expenses(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `date` varchar(50) NOT NULL,
+                                    `use` varchar(2000) NOT NULL,
+                                    `amount` varchar(50) NOT NULL,
+                                    `status` varchar(50) NOT NULL,
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
                             m.manufacterer FROM products 
                             AS p JOIN products_name 

@@ -39,6 +39,7 @@ class Database:
 		cursor.execute(tb.customers)
 		cursor.execute(tb.orders)
 		cursor.execute(tb.transactions)
+		cursor.execute(tb.expenses)
 		conn.commit()
 		conn.close()
 	
