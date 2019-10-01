@@ -101,7 +101,7 @@
 
 <body>
     <div class="invoice-box" id="printTable">
-        <table cellpadding="0" cellspacing="0">
+        <table cellpadding="0" cellspacing="0" id="mytable">
             <tr class="top">
                 <td colspan="2">
                     <table>
@@ -163,59 +163,49 @@
                 <td>
                     Item
                 </td>
-                
                 <td>
                     Price
                 </td>
             </tr>
             
-            <tr class="item">
-                <td>
-                    Website design
-                </td>
-                
-                <td>
-                    $300.00
-                </td>
-            </tr>
-            
-            <tr class="item">
-                <td>
-                    Hosting (3 months)
-                </td>
-                
-                <td>
-                    $75.00
-                </td>
-            </tr>
-            
             <tr class="item last">
-                <td>
-                    Domain name (1 year)
-                </td>
                 
-                <td>
-                    $10.00
-                </td>
             </tr>
             
-            <tr class="total">
-                <td></td>
-                
-                <td>
-                   Total: $385.00
-                </td>
-            </tr>
+            
         </table>
     </div>
     <button onclick="printFunc()">Print</button>
 </body>
 <script src="static/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    var id = location.hash.substr(1);
+     ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          var total = 0.0;
+          for(var item in result['items']){
+            console.log(result['items'][item]);
+            total = total + parseFloat(result['items'][item]['selling_price'])
+            var txt = '<tr class="item"><td>'+result['items'][item]['product_name']+'('+result['items'][item]['quantity']+')</td><td>Ksh. '+result['items'][item]['selling_price']+'</td><tr>'
+
+            $("#mytable").append(txt);
+          }
+
+          var txtTotal = '<tr class="total"><td></td><td>Total: Ksh. '+total+'</td></tr>';
+          $("#mytable").append(txtTotal);
+        } 
+      });
+</script>
+<script src="static/vendor/jquery/jquery.min.js"></script>
 <script src="static/js/printThis.js"></script>
 <script type="text/javascript">
     function printFunc(){
         $("#printTable").printThis({
-            debug: true,
+            debug: false,
             importStyle: true,
         });
     }

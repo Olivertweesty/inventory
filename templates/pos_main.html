@@ -663,7 +663,10 @@
           type: "POST",
           contentType: "application/json",  
           success: function(result){
-            alert(result["response"])
+            var url = "http://"+window.location.hostname+":4000/receipt#"+result['id'];
+             alert(result["response"]);
+            window.open(url,"_blank");
+           
           } 
       });
 

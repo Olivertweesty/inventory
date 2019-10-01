@@ -58,11 +58,15 @@ def submitorder():
     items = json.loads(orderitems.replace("'",'"'))
     print(items)
 
+    sqlID = "SELECT MAX(id) FROM orders"
+
+    responseISD = db.selectAllFromtables(sqlID)
+
     sql = "INSERT INTO orders VALUES(0,%s,%s,%s,%s,%s,%s,%s,'pending','')"
     reponse = db.insertDataToTable(sql,orderID,orderitems,payment_type,dateT,customer_id,transport,discount)
-    print(reponse)
+    print(responseISD)
     if reponse:
-        return jsonify({"response":"successful Placed Order","code":200})
+        return jsonify({"response":"successful Placed Order","code":200,"id":responseISD[0]['MAX(id)']})
     else:
         return jsonify({"response":"failed to Place Order","code":300})
 
