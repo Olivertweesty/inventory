@@ -70,12 +70,7 @@
           <i class="fas fa-fw fa-table"></i>
           <span>Payments</span></a>
       </li>
-      <!-- Nav Item - Order -->
-      <li class="nav-item">
-        <a class="nav-link" href="orders">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Orders</span></a>
-      </li>
+      
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -231,11 +226,39 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: url('static/img/logo1.png') no-repeat center; background-size: 50% 100%; height: 80%;">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Invoices</h1>
+            <div class="form-group row">
+            <div class="input-group mb-2 col-sm-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">From</div>
+              </div>
+              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+            </div>
+            <div class="input-group mb-2 col-sm-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">To</div>
+              </div>
+              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
+            </div>
+
+            <div class="input-group mb-2 col-sm-3">
+              <div class="input-group-prepend">
+                <div class="input-group-text">To</div>
+              </div>
+              <select>
+                <option>POS</option>
+                <option>Accounts</option>
+              </select>
+            </div>
+
+            <div class="input-group mb-2 col-sm-3">
+              <input type="submit" class="form-control btn btn-dark" value="Filter" id="inlineFormInputGroup">
+            </div>
+          </div>
             
           </div>
 
@@ -249,20 +272,11 @@
                       <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Invoice Details</h6>
-                  <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                      <div class="dropdown-header"> Actions:</div>
-                      <a class="dropdown-item" href="#" data-toggle="modal" data-target="#createInvoice">Add Invoice</a>
-                      
-                    </div>
-                  </div>
+                  
                 </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="invoiceTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
                                 <th>Invoice Number</th>
@@ -333,36 +347,7 @@
   </div>
 
 
-  <!-- Invoice Modal-->
-  <div class="modal fade" id="createInvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Invoice</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control" id="fullname" placeholder="Client Name">
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="Invoice Date">
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="Due Date">
-          <br>
-          Items
-          <textarea class="form-control"></textarea>
-          <br>
-          <input type="text" class="form-control" id="username" placeholder="Amount">
-          <br>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Create</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
@@ -373,6 +358,60 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+
+    function getSingleOrder(id){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result)
+          
+          $("#order_id").text(result['orderid'])
+          $("#date_served").text(result['date_served'])
+          for(var item in result['items']){
+            console.log(result['items'][item])
+            var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'
+            $("#items").append(txt);
+            $("#items").append('<hr>');
+          }
+        } 
+      });
+    }
+
+
+    $(document).ready(function() {
+    $('#invoiceTable').DataTable({
+        "processing" : true,
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getallposorders",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "orderid"
+        }, {
+            "data" : "name"
+        }, {
+            "data" : "date"
+        }, {
+            "data" : "status"
+        }]
+    });
+
+    $('#served tbody').on( 'click', 'tr', function () {
+      var id = $(this).find("td:first").text();
+      selected_order = id;
+      getSingleOrder(id);
+    });
+
+    });
+  
+  </script>
 
 
 </body>

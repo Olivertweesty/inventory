@@ -74,7 +74,55 @@ customers = """CREATE TABLE IF NOT EXISTS customers(
                                     `mobile_number` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+expenses = """CREATE TABLE IF NOT EXISTS expenses(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `date` varchar(50) NOT NULL,
+                                    `use` varchar(2000) NOT NULL,
+                                    `amount` varchar(50) NOT NULL,
+                                    `status` varchar(50) NOT NULL,
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
+employees = """CREATE TABLE IF NOT EXISTS employees(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `firstname` varchar(20) NOT NULL,
+                                    `middlename` varchar(20) NOT NULL,
+                                    `lastname` varchar(20) NOT NULL,
+                                    `id_number` varchar(10),
+                                    `identification` varchar(20),
+                                    `expirydate` varchar(20),
+                                    `kra_pin` varchar(20) NOT NULL,
+                                    `hudumanumber` varchar(20),
+                                    `email` varchar(30),
+                                    `mobile1` varchar(20) NOT NULL,
+                                    `mobile2` varchar(20),
+                                    `residence` varchar(50),
+                                    `designation` varchar(20),
+                                    `department` varchar(20),
+                                    `next_name` varchar(50),
+                                    `relationship` varchar(20),
+                                    `next_number1` varchar(20),
+                                    `next_number2` varchar(20),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+
+leave = """CREATE TABLE IF NOT EXISTS leaveDays(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `employeeID` int(20),
+                                    `sick_leave` varchar(10),
+                                    `annual_leave` varchar(10),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+leaveHist = """CREATE TABLE IF NOT EXISTS leaveHistory(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `employeeID` int(20),
+                                    `startdate` varchar(20),
+                                    `enddate` varchar(20),
+                                    `leave_type` varchar(20),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
                             m.manufacterer FROM products 
                             AS p JOIN products_name 

@@ -70,12 +70,7 @@
           <i class="fas fa-fw fa-table"></i>
           <span>Payments</span></a>
       </li>
-      <!-- Nav Item - Order -->
-      <li class="nav-item">
-        <a class="nav-link" href="orders">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Orders</span></a>
-      </li>
+     
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -265,8 +260,8 @@
                           <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
-                                <th>Expense Number</th>
-                                <th>Reason</th>
+                                <th>Id</th>
+                                <th>use</th>
                                 <th>Date Created</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -343,17 +338,17 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="text" class="form-control" id="username" placeholder="Due Date">
+          <input type="date" class="form-control" id="createdate" placeholder="Date">
           <br>
           Use
-          <textarea class="form-control"></textarea>
+          <textarea class="form-control" id="use"></textarea>
           <br>
-          <input type="text" class="form-control" id="username" placeholder="Amount">
+          <input type="text" class="form-control" id="amount" placeholder="Amount">
           <br>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Create</a>
+          <button class="btn btn-primary" onclick="addexpense()">Create</button>
         </div>
       </div>
     </div>
@@ -368,6 +363,60 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+  
+  $(document).ready(function() {
+    $('#reportTable').DataTable({
+        "processing" : true,
+        "bFilter":false,
+        "sDom":'t',
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getexpenses",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "id"
+        },{
+            "data" : "use"
+        }, {
+            "data" : "date"
+        }, {
+            "data" : "amount"
+        }, {
+            "data" : "status"
+        }]
+    });
+  });
+  </script>
+
+  <script type="text/javascript">
+  function addexpense(){
+      var userdata = {
+        date: $("#createdate").val(),
+        amount: $("#amount").val(),
+        use: $("#phone").val()
+      }
+      console.log(userdata);
+
+       ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/addexpense",
+        type: "POST",
+        data: JSON.stringify(userdata),
+        contentType: "application/json",  
+        success: function(result){
+          alert(result['response']);
+          $('#createExpense').modal('toggle');
+          
+        } 
+      });
+
+
+  }
+  </script>
 
 
 </body>

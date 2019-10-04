@@ -88,8 +88,6 @@ def warehousepages(name):
         return render_template("account_expenses.html")
     elif name == "payments":
         return render_template("account_payments.html")
-    elif name == "orders":
-        return render_template("account_orders.html")
     elif name == "dailyexpense":
         return render_template("account_daily_expense.html")
     elif name == "monthlyexpense":
@@ -98,6 +96,14 @@ def warehousepages(name):
         return render_template("account_monthly_sales.html")
     elif name == "dailysales":
         return render_template("account_daily_sales.html")
+    elif name == "humanresource":
+        return render_template("hr_dashboard.html")
+    elif name == "employees":
+        return render_template("hr_employees.html")
+    elif name == "add_employee":
+        return render_template("hr_add_employee.html")
+    elif name == "leave":
+        return render_template("hr_leave.html")
     else:
         return render_template("404.html")
 

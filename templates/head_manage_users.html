@@ -33,7 +33,7 @@
         <div class="sidebar-brand-icon">
           <img src="static/img/logo1.png" style="width:50px; height:50px">
         </div>
-        <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD/div>
+        <div class="sidebar-brand-text mx-3">ZakiHila E.A LTD</div>
       </a>
 
       <!-- Divider -->
@@ -209,8 +209,8 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
+                <img class="img-profile rounded-circle" src="static/img/user.png">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -240,7 +240,7 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: url('static/img/logo1.png') no-repeat center; background-size: 50% 100%; height: 80%;">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -363,7 +363,7 @@
           <br>
           <input type="text" class="form-control" id="username" placeholder="username">
           <br>
-          <select class="form-control" id="payment" styles="height:30px">
+          <select class="form-control" id="gender" styles="height:30px">
                 <option>Gender</option>
                 <option value="female">Female</option>
                 <option value="male">Male</option>
@@ -373,9 +373,9 @@
           <br>
           <input type="text" class="form-control" id="phone" placeholder="Phone Number">
           <br>
-          <input type="text" class="form-control" id="username" placeholder="Password">
+          <input type="text" class="form-control" id="password" placeholder="Password">
           <br>
-          <select class="form-control" id="payment" styles="height:30px">
+          <select class="form-control" id="access_rights" styles="height:30px">
                 <option>Access Rights</option>
                 <option value="pointofsale,warehouse">POS + WAREHOUSE</option>
                 <option value="warehouse">WAREHOUSE</option>
@@ -443,7 +443,7 @@
         access_rights : $("#access_rights").val(),
         full_name : $("#fullname").val()
       }
-      alert(userdata)
+      console.log(userdata);
 
        ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/addsystemuser",
@@ -451,7 +451,8 @@
         data: JSON.stringify(userdata),
         contentType: "application/json",  
         success: function(result){
-          alert(result)
+          alert("Successfully Added User");
+          $('#adduserModal').modal('toggle');
           
         } 
       });

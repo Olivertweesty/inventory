@@ -50,47 +50,33 @@
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="invoices">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Invoice</span></a>
-      </li>
-      
-
-      
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="expenses">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Expenses</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="payments">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Payments</span></a>
-      </li>
-      
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Reports</span>
+          <span>Employees</span>
         </a>
-        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Expense:</h6>
-            <a class="collapse-item" href="dailyexpense">Daily</a>
-            <a class="collapse-item" href="monthlyexpense">Monthly</a>
-            <h6 class="collapse-header">Sales:</h6>
-            <a class="collapse-item" href="dailysales">Daily</a>
-            <a class="collapse-item" href="monthlysales">Monthly</a>
+            <a class="collapse-item" href="employees">All Employees</a>
+            <a class="collapse-item" href="add_employee">Add Employee</a>
             
           </div>
         </div>
       </li>
 
+      
+      <li class="nav-item">
+        <a class="nav-link" href="manageusers">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Leave Application</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="manageusers">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Advance Application</span></a>
+      </li>
+
+      
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -163,28 +149,7 @@
                     <span class="font-weight-bold">A new monthly report is ready to download!</span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
+                
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
             </li>
@@ -200,19 +165,7 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
+                
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -226,46 +179,91 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid" style="background: url('static/img/logo1.png') no-repeat center; background-size: 50% 100%; height: 80%;">
+        <div class="container-fluid">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Payments</h1>
+            <h1 class="h3 mb-0 text-gray-800">Human Resource</h1>
             
           </div>
 
           <!-- Content Row -->
           <div class="row">
 
-              <!-- Area Chart -->
-              <div class="col-xl-12 col-lg-12">
-                <div class="card shadow mb-4">
-                  
-                      <!-- Card Header - Dropdown -->
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Payment Details</h6>
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Employees</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-user fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
                 </div>
-                      <div class="card-body">
-                        <div class="table-responsive">
-                          <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
-                            <thead>
-                              <tr>
-                                <th>Expense Number</th>
-                                <th>Reason</th>
-                                <th>Date Created</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                        
-                            </tbody>
-                        
-                          </table>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Absent Employees</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Advance Requests</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
                         </div>
                       </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
                   </div>
+                </div>
               </div>
+            </div>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Area Chart -->
+            <div class="col-xl-8 col-lg-7">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Employees On Leave</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  
+                </div>
+              </div>
+            </div>
+
+            
           </div>
 
           <!-- Content Row -->
@@ -327,6 +325,12 @@
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
 
+  <!-- Page level plugins -->
+  <script src="static/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="static/js/demo/chart-area-demo.js"></script>
+  <script src="static/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
