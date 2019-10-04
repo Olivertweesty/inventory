@@ -5,3 +5,4 @@ from .warehouse import *
 from .pointofsale import *
 from .management import *
 from .accounting import *
+from .humanresource import *
