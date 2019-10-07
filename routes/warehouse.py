@@ -33,7 +33,7 @@ def checkin_products():
     productname = str(request.json.get("productname"))
     product_name = getSingleItemFromTable("products_name",id=productname)
     product_name = (product_name[0]['product_name']).upper()
-    
+    quantity_alert = str(request.json.get("quantity_alert"))
     unit_of_measument = str(request.json.get("unit_of_measument"))
     quantity = str(request.json.get("quantity"))
     purchase_price = str(request.json.get("purchase_price"))
@@ -45,8 +45,8 @@ def checkin_products():
 
     existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
     if len(existance) == 0:
-        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,%s,%s)"
-        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,selling_price,quantity)
+        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,%s,%s,%s)"
+        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,selling_price,quantity,quantity_alert)
     else:
         new_quantity = int(existance[0]['quantity']) + int(quantity)
         sql = "UPDATE products SET quantity = %s WHERE product_code=%s AND manufacturer=%s AND product_name=%s AND selling_price = %s"
@@ -126,11 +126,27 @@ def getItemNameByID(id):
 
 @routes.route('/getsingleorder/<id>',methods = ["POST","GET"])
 def getallorders(id):
-    sql = "SELECT orderid,items,date_served FROM orders WHERE id = '{}'".format(id)
+    sql = "SELECT orderid,items,date_served,date FROM orders WHERE id = '{}'".format(id)
     response = db.selectAllFromtables(sql)
     ids = dict(response[0])['items']
     ids = json.loads(ids.replace("'",'"'))
-    response = {"orderid" : dict(response[0])['orderid'],"date_served": dict(response[0])['date_served'], "items":[]}
+    response = {"orderid" : dict(response[0])['orderid'],"date":dict(response[0])['date'],"date_served": dict(response[0])['date_served'], "items":[]}
+    for id_ in ids:
+        itemName = getItemNameByID(id_['item'])
+        itemName['quantity'] = id_['quantity']
+        response['items'].append(itemName) 
+    
+
+    return jsonify(response)
+
+@routes.route('/getreciept/<id>',methods = ["POST","GET"])
+def getreciept(id):
+    sql = "SELECT orderid,items,date_served,date,total_paid FROM orders WHERE id = '{}'".format(id)
+    response = db.selectAllFromtables(sql)
+    ids = dict(response[0])['items']
+    ids = json.loads(ids.replace("'",'"'))
+    print(response)
+    response = {"orderid" : dict(response[0])['orderid'],"total_paid":dict(response[0])['total_paid'],"date":dict(response[0])['date'],"date_served": dict(response[0])['date_served'], "items":[]}
     for id_ in ids:
         itemName = getItemNameByID(id_['item'])
         itemName['quantity'] = id_['quantity']

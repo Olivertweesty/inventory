@@ -18,10 +18,11 @@ def addexpense():
 	date = str(request.json.get("date"))
 	use = str(request.json.get("use"))
 	amount = str(request.json.get("amount"))
+	ex_type = str(request.json.get("type"))
 
-	sql = "INSERT INTO expenses VALUES(0,%s,%s,%s,%s)"
+	sql = "INSERT INTO expenses VALUES(0,%s,%s,%s,%s,%s)"
 
-	reponse = db.insertDataToTable(sql,date,use,amount,"pending")
+	reponse = db.insertDataToTable(sql,date,use,amount,ex_type,"pending")
 	if reponse:
 		return jsonify({"response":"successful added expense","code":200})
 	else:
@@ -31,3 +32,12 @@ def getexpenses():
 	sql = "SELECT * FROM expenses"
 	response = db.selectAllFromtables(sql)
 	return jsonify(response)
+
+@routes.route("/processExpense/<id_>/<what>", methods = ['POST','GET'])
+def processExpense(id_,what):
+	sql2 = "UPDATE expenses SET status='{}' WHERE id = '{}'".format(what,id_)
+	response = db.updaterecords(sql2)
+	if response:
+		return jsonify({"response":"successful processed Expense","code":200})
+	else:
+		return jsonify({"response":"failed to process Expense","code":300})

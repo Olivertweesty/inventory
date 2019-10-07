@@ -41,7 +41,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="management">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -50,43 +50,66 @@
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="invoices">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Invoice</span></a>
+          <span>Products</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header"> Products:</h6>
+            <a class="collapse-item" href="head_all_products">All Products</a>
+            <a class="collapse-item" href="head_damaged">Damaged Products</a>
+            
+          </div>
+        </div>
       </li>
-      
 
       
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Orders</span>
+        </a>
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Orders:</h6>
+            <a class="collapse-item" href="head_pending_orders">Pending</a>
+            <a class="collapse-item" href="head_served_orders">Served</a>
+            <a class="collapse-item" href="">Payed</a>
+            
+          </div>
+        </div>
+      </li>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Report</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="monthlyreport">Monthly</a>
+            
+          </div>
+        </div>
+      </li>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="expenses">
+        <a class="nav-link" href="head_expenses">
           <i class="fas fa-fw fa-table"></i>
           <span>Expenses</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="payments">
+        <a class="nav-link" href="manageusers">
           <i class="fas fa-fw fa-table"></i>
-          <span>Payments</span></a>
+          <span>Manage users</span></a>
       </li>
-      
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Reports</span>
-        </a>
-        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="dailyexpense">Expense</a>
-            <a class="collapse-item" href="dailysales">Sales</a>
-            
-          </div>
-        </div>
-      </li>
-
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -226,87 +249,42 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            
+            <h1 class="h3 mb-0 text-gray-800">All Products</h1>
           </div>
 
           <!-- Content Row -->
           <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Available Funds</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
+              <div class="col-xl-12 col-lg-12">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Products</h6>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Expenses</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Amount In Credit</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="table-responsive">
+                          <table class="table table-bordered" id="expenses" width="100%" cellspacing="0">
+                            <thead>
+                              <tr>
+                                <th>Id</th>
+                                <th>use</th>
+                                <th>Date Created</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                        
+                            </tbody>
+                        
+                          </table>
                         </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Orders</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Content Row -->
           
 
         </div>
@@ -355,6 +333,26 @@
     </div>
   </div>
 
+  <!-- Logout Modal-->
+  <div class="modal fade" id="processModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Process Expense?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Accept" to approve the expense or "Decline" to reject the expense</div>
+        <input type="hidden" id="selected_expense">
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" onclick="processExpense('declined')" data-dismiss="modal">Decline</button>
+          <a class="btn btn-primary" onclick="processExpense('accepted')" href="">Accept</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -364,13 +362,54 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-
   <!-- Page level plugins -->
-  <script src="static/vendor/chart.js/Chart.min.js"></script>
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function() {
+    $('#expenses').DataTable({
+        "processing" : true,
+        "bFilter":false,
+        "sDom":'t',
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/getexpenses",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "id"
+        },{
+            "data" : "use"
+        }, {
+            "data" : "date"
+        }, {
+            "data" : "amount"
+        }, {
+            "data" : "type"
+        }, {
+            "data" : "status"
+        }]
+    });
 
-  <!-- Page level custom scripts -->
-  <script src="static/js/demo/chart-area-demo.js"></script>
-  <script src="static/js/demo/chart-pie-demo.js"></script>
+    $('#expenses tbody').on( 'click', 'tr', function () {
+      var id = $(this).find("td:first").text();
+      $("#selected_expense").val(id);
+      $("#processModal").modal('show');
+    });
+
+});
+
+    function processExpense(what){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/processExpense/"+$('#selected_expense').val()+"/"+what,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          alert(result['response']);
+          
+        } 
+      });
+    }
+  </script>
 
 </body>
 

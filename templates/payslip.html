@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Receipt</title>
+    <link rel="stylesheet" type="text/css" href="static/css/print.css">
+</head>
+<style type="text/css">
+    .cont{
+        font-size: 19px;
+        color: black;
+    }
+</style>
+
+<body>
+    <div class="invoice-box" id="printTable">
+        <table cellpadding="0" cellspacing="0" id="mytable">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>   
+                            <td class="title" style="text-align:center">
+                                <img src="static/img/logo1.png" style="width:100px; max-width:300px; display: none;">
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td style="text-align:center">
+                                ZakiHila E.A LTD<br>
+                                P.O. BOX 1073 - 00100 , Nairobi<br>
+                                info@zakihila.co.ke<br>
+                            </td> 
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                NAME : <span class="cont" id="employee_name"></span><br>
+                                DEPARTMENT : <span class="cont" id="department"></span><br>
+                                EMPLOYEE ID : <span class="cont" id="employee_id"></span><br>
+                                DESIGNATION : <span class="cont" id="designation"></span><br>
+                                
+                            </td>
+                            
+                            <td align="left">
+                                PIN : <span class="cont" id="krapin"></span><br>
+                                NSSF : <span class="cont" id="nssf"></span><br>
+                                NHIF : <span class="cont" id="nhif"></span><br>
+                                DATE : <span class="cont" id="date"></span><br>    
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            
+            <tr class="heading">
+                <td>Description</td>
+                <td>Amount#</td>
+            </tr>
+            
+            <tr class="item">
+                <td>Basic</td>
+                <td>Ksh. <span id="basicpay"></span></td>
+            </tr>
+            <tr class="item last">
+                <td>Housing</td>
+                <td>Ksh. <span id="housing"></span></td>
+            </tr>
+            <tr class="total"><td></td><td>GROSS PAY : Ksh. <span id="grosspay"></span> </td></tr>
+            <br>
+            <tr class="heading">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="item">
+                <td>PAYE</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="item">
+                <td>NHIF</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="item">
+                <td>NSSF</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="item last">
+                <td>Advance</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="total"><td></td><td>Total Deductions : Ksh. 20,000 </td></tr>
+
+            <tr class="heading">
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class="item">
+                <td>Contributions(-)</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="item">
+                <td>Taxable Income</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="item last">
+                <td>Relief of Month(-)</td>
+                <td>Ksh. 1000</td>
+            </tr>
+            <tr class="total">
+                <td></td><td>NET PAY : Ksh. 20,000 </td>
+            </tr>
+            <tr>
+                <td>Signature</td>
+                <td>Accountant</td>
+            </tr>
+            
+            
+        </table>
+    </div>
+    <button onclick="printFunc()">Print</button>
+</body>
+<script src="static/vendor/jquery/jquery.min.js"></script>
+<script src="static/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    var id = location.hash.substr(1);
+     ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/generatepayslip/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result)
+          $("#employee_name").text(result['firstname']+" "+result['lastname']+" "+result['middlename']);
+          $("#department").text(result['department']);
+          $("#designation").text(result['designation']);
+          $("#employee_id").text(result['employee_id']);
+          $("#krapin").text(result['kra_pin']);
+          $("#nssf").text(result['nssf']);
+          $("#nhif").text(result['nhif']);
+          $("#date").text(result['date']);
+          $("#basicpay").text(result['basic_pay']);
+          $("#housing").text(result['housing']);
+          $("#grosspay").text(parseFloat(result['basic_pay'])+ parseFloat(result['housing']))
+
+          
+        } 
+      });
+</script>
+<script src="static/js/printThis.js"></script>
+<script type="text/javascript">
+    function printFunc(){
+        $("#printTable").printThis({
+            debug: false,
+            importStyle: true,
+        });
+    }
+</script>
+</html>
