@@ -43,6 +43,7 @@ class Database:
 		cursor.execute(tb.employees)
 		cursor.execute(tb.leaveHist)
 		cursor.execute(tb.leave)
+		cursor.execute(tb.payments)
 		conn.commit()
 		conn.close()
 	

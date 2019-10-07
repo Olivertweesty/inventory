@@ -4,99 +4,7 @@
     <meta charset="utf-8">
     <title>Receipt</title>
     
-    <style>
-    .invoice-box {
-        max-width: 800px;
-        margin: auto;
-        padding: 30px;
-        border: 1px solid #eee;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .15);
-        font-size: 16px;
-        line-height: 24px;
-        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-        color: #555;
-    }
-    
-    .invoice-box table {
-        width: 100%;
-        line-height: inherit;
-        text-align: left;
-    }
-    
-    .invoice-box table td {
-        padding: 5px;
-        vertical-align: top;
-    }
-    
-    .invoice-box table tr td:nth-child(2) {
-        text-align: right;
-    }
-    
-    .invoice-box table tr.top table td {
-        padding-bottom: 20px;
-    }
-    
-    .invoice-box table tr.top table td.title {
-        font-size: 45px;
-        line-height: 45px;
-        color: #333;
-    }
-    
-    .invoice-box table tr.information table td {
-        padding-bottom: 40px;
-    }
-    
-    .invoice-box table tr.heading td {
-        background: #eee;
-        border-bottom: 1px solid #ddd;
-        font-weight: bold;
-    }
-    
-    .invoice-box table tr.details td {
-        padding-bottom: 20px;
-    }
-    
-    .invoice-box table tr.item td{
-        border-bottom: 1px solid #eee;
-    }
-    
-    .invoice-box table tr.item.last td {
-        border-bottom: none;
-    }
-    
-    .invoice-box table tr.total td:nth-child(2) {
-        border-top: 2px solid #eee;
-        font-weight: bold;
-    }
-    
-    @media only screen and (max-width: 600px) {
-        .invoice-box table tr.top table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-        
-        .invoice-box table tr.information table td {
-            width: 100%;
-            display: block;
-            text-align: center;
-        }
-    }
-    
-    /** RTL **/
-    .rtl {
-        direction: rtl;
-        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-    }
-    
-    .rtl table {
-        text-align: right;
-    }
-    
-    .rtl table tr td:nth-child(2) {
-        text-align: left;
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="static/css/print.css">
 </head>
 
 <body>
@@ -106,12 +14,16 @@
                 <td colspan="2">
                     <table>
                         <tr>   
-                            
                             <td class="title" style="text-align:center">
                                 <img src="static/img/logo1.png" style="width:100px; max-width:300px;">
-                            </td>
-                            
-                    
+                            </td> 
+                        </tr>
+                        <tr>   
+                            <td style="text-align:center">
+                                The Leading Dealer In Aluminium & Glass<br>
+                                Located At 
+                                Industrial Area Off Kampala Road <br> Ashray Business Park D6
+                            </td> 
                         </tr>
                     </table>
                 </td>
@@ -125,14 +37,13 @@
                                 ZakiHila E.A LTD<br>
                                 P.O. BOX 1073 - 00100 , Nairobi<br>
                                 info@zakihila.co.ke<br>
-                                Tel :<br>
-                                Pin : 
+                                Tel : 020 8000 530 /020 8000 531 /020 8000 532 <br>
+                                K.R.A : P05180316D
                             </td>
                             
                             <td>
-                                Order #: 123<br>
-                                Date :<br>
-                                john@example.com
+                                Invoice #: <span id="orderid"></span><br>
+                                Date : <span id="dateCreated"></span><br>
                             </td>
                         </tr>
                     </table>
@@ -154,7 +65,7 @@
                     MPESA
                 </td>
                 
-                <td>
+                <td id="amount_paid">
                     1000
                 </td>
             </tr>
@@ -164,7 +75,7 @@
                     Item
                 </td>
                 <td>
-                    Price
+                    Unit Price
                 </td>
             </tr>
             
@@ -182,14 +93,18 @@
     
     var id = location.hash.substr(1);
      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        url: "http://"+window.location.hostname+":4000/getreciept/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
           var total = 0.0;
+          console.log(result)
           for(var item in result['items']){
             console.log(result['items'][item]);
-            total = total + parseFloat(result['items'][item]['selling_price'])
+            $("#orderid").text(result['orderid']);
+            $("#dateCreated").text(result['date']);
+            $("#amount_paid").text(result['total_paid']);
+            total = total + (parseFloat(result['items'][item]['selling_price']) * parseInt(result['items'][item]['quantity']))
             var txt = '<tr class="item"><td>'+result['items'][item]['product_name']+'('+result['items'][item]['quantity']+')</td><td>Ksh. '+result['items'][item]['selling_price']+'</td><tr>'
 
             $("#mytable").append(txt);
@@ -197,6 +112,10 @@
 
           var txtTotal = '<tr class="total"><td></td><td>Total: Ksh. '+total+'</td></tr>';
           $("#mytable").append(txtTotal);
+          var blank ='<tr class="heading"><td></td><td></td></tr>'
+          $("#mytable").append(blank);
+          var tax = '<tr class="item"><td>WithHolding Tax</td><td>16%</td></tr><br><br><br><br>'
+          $("#mytable").append(tax);
         } 
       });
 </script>

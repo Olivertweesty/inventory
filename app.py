@@ -54,10 +54,10 @@ def warehousepages(name):
         return render_template("pos_mpesa_payment.html")
     elif name == "cash":
         return render_template("pos_cash_payment.html")
-    elif name == "cheque":
-        return render_template("pos_cheque_payment.html")
-    elif name == "credit":
-        return render_template("pos_credit_payment.html")
+    elif name == "head_expenses":
+        return render_template("head_expenses.html")
+    elif name == "posPayments":
+        return render_template("pos_payment.html")
     elif name == "served_orders":
         return render_template("warehouse_served_orders.html")
     elif name == "stocktaking":
@@ -104,6 +104,12 @@ def warehousepages(name):
         return render_template("hr_add_employee.html")
     elif name == "leave":
         return render_template("hr_leave.html")
+    elif name == "advancesalary":
+        return render_template("hr_advance.html")
+    elif name == "payslip":
+        return render_template("hr_payslip.html")
+    elif name == "payslipPrint":
+        return render_template("payslip.html")
     else:
         return render_template("404.html")
 

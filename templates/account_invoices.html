@@ -80,12 +80,8 @@
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Expense:</h6>
-            <a class="collapse-item" href="dailyexpense">Daily</a>
-            <a class="collapse-item" href="monthlyexpense">Monthly</a>
-            <h6 class="collapse-header">Sales:</h6>
-            <a class="collapse-item" href="dailysales">Daily</a>
-            <a class="collapse-item" href="monthlysales">Monthly</a>
+            <a class="collapse-item" href="dailyexpense">Expense</a>
+            <a class="collapse-item" href="dailysales">Sales</a>
             
           </div>
         </div>
@@ -232,31 +228,12 @@
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Invoices</h1>
             <div class="form-group row">
-            <div class="input-group mb-2 col-sm-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text">From</div>
-              </div>
-              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-            </div>
-            <div class="input-group mb-2 col-sm-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text">To</div>
-              </div>
-              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-            </div>
-
-            <div class="input-group mb-2 col-sm-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text">To</div>
-              </div>
+            
+            <div class="col-sm-3">
               <select>
                 <option>POS</option>
                 <option>Accounts</option>
               </select>
-            </div>
-
-            <div class="input-group mb-2 col-sm-3">
-              <input type="submit" class="form-control btn btn-dark" value="Filter" id="inlineFormInputGroup">
             </div>
           </div>
             
@@ -399,7 +376,9 @@
         }, {
             "data" : "date"
         }, {
-            "data" : "status"
+            "data" : "total_amount"
+        }, {
+            "data" : "payment_status"
         }]
     });
 

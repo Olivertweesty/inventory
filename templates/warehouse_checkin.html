@@ -284,10 +284,14 @@
                             <div class="input-group">
                                 <input type="text" id = "unit_s_price" class="form-control" placeholder="Unit Selling Price"  aria-describedby="basic-addon2">
                             </div>
+                            <br>
+                            <div class="input-group">
+                                <input type="text" id="quantity_alert" class="form-control" placeholder="Quantity Alert Units"  aria-describedby="basic-addon2">
+                            </div>
                             
                             <br>
                             <div class="text-right">
-                                <a class="btn btn-primary col-md-4" href="#" data-toggle="modal" onclick="confirm()">Check in</a>
+                                <a class="btn btn-primary col-md-4" href="#" onclick="confirmBox()">Check in</a>
                             </div>
                         </form>
                         
@@ -360,7 +364,7 @@
         <div class="modal-body"><span id="conf_quantity">500 kg</span> of <span id="conf_name"></span></div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" onclick="submit_checkin()" href="">Yes</a>
+          <button class="btn btn-primary" onclick="submit_checkin()" >Yes</button>
         </div>
       </div>
     </div>
@@ -404,7 +408,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="" onclick="addproduct()">Add</a>
+          <button class="btn btn-primary" href="" onclick="addproduct()">Add</button>
         </div>
       </div>
     </div>
@@ -429,7 +433,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="" onclick="addmanufacturer()">Add</a>
+          <button class="btn btn-primary" onclick="addManufacturer()">Add</button>
         </div>
       </div>
     </div>
@@ -501,28 +505,30 @@
           type: "POST",
           contentType: "application/json",  
           success: function(result){
-            alert(result["response"])
+            alert(result["response"]);
+            $("#addproduct").modal('toggle');
+            retrivePdata("products_name");
               
           } 
         });
     }
 
-    function addmanufacturer(){
+    function addManufacturer(){
       
         var manufacterername = $("#manufacterername").val();
         var manufacturer = {
           manufacturer_name : manufacterername
         }
         console.log(manufacturer);
-        alert(manufacturer.manufacturer_name)
         ajaxObj = $.ajax({ 
           url: "http://"+window.location.hostname+":4000/addmanufacturername",
           data: JSON.stringify(manufacturer),
           type: "POST",
           contentType: "application/json",  
           success: function(result){
-            alert(result["response"])
-              
+            alert(result["response"]);
+            $("#addmanufacturer").modal("toggle");
+            retriveMdata("manufacterer");
           } 
         });
     }
@@ -561,8 +567,8 @@
       });
     }
 
-    retrivePdata("products_name")
-    retriveMdata("manufacterer")
+    retrivePdata("products_name");
+    retriveMdata("manufacterer");
     
 
     function Summary(from,to){
@@ -574,10 +580,10 @@
         }
     }
 
-    function confirm(){
+    function confirmBox(){
        $("#conf_quantity").text($("#quantity").val()+" "+$("#units_of_measure").children("option:selected").text());
        $("#conf_name").text($("#products_name").children("option:selected").text());
-       $("#confirmCheckinModal").modal('show');
+       $("#confirmCheckinModal").modal('toggle');
     }
 
     function submit_checkin(){
@@ -587,25 +593,21 @@
         unit_of_measument : $("#units_of_measure").val(),
         quantity: $("#quantity").val(),
         purchase_price : $("#unit_price").val(),
-        selling_price : $("#unit_s_price").val()
+        selling_price : $("#unit_s_price").val(),
+        quantity_alert : $("#quantity_alert").val()
       }
-
+      console.log(product_data);
       $.ajax({ 
         url: "http://"+window.location.hostname+":4000/checkinproducts",
         type: "POST",
         data: JSON.stringify(product_data),
         contentType: "application/json",  
         success: function(result){
-              alert(result);
-              if(result["code"] == 200){
-                Swal.fire({
-                    title: "Successful",
-                    text: "Check in successful",
-                    type: 'success',
-                    showConfirmButton: true,
-                    allowOutsideClick: false
-                  });
-              }        
+              alert(result['response']);
+              if (result['code'] == 200) {
+                location.reload();
+              }
+              
         } 
       });
     }

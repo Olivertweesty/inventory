@@ -41,9 +41,9 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="pointofsale">
+        <a class="nav-link" href="">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Main</span></a>
+          <span>Dashboard</span></a>
       </li>
 
       <!-- Divider -->
@@ -52,20 +52,36 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Payment</span>
+          <span>Employees</span>
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header"> Payment:</h6>
-            <a class="collapse-item" href="mpesa">Mpesa</a>
-            <a class="collapse-item" href="cash">Cash</a>
-            <a class="collapse-item" href="cheque">Cheque</a>
-            <a class="collapse-item" href="credit">Credit</a>
+            <a class="collapse-item" href="employees">All Employees</a>
+            <a class="collapse-item" href="add_employee">Add Employee</a>
+            
           </div>
         </div>
       </li>
 
       
+      <li class="nav-item">
+        <a class="nav-link" href="leave">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Leave Application</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="advancesalary">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Advance Application</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="payslip">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Pay Slip</span></a>
+      </li>
+
       
 
       <!-- Divider -->
@@ -139,28 +155,7 @@
                     <span class="font-weight-bold">A new monthly report is ready to download!</span>
                   </div>
                 </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
+                
                 <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
               </div>
             </li>
@@ -176,19 +171,7 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
+                
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
@@ -206,68 +189,51 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">CREDIT</h1>
+            <h1 class="h3 mb-0 text-gray-800">Advance Salary Application</h1>
+            
           </div>
-
           <!-- Content Row -->
-
           <div class="row">
 
-              <!-- Area Chart -->
-              <div class="col-xl-8 col-lg-7">
-                <div class="card shadow mb-4">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Employees Details</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="employees" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>First Name</th>
+                          <th>Middle Name</th>
+                          <th>ID Number/Passport</th>
+                          <th>Designation</th>
+                          <th>Department</th>
+                          <th>Mobile Number</th>
+                        </tr>
+                      </thead>
+                      <tbody>
                   
-                      <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary"> CREDIT PAYMENTS</h6>
-                      </div>
-                      <div class="card-body">
-                        <div class="table-responsive">
-                          <table class="table table-bordered" id="pending" width="100%" cellspacing="0">
-                            <thead>
-                              <tr>
-                                <th>ID</th>
-                                <th>Customer Name</th>
-                                <th>status</th>
-                                <th>Date Paid</th>
-                                <th>Amount</th>
-
-                              </tr>
-                            </thead>
-                            <tbody>
-                        
-                            </tbody>
-                        
-                          </table>
-                        </div>
-                      </div>
-                  </div>
-              </div>
-
-              <!-- Pie Chart -->
-              <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                  <!-- Card Header - Dropdown -->
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">DETAILS</h6>
-                  </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                    <h6 class="m-0 font-weight-bold text-primary">Status:</h6>
-                    <p id="order_id"></p>
-                    <h6 class="m-0 font-weight-bold text-primary">Customer Name:</h6>
-                    <p id="order_id"></p>
-                    <h6 class="m-0 font-weight-bold text-primary">Date Paid:</h6>
-                    <p id="order_id"></p>
-                    <h6 class="m-0 font-weight-bold text-primary">Amount:</h6>
-                    <p id="order_id"></p>
-                    <button class="col-sm-12 btn btn-primary invisible"  id="serve" data-toggle="modal" data-target="#served">Process</button>                    
+                      </tbody>
+                  
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
-            
 
+            
           </div>
+
+          <!-- Content Row -->
+          
+
+        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -313,25 +279,6 @@
     </div>
   </div>
 
-  <!-- processing Modal-->
-  <div class="modal fade" id="served" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Process An Order</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Are You sure the order has been processed fully?</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" onclick="processOrder()">Yes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -345,74 +292,39 @@
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-  <script>
-    var selected_order = 0;
-    function processOrder(){
-      alert(1)
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/processOrder/"+selected_order,
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          alert(result['response'])
-
-        } 
-      });
-    }
-    function getSingleOrder(id){
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          //alert(result)
-          $('#serve').addClass('visible');
-          $('#serve').removeClass('invisible');
-          $("#order_id").text(result['orderid'])
-
-          for(var item in result['items']){
-            console.log(result['items'][item])
-            var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'
-            $("#items").append(txt);
-            $("#items").append('<hr>');
-          }
-        } 
-      });
-    }
-
+  <script type="text/javascript">
+    
     $(document).ready(function() {
-    $('#pending').DataTable({
-        "processing" : true,
-        "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getallorders",
-            dataSrc : ''
-        },
-        "columns" : [{
-            "data" : "id"
-        }, {
-            "data" : "orderid"
-        }, {
-            "data" : "name"
-        }, {
-            "data" : "date"
-        }, {
-            "data" : "date"
-        }]
-    });
+      $('#employees').DataTable({
+          "processing" : true,
+          "ajax" : {
+              "url" :"http://"+window.location.hostname+":4000/getemployees",
+              dataSrc : ''
+          },
+          "columns" : [{
+              "data" : "id"
+          }, {
+              "data" : "firstname"
+          }, {
+              "data" : "middlename"
+          }, {
+              "data" : "id_number"
+          }, {
+              "data" : "designation"
+          }, {
+              "data" : "department"
+          }, {
+              "data" : "mobile1"
+          }]
+      });
 
-    $('#pending tbody').on( 'click', 'tr', function () {
-			var id = $(this).find("td:first").text();
-      selected_order = id;
-      getSingleOrder(id);
-		});
+      $('#employees tbody').on( 'click', 'tr', function () {
+        var id = $(this).find("td:first").text();
+        
+      });
 
-    });
-
-
-  
+      });
   </script>
-  
 
 </body>
 

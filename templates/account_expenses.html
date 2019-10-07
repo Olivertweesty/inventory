@@ -80,12 +80,8 @@
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Expense:</h6>
-            <a class="collapse-item" href="dailyexpense">Daily</a>
-            <a class="collapse-item" href="monthlyexpense">Monthly</a>
-            <h6 class="collapse-header">Sales:</h6>
-            <a class="collapse-item" href="dailysales">Daily</a>
-            <a class="collapse-item" href="monthlysales">Monthly</a>
+            <a class="collapse-item" href="dailyexpense">Expense</a>
+            <a class="collapse-item" href="dailysales">Sales</a>
             
           </div>
         </div>
@@ -264,6 +260,7 @@
                                 <th>use</th>
                                 <th>Date Created</th>
                                 <th>Amount</th>
+                                <th>Type</th>
                                 <th>Status</th>
                               </tr>
                             </thead>
@@ -338,6 +335,12 @@
           </button>
         </div>
         <div class="modal-body">
+          Type
+          <select id="expense_type" class="form-control">
+            <option value="credit">Credit</option>
+            <option value="debit">Debit</option>
+          </select>
+          <br>
           <input type="date" class="form-control" id="createdate" placeholder="Date">
           <br>
           Use
@@ -387,6 +390,8 @@
         }, {
             "data" : "amount"
         }, {
+            "data" : "type"
+        }, {
             "data" : "status"
         }]
     });
@@ -398,7 +403,8 @@
       var userdata = {
         date: $("#createdate").val(),
         amount: $("#amount").val(),
-        use: $("#phone").val()
+        use: $("#use").val(),
+        type :$("#expense_type").children('option:selected').val()
       }
       console.log(userdata);
 

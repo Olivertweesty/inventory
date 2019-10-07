@@ -28,6 +28,7 @@ products = """CREATE TABLE IF NOT EXISTS products(
                                     `unit_of_measurment` varchar(20),
                                     `selling_price` varchar(200),
                                     `quantity` int(200),
+                                    `quantity_alert` int(200),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
@@ -57,13 +58,32 @@ orders = """CREATE TABLE IF NOT EXISTS orders(
                                     `id` int(20) AUTO_INCREMENT,
                                     `orderid` varchar(40) NOT NULL,
                                     `items` varchar(2000) NOT NULL,
-                                    `payment_type` varchar(20),
                                     `date` varchar(20),
                                     `customer_id` varchar(20),
                                     `transport` varchar(20),
                                     `discount` varchar(20),
-                                    `status` varchar(20),
+                                    `checkout_status` varchar(20),
+                                    `payment_status` varchar(20),
+                                    `total_amount` varchar(200),
+                                    `total_paid` varchar(200),
+                                    `serve_status` varchar(20),
+                                    `payment_type` varchar(20),
                                     `date_served` varchar(20),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+
+payments = """CREATE TABLE IF NOT EXISTS payments(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `invoice_id` varchar(40) NOT NULL,
+                                    `amount` varchar(40) NOT NULL,
+                                    `customer_id` varchar(50) NOT NULL,
+                                    `payment_type` varchar(40) NOT NULL,
+                                    `date_paid` varchar(40) NOT NULL,
+                                    `date_confirmed` varchar(40),
+                                    `served_by` varchar(40) NOT NULL,
+                                    `details` varchar(2000),
+                                    `confirmed` varchar(30),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
@@ -79,6 +99,7 @@ expenses = """CREATE TABLE IF NOT EXISTS expenses(
                                     `date` varchar(50) NOT NULL,
                                     `use` varchar(2000) NOT NULL,
                                     `amount` varchar(50) NOT NULL,
+                                    `type` varchar(20) NOT NULL,
                                     `status` varchar(50) NOT NULL,
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
@@ -88,6 +109,10 @@ employees = """CREATE TABLE IF NOT EXISTS employees(
                                     `firstname` varchar(20) NOT NULL,
                                     `middlename` varchar(20) NOT NULL,
                                     `lastname` varchar(20) NOT NULL,
+                                    `basic_pay` varchar(20) NOT NULL,
+                                    `employee_id` varchar(20) NOT NULL,
+                                    `nssf` varchar(20) NOT NULL,
+                                    `nhif` varchar(20) NOT NULL,
                                     `id_number` varchar(10),
                                     `identification` varchar(20),
                                     `expirydate` varchar(20),
@@ -110,7 +135,6 @@ employees = """CREATE TABLE IF NOT EXISTS employees(
 leave = """CREATE TABLE IF NOT EXISTS leaveDays(
                                     `id` int(20) AUTO_INCREMENT,
                                     `employeeID` int(20),
-                                    `sick_leave` varchar(10),
                                     `annual_leave` varchar(10),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
@@ -120,7 +144,6 @@ leaveHist = """CREATE TABLE IF NOT EXISTS leaveHistory(
                                     `employeeID` int(20),
                                     `startdate` varchar(20),
                                     `enddate` varchar(20),
-                                    `leave_type` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
@@ -134,5 +157,5 @@ selectdamaged = """SELECT m.manufacterer,p.product_name,d.quantity,d.date FROM d
 
 selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.status = '{}'"
 selectProductnameById = "SELECT p.product_name, n.selling_price FROM products AS n JOIN products_name AS p WHERE n.product_name = p.id AND n.id ='{}'"
-selectAllOrders = "SELECT o.id, o.orderid, o.date, c.name,o.status FROM orders as o JOIN customers as c WHERE c.id = o.customer_id"
+selectAllOrders = "SELECT o.id, o.orderid, o.date, c.name,o.checkout_status,o.payment_status,o.total_amount FROM orders as o JOIN customers as c WHERE c.id = o.customer_id"
 selectTransactions = "SELECT t.*,p.product_name,p.manufacturer FROM transactions AS t JOIN products AS p WHERE t.product_id = p.id"

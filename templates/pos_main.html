@@ -46,27 +46,12 @@
           <span>Main</span></a>
       </li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-      <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Payment</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header"> Payment:</h6>
-            <a class="collapse-item" href="mpesa">Mpesa</a>
-            <a class="collapse-item" href="cash">Cash</a>
-            <a class="collapse-item" href="cheque">Cheque</a>
-            <a class="collapse-item" href="credit">Credit</a>
-          </div>
-        </div>
+        <a class="nav-link" href="posPayments">
+          <i class="fas fa-fw fa-dollar-sign"></i>
+          <span>Payments</span></a>
       </li>
-
-    
-
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="posorders">
@@ -332,7 +317,7 @@
         </div>
         <div class="modal-body">
           <div class="table-responsive">
-            <table class="table table-bordered" id="checkoutproducts" width="100%" cellspacing="0">
+            <table class="table table-bordered"  width="100%" cellspacing="0">
               <thead>
                 <tr>
                   <th>Product Name</th>
@@ -340,7 +325,7 @@
                   <th>Unit Price</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="checkoutproducts">
           
               </tbody>
           
@@ -359,7 +344,7 @@
           <p style="font-size: 15px;" id="item_name">Payment Method</p>
           <div class="row">
             <div class="col-sm-4">
-              <select class="form-control" id="payment" styles="height:30px">
+              <select class="form-control" id="payment" onchange=" paymentmethods(event)" styles="height:30px">
                 <option>Mpesa</option>
                 <option>Cash</option>
                 <option>Cheque</option>
@@ -370,10 +355,11 @@
               <input type="Number" class="form-control" id="amount" placeholder="Amount">
             </div>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="amount" placeholder="Cheque No /Confirmation">
+              <input type="text" class="form-control" id="payment_code" placeholder="Cheque No /Confirmation">
             </div>
           </div>
-          <p style="font-size: 15px;" id="item_name">Others</p>
+          <p style="font-size: 15px;" id="others">Others</p>
+          <input type="text" class="invisible" id="total">
           <div class="row">
             <div class="col-sm-4">
               <input type="text" class="form-control" id="transport" placeholder="Transport">
@@ -382,13 +368,13 @@
               <input type="text" class="form-control" id="discount" placeholder="Discount">
             </div>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="" value="16%" placeholder="Tax" disabled>
+              <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="" onclick="submitOrder()">Process</a>
+          <button class="btn btn-primary" onclick="submitOrder()">Process</button>
         </div>
       </div>
     </div>
@@ -448,6 +434,24 @@
         $("#addcustomerModal").modal('show');
       }else{
         //$("#Summary_name").text($("#products_name").children("option:selected").text())
+      }
+    }
+
+    function paymentmethods(evt){
+      if (evt.target.value === "Credit") {
+        $("#amount").hide();
+        $("#payment_code").hide();
+        $("#withholding_tax").hide();
+        $("#discount").hide();
+        $("#transport").hide();
+        $("#others").hide();
+      }else{
+        $("#amount").show();
+        $("#payment_code").show();
+        $("#withholding_tax").show();
+        $("#discount").show();
+        $("#transport").show();
+        $("#others").show();
       }
     }
 
@@ -584,14 +588,32 @@
   </script>
 
   <script>
+    function hidepayment(){
+        $("#payment").hide();
+        $("#amount").hide();
+        $("#payment_code").hide();
+        $("#withholding_tax").hide();
+        $("#discount").hide();
+        $("#transport").hide();
+        $("#others").hide();
+    }
     function showcheckout(){
       $("#checkoutmodal").modal('show');
-      $("#checkoutmodal tr").remove();
-      //$("#checkoutproducts").append('<tr><td></td><td></td><td></td></tr>');
+      //$("#checkoutmodal tr").remove();
+      $("#checkoutproducts").empty();
+      var total = 0.0;
       for(var key in items){
         $("#checkoutproducts").append('<tr><td>'+items[key].name+'</td><td>'+items[key].quantity+'</td><td>Ksh. '+items[key].price+'</td></tr>');
-        console.log(key);
+        total = total + (parseFloat(items[key].price) * parseInt(items[key].quantity))
       }
+      $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td>Ksh. '+total+'</td></tr>');
+      if(parseFloat(total)<100001){
+        $("#total").val("served");
+      }else{
+        $("#total").val("pending");
+        hidepayment();
+      }
+      
     }
   </script>
 
@@ -653,7 +675,9 @@
         payment: $("#payment").val(),
         customer_id : $("#customerdetails").val(),
         discount : $("#discount").val(),
-        transport : $("#transport").val()
+        transport : $("#transport").val(),
+        amount_paid : $("#amount").val(),
+        serve_status : $("#total").val()
       }
       console.log(orderdata)
       
@@ -663,9 +687,16 @@
           type: "POST",
           contentType: "application/json",  
           success: function(result){
+
             var url = "http://"+window.location.hostname+":4000/receipt#"+result['id'];
              alert(result["response"]);
-            window.open(url,"_blank");
+             if($("#total").val() == "served"){
+              window.open(url,"_blank");
+            }else{
+              alert("Please Proceed to The Finance Office");
+              ("#checkoutmodal").modal('toggle');
+            }
+            
            
           } 
       });

@@ -71,9 +71,15 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="manageusers">
+        <a class="nav-link" href="advancesalary">
           <i class="fas fa-fw fa-table"></i>
           <span>Advance Application</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="payslip">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Pay Slip</span></a>
       </li>
 
       
@@ -285,16 +291,9 @@
         </div>
         <div class="modal-body">
           <h6>NAME: <span id="employee" style="color: black"></span></h6>
-          <h6>No. Of Days Due(Sick Leave): <span id="sick" style="color: black"></span></h6>
-          <h6>No. Of Days Due(Annual Leave): <span id="annual" style="color: black"></span></h6>
+          
+          <h6>No. Of Days Due : <span id="annual" style="color: black"></span></h6>
           <form>
-            <div class="form-group">
-              <label class="required">LEAVE:</label>
-              <select class="form-control" id="leavetype">
-                <option>Sick</option>
-                <option>Annual</option>
-              </select>
-            </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Start Date:</label>
@@ -302,16 +301,16 @@
               </div>
               <div class="form-group col-md-6">
                 <label>End Date:</label>
-                <input type="date" class="form-control" id="enddate" placeholder="End Date" required>
+                <input type="date" class="form-control" id="enddate" onchange="getdate(event)" placeholder="End Date" required>
               </div>
             </div>
           </form>
-          <h6>Days Soughted:</h6>
+          <h6>Days Soughted: <span id="days" style="color: black"></span></h6>
           
         </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" >Save</button>
+          <button class="btn btn-primary" onclick="applyleave()">Save</button>
         </div>
       </div>
     </div>
@@ -331,6 +330,28 @@
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script type="text/javascript">
+    var now = new Date();
+
+    var day = ("0" + (now.getDate()+1)).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+    $('#startdate').val(today);
+
+    function getdate(evt){
+      var start = new Date($('#startdate').val());
+      var end = new Date(evt.target.value);
+      // To calculate the time difference of two dates 
+      var Difference_In_Time = end.getTime() - start.getTime(); 
+        
+      // To calculate the no. of days between two dates 
+      var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+      console.log(Difference_In_Days);
+      $("#days").text(Difference_In_Days);
+    }
+
+    var id = 0;
     
     $(document).ready(function() {
     
@@ -363,7 +384,6 @@
             type: "GET",
             contentType: "application/json",  
             success: function(result){
-              $("#sick").text(result[0]['sick_leave']);
               $("#annual").text(result[0]['annual_leave']);
 
             } 
@@ -371,7 +391,7 @@
       }
 
       $('#employees tbody').on( 'click', 'tr', function () {
-        var id = $(this).find("td:first").text();
+        id = $(this).find("td:first").text();
         var firstname = $(this).find("td:nth-child(2)").text();
         var middlename = $(this).find("td:nth-child(3)").text();
         $("#employee").text(firstname+" "+middlename);
@@ -379,7 +399,38 @@
         $("#leaveModal").modal("show"); 
       });
 
+
+
       });
+
+    function applyleave(){
+        var leaveData = {
+          employeeid : id,
+          startdate : $("#startdate").val(),
+          enddate : $("#enddate").val(),
+          days_sought : $("#days").text(),
+        }
+        console.log(leaveData);
+        if(parseInt($("#days").text()) <= 0){
+          alert("Leave Days Must Be Greater Than 0");
+        }else if(parseInt($("#days").text()) >= parseInt($("#annual").text())){
+          alert("The Remaining Leave Days are "+$("#annual").text())
+        }else{
+          var conf = confirm("Please Confirm The "+$("#days").text()+" days Leave to The employee");
+          if (conf == true) { 
+            ajaxObj = $.ajax({ 
+              url: "http://"+window.location.hostname+":4000/applyleave",
+              data : JSON.stringify(leaveData),
+              type: "POST",
+              contentType: "application/json",  
+              success: function(result){
+               
+                  alert(result['response']);
+              } 
+            });
+          }
+        }
+    }
   </script>
 
 </body>

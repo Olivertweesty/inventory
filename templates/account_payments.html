@@ -80,12 +80,8 @@
         </a>
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Expense:</h6>
-            <a class="collapse-item" href="dailyexpense">Daily</a>
-            <a class="collapse-item" href="monthlyexpense">Monthly</a>
-            <h6 class="collapse-header">Sales:</h6>
-            <a class="collapse-item" href="dailysales">Daily</a>
-            <a class="collapse-item" href="monthlysales">Monthly</a>
+            <a class="collapse-item" href="dailyexpense">Expense</a>
+            <a class="collapse-item" href="dailysales">Sales</a>
             
           </div>
         </div>
@@ -247,13 +243,13 @@
                 </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="payments" width="100%" cellspacing="0">
                             <thead>
                               <tr>
-                                <th>Expense Number</th>
-                                <th>Reason</th>
-                                <th>Date Created</th>
+                                <th>Invoice Number</th>
+                                <th>Payment Type</th>
                                 <th>Amount</th>
+                                <th>Transaction Date</th>
                                 <th>Status</th>
                               </tr>
                             </thead>
@@ -326,7 +322,39 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+  <script type="text/javascript">
+    $(document).ready(function() {
+    $('#payments').DataTable({
+        "processing" : true,
+        "ajax" : {
+            "url" :"http://"+window.location.hostname+":4000/payments/pos",
+            dataSrc : ''
+        },
+        "columns" : [{
+            "data" : "invoice_id"
+        }, {
+            "data" : "payment_type"
+        }, {
+            "data" : "amount"
+        }, {
+            "data" : "date_paid"
+        }, {
+            "data" : "confirmed"
+        }]
+    });
+
+    $('#pending tbody').on( 'click', 'tr', function () {
+      var id = $(this).find("td:first").text();
+      selected_order = id;
+      getSingleOrder(id);
+    });
+
+    });
+  </script>
 
 </body>
 

@@ -78,9 +78,15 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="manageusers">
+        <a class="nav-link" href="advancesalary">
           <i class="fas fa-fw fa-table"></i>
           <span>Advance Application</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="payslip">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Pay Slip</span></a>
       </li>
 
       
@@ -222,6 +228,20 @@
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-4">
+                        <label for="inputEmail4" class="required">Employee ID</label>
+                        <input type="text" class="form-control" id="employeeID" placeholder="Employee ID" disabled>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputPassword4" class="required">Basic Pay</label>
+                        <input type="text" class="form-control" id="basicpay" placeholder="Basic Pay" required>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputPassword4" class="required">NHIF Number</label>
+                        <input type="text" class="form-control" id="nhif" placeholder="NHIF Number" required>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-4">
                         <label class="required">Identification Document</label>
                         <select class="form-control" id="identification" onchange="changedoc(event)">
                           <option>ID Card</option>
@@ -246,6 +266,10 @@
                         <label for="inputPassword4">Huduma Number</label>
                         <input type="text" class="form-control" id="huduma_number" placeholder="Huduma Number" required>
                       </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputPassword4" class="required">NSSF Number</label>
+                        <input type="text" class="form-control" id="nssf" placeholder="NSSF Number" required>
+                      </div>
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-4">
@@ -254,11 +278,11 @@
                       </div>
                       <div class="form-group col-md-4">
                         <label for="inputPassword4"  class="required">Tel. Number 1</label>
-                        <input type="text" class="form-control" id="tel_number_1" placeholder="Huduma Number" required>
+                        <input type="text" class="form-control" id="tel_number_1" placeholder="Mobile Number" required>
                       </div>
                       <div class="form-group col-md-4">
                         <label for="inputPassword4">Tel. Number 2</label>
-                        <input type="text" class="form-control" id="tel_number_2" placeholder="Huduma Number" required>
+                        <input type="text" class="form-control" id="tel_number_2" placeholder="Mobile Number">
                       </div>
                     </div>
                     <div class="form-row">
@@ -302,7 +326,7 @@
                       </div>
                       <div class="form-group col-md-4">
                         <label for="inputPassword4">Tel. Number 1</label>
-                        <input type="text" class="form-control" id="n_tel_num2" placeholder="Tel. Number" required>
+                        <input type="text" class="form-control" id="n_tel_num2" placeholder="Tel. Number">
                       </div>
                     </div>
                     <div class="text-right">
@@ -377,6 +401,14 @@
   <script src="static/js/sb-admin-2.min.js"></script>
 
   <script type="text/javascript">
+    var now = new Date();
+    var day = ("0" + (now.getDate()+1)).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var hours = ("0" + (now.getHours())).slice(-2);
+    var minutes = ("0" + (now.getMinutes())).slice(-2);
+    var today = "ZHKL-"+(hours)+""+(minutes)+""+(month)+""+(day)+"/"+now.getFullYear();
+    console.log(today);
+    $("#employeeID").val(today)
     function changedoc(evnt){
       if (evnt.target.value === "ID Card") {
         $("#expiry").addClass('invisible');
@@ -400,6 +432,10 @@
      
       e.preventDefault();
       var data = {
+        employeeID : $("#employeeID").val(),
+        nssf : $("#nssf").val(),
+        nhif : $("#nhif").val(),
+        basicpay : $("#basicpay").val(),
         firstname: $("#firstname").val(),
         middlename : $("#middlename").val(),
         lastname : $("#lastname").val(),
