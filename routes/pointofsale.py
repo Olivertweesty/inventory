@@ -103,7 +103,7 @@ def getallPosorders():
 
 @routes.route('/cancelOrder/<id>', methods = ['POST','GET'])
 def cancelOrder(id):
-    sql = "UPDATE orders SET status='cancelled' WHERE id = '{}'".format(id)
+    sql = "UPDATE orders SET checkout_status='cancelled' WHERE id = '{}'".format(id)
     response = db.updaterecords(sql)
     if response:
         return jsonify({"response":"Order Cancelled successfully","code":200})

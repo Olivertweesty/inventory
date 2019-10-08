@@ -44,6 +44,8 @@ class Database:
 		cursor.execute(tb.leaveHist)
 		cursor.execute(tb.leave)
 		cursor.execute(tb.payments)
+		cursor.execute(tb.misseddays)
+		cursor.execute(tb.advance)
 		conn.commit()
 		conn.close()
 	

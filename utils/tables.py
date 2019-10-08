@@ -136,6 +136,8 @@ leave = """CREATE TABLE IF NOT EXISTS leaveDays(
                                     `id` int(20) AUTO_INCREMENT,
                                     `employeeID` int(20),
                                     `annual_leave` varchar(10),
+                                    `maternity_leave` varchar(10),
+                                    `paternity_leave` varchar(10),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
@@ -144,6 +146,30 @@ leaveHist = """CREATE TABLE IF NOT EXISTS leaveHistory(
                                     `employeeID` int(20),
                                     `startdate` varchar(20),
                                     `enddate` varchar(20),
+                                    `type` varchar(20),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+
+
+misseddays = """CREATE TABLE IF NOT EXISTS missingdays(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `employeeID` int(20),
+                                    `startdate` varchar(20),
+                                    `enddate` varchar(20),
+                                    `number_of_days` varchar(20),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+
+
+advance = """CREATE TABLE IF NOT EXISTS advance(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `employeeID` int(20),
+                                    `amount` varchar(20),
+                                    `cashout` varchar(20),
+                                    `status` varchar(20),
+                                    `date_given` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
@@ -155,7 +181,7 @@ selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
 selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price,ap.quantity FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
 selectdamaged = """SELECT m.manufacterer,p.product_name,d.quantity,d.date FROM damages AS d JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = d.product_id AND m.id = d.manufacterer_id"""
 
-selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.status = '{}'"
+selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.checkout_status = '{}'"
 selectProductnameById = "SELECT p.product_name, n.selling_price FROM products AS n JOIN products_name AS p WHERE n.product_name = p.id AND n.id ='{}'"
 selectAllOrders = "SELECT o.id, o.orderid, o.date, c.name,o.checkout_status,o.payment_status,o.total_amount FROM orders as o JOIN customers as c WHERE c.id = o.customer_id"
 selectTransactions = "SELECT t.*,p.product_name,p.manufacturer FROM transactions AS t JOIN products AS p WHERE t.product_id = p.id"

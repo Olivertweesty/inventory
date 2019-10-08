@@ -44,7 +44,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="warehouse">
+        <a class="nav-link" href="management">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -60,10 +60,9 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
-            <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
-            <a class="collapse-item" href="warehouse_damage">Report Damage</a>
-            <a class="collapse-item" href="warehouse_allproducts">All Products</a>
-            <a class="collapse-item" href="warehousetransactions">Check In Transaction</a>
+            <a class="collapse-item" href="head_all_products">All Products</a>
+            <a class="collapse-item" href="head_damaged">Damaged Products</a>
+            
           </div>
         </div>
       </li>
@@ -78,18 +77,40 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Orders:</h6>
-            <a class="collapse-item" href="pending_orders">Pending</a>
-            <a class="collapse-item" href="served_orders">Served</a>
+            <a class="collapse-item" href="head_pending_orders">Pending</a>
+            <a class="collapse-item" href="head_served_orders">Served</a>
+            <a class="collapse-item" href="">Payed</a>
             
           </div>
         </div>
       </li>
 
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-fw fa-folder"></i>
+          <span>Report</span>
+        </a>
+        <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Sales:</h6>
+            <a class="collapse-item" href="dailyreport">Daily</a>
+            <a class="collapse-item" href="monthlyreport">Monthly</a>
+            
+          </div>
+        </div>
+      </li>
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="stocktaking">
+        <a class="nav-link" href="head_expenses">
           <i class="fas fa-fw fa-table"></i>
-          <span>Stock Taking</span></a>
+          <span>Expenses</span></a>
+      </li>
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="manageusers">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Manage users</span></a>
       </li>
 
       <!-- Divider -->
@@ -480,8 +501,10 @@
       
       if (evt.target.value === "Add Product") {
         $("#addproduct").modal('show');
+        $("#products_name").val("Product Name").prop('selected', true);
+        $("#productname").val("");
       }else{
-        $("#Summary_name").text($("#products_name").children("option:selected").text())
+        $("#Summary_name").text($("#products_name").children("option:selected").text());
       }
     }
 
@@ -489,6 +512,8 @@
       
       if (evt.target.value === "Add Manufacturer") {
         $("#addmanufacturer").modal('show');
+        $("#manufacterer").val("Manufacturer Name").prop('selected', true);
+        $("#manufacterername").val("");
       }
     }
   </script>
@@ -508,6 +533,7 @@
             alert(result["response"]);
             $("#addproduct").modal('toggle');
             retrivePdata("products_name");
+
               
           } 
         });
@@ -529,6 +555,7 @@
             alert(result["response"]);
             $("#addmanufacturer").modal("toggle");
             retriveMdata("manufacterer");
+
           } 
         });
     }

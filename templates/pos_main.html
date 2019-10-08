@@ -341,10 +341,24 @@
             </div>
             
           </div>
+          <p style="font-size: 15px;" id="others">Others</p>
+          <input type="text" class="invisible" style="display: none;" id="total">
+          <div class="row">
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="transport" placeholder="Transport">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="discount" placeholder="Discount">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
+            </div>
+          </div>
           <p style="font-size: 15px;" id="item_name">Payment Method</p>
           <div class="row">
             <div class="col-sm-4">
               <select class="form-control" id="payment" onchange=" paymentmethods(event)" styles="height:30px">
+                <option>Payment Method</option>
                 <option>Mpesa</option>
                 <option>Cash</option>
                 <option>Cheque</option>
@@ -356,19 +370,6 @@
             </div>
             <div class="col-sm-4">
               <input type="text" class="form-control" id="payment_code" placeholder="Cheque No /Confirmation">
-            </div>
-          </div>
-          <p style="font-size: 15px;" id="others">Others</p>
-          <input type="text" class="invisible" id="total">
-          <div class="row">
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="transport" placeholder="Transport">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="discount" placeholder="Discount">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
             </div>
           </div>
         </div>
@@ -665,9 +666,43 @@
 
     function submitOrder(){
       var products = []
+      var total_cost = 0.0;
       for(var key in items){
         var pr = {item : items[key].id, quantity : items[key].quantity,price:items[key].price}
+        total_cost = total_cost + (parseFloat(items[key].price) * parseInt(items[key].quantity));
         products.push(pr);
+      }
+
+      if ( $("#payment").val() =="Credit") {
+        $("#total").val("pending")
+      }else{
+
+
+
+        
+
+        if($("#payment").val() == "Payment Method"){
+          alert("Please Select Payment Method");
+          return
+        }
+
+
+
+        if($("#amount").val() == ""){
+          alert("Please Enter Amount");
+          return
+        }else{
+          if ($("#amount").val()< total_cost) {
+            alert("Please Enter Correct Amount");
+          return
+          }
+        }
+
+      }
+
+      if ($("#customerdetails").val() == "Select Customer" || $("#customerdetails").val() == "Add Customer") {
+          alert("Please Select Customer");
+          return
       }
 
       var orderdata = {
@@ -694,7 +729,7 @@
               window.open(url,"_blank");
             }else{
               alert("Please Proceed to The Finance Office");
-              ("#checkoutmodal").modal('toggle');
+              $("#checkoutmodal").modal('toggle');
             }
             
            

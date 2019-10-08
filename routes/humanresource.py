@@ -41,7 +41,7 @@ def addemployees():
 	responseISD = db.selectAllFromtables(sqlID)
 
 	employeeid = responseISD[0]['MAX(id)']
-	sql2 = "INSERT INTO leaveDays VALUES(0,%s,'15')"
+	sql2 = "INSERT INTO leaveDays VALUES(0,%s,'15','90','7')"
 	db.insertDataToTable(sql2,employeeid)
 	if reponse:
 		return jsonify({"response":"successful added employee","code":200})
@@ -51,6 +51,19 @@ def addemployees():
 @routes.route("/getemployees",methods=['GET'])
 def getemployees():
 	sql = "SELECT * FROM employees"
+	response = db.selectAllFromtables(sql)
+	return jsonify(response)
+
+@routes.route("/getemployeesleaves",methods=['GET'])
+def getemployeesleaves():
+	sql = "SELECT * FROM employees AS e JOIN leaveDays as l WHERE e.id = l.employeeID"
+	response = db.selectAllFromtables(sql)
+	return jsonify(response)
+
+@routes.route("/getemployeesmissing",methods=['GET'])
+def getemployeesmissing():
+	sql = """SELECT e.id,e.firstname,e.middlename,e.id_number, SUM(m.number_of_days) as number_of_days
+			 FROM employees AS e JOIN missingdays as m WHERE e.id = m.employeeID"""
 	response = db.selectAllFromtables(sql)
 	return jsonify(response)
 
@@ -65,13 +78,14 @@ def applyleave():
 	employeeID = str(request.json.get("employeeid"))
 	startdate = str(request.json.get("startdate"))
 	enddate = str(request.json.get("enddate"))
+	leaveType = str(request.json.get("type"))
 	days_sought = int(request.json.get("days_sought"))
-	sql = "INSERT INTO leaveHistory VALUES(0,%s,%s,%s)"
-	db.insertDataToTable(sql,employeeID,startdate,enddate)
-	sql2 = "SELECT annual_leave FROM leaveDays WHERE employeeID = '{}'".format(employeeID)
+	sql = "INSERT INTO leaveHistory VALUES(0,%s,%s,%s,%s)"
+	db.insertDataToTable(sql,employeeID,startdate,enddate,leaveType)
+	sql2 = "SELECT * FROM leaveDays WHERE employeeID = '{}'".format(employeeID)
 	response = db.selectAllFromtables(sql2)
-	days_due = int(response[0]['annual_leave']) - days_sought
-	sql = "UPDATE leaveDays SET annual_leave='{}' WHERE id = '{}'".format(days_due,employeeID)
+	days_due = int(response[0][leaveType]) - days_sought
+	sql = "UPDATE leaveDays SET {}='{}' WHERE id = '{}'".format(leaveType,days_due,employeeID)
 	response = db.updaterecords(sql)
 	if response:
 		return jsonify({"response":"Leave successful Applied","code":200})
@@ -88,3 +102,40 @@ def generatepayslip(id):
 	response['date'] = dt
 	response['housing'] = 0
 	return jsonify(response)
+
+@routes.route("/reportmissing", methods = ['POST','GET'])
+def reportmissing():
+	employeeid = str(request.json.get("employeeid"))
+	startdate = str(request.json.get("startdate"))
+	enddate = str(request.json.get("enddate"))
+	missed = str(request.json.get("missed"))
+	sql = "INSERT INTO missingdays VALUES(0,%s,%s,%s,%s)"
+	response = db.insertDataToTable(sql,employeeid,startdate,enddate,missed)
+	if response:
+		return jsonify({"response":"Reporting successful","code":200})
+	else:
+		return jsonify({"response":"Reporting Failed","code":300})
+
+
+
+@routes.route("/applyadvance", methods = ['POST','GET'])
+def applyadvance():
+	employeeid = str(request.json.get("employeeid"))
+	amount = str(request.json.get("amount"))
+	dateTimeObj = datetime.now()
+	dateT = dateTimeObj.strftime("%b-%d-%Y %H:%M:%S")
+	sql = "INSERT INTO advance VALUES(0,%s,%s,%s,%s,%s)"
+	response = db.insertDataToTable(sql,employeeid,amount,"Not Cashed Out","Not Deducted",dateT)
+	if response:
+		return jsonify({"response":"Advance salary Application successful","code":200})
+	else:
+		return jsonify({"response":"Advance salary Application Failed","code":300})
+
+
+
+@routes.route("/getemployeesadvance",methods=['GET'])
+def getemployeesadvance():
+	sql = """SELECT e.id,e.firstname,e.middlename,e.id_number, SUM(m.amount) as amount
+			 FROM employees AS e JOIN advance as m WHERE e.id = m.employeeID AND m.status ='Not Deducted'"""
+	response = db.selectAllFromtables(sql)
+	return jsonify(response)	

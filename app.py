@@ -50,8 +50,8 @@ def warehousepages(name):
         return render_template("warehouse_stocktaking.html")
     elif name == "pending_orders":
         return render_template("warehouse_pending_order.html")
-    elif name == "mpesa":
-        return render_template("pos_mpesa_payment.html")
+    elif name == "missing":
+        return render_template("hr_missing.html")
     elif name == "cash":
         return render_template("pos_cash_payment.html")
     elif name == "head_expenses":
