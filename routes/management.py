@@ -4,6 +4,7 @@ from utils.Database import Database
 import utils.tables as tb
 from flask import jsonify
 from flask import request
+import requests
 import json
 from datetime import datetime
 
@@ -20,24 +21,27 @@ def getItemNameByID(id):
     return response[0]
 @routes.route("/getsystemusers", methods = ["POST","GET"])
 def getSystemUsers():
-    sql = "SELECT id, name, email,phone,access_rights,username FROM users"
+    sql = "SELECT u.id, e.firstname,u.phone,u.access_rights,u.username FROM users AS u JOIN employees AS e ON u.userid = e.id"
     response = db.selectAllFromtables(sql)
     return jsonify(response)
 
-
 @routes.route("/addsystemuser", methods = ["POST","GET"])
 def addSystemUsers():
+	userid = str(request.json.get("userid"))
 	username = str(request.json.get("username"))
-	name = str(request.json.get("full_name"))
 	phone = str(request.json.get("phone"))
 	access_rights = str(request.json.get("access_rights"))
 	password = str(request.json.get("password"))
-	gender = str(request.json.get("gender"))
-	email = str(request.json.get("email"))
-    
-	sql = "INSERT INTO users VALUES(0,%s,%s,%s,%s,%s,%s,%s)"
-	reponse = db.insertDataToTable(sql,name,email,username,access_rights,phone,gender,password)
+
+	data = {
+		"message":"You Have been Registered as system user use The follwing Cridentials to log in\nUsername : {} \nPassword: {}\n You can Access :{}".format(username,password,access_rights),
+		"phone_number":phone
+	}
+	url = "https://backend.security.riwaa.co.ke/api/sendSmsTest"
+	sql = "INSERT INTO users VALUES(0,%s,%s,%s,%s,%s)"
+	reponse = db.insertDataToTable(sql,userid,username,access_rights,phone,password)
 	if reponse:
+		requests.post(url,json=data)
 		return jsonify({"response":"successful added user","code":200})
 	else:
 		return jsonify({"response":"failed to add user","code":300})

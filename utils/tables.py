@@ -1,11 +1,9 @@
 appusers = """CREATE TABLE IF NOT EXISTS users(
                                     `id` int(11) AUTO_INCREMENT,
-                                    `name` varchar(200) NOT NULL,
-                                    `email` varchar(70) NOT NULL,
+                                    `userid` varchar(70) NOT NULL,
                                     `username` varchar(20) NOT NULL,
                                     `access_rights` varchar(300) NOT NULL,
                                     `phone` varchar(20),
-                                    `gender` varchar(20),
                                     `password` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
@@ -185,3 +183,4 @@ selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN cus
 selectProductnameById = "SELECT p.product_name, n.selling_price FROM products AS n JOIN products_name AS p WHERE n.product_name = p.id AND n.id ='{}'"
 selectAllOrders = "SELECT o.id, o.orderid, o.date, c.name,o.checkout_status,o.payment_status,o.total_amount FROM orders as o JOIN customers as c WHERE c.id = o.customer_id"
 selectTransactions = "SELECT t.*,p.product_name,p.manufacturer FROM transactions AS t JOIN products AS p WHERE t.product_id = p.id"
+selectAllAccountsOrders = "SELECT o.id, o.orderid, o.date, c.name,o.checkout_status,o.payment_status,o.total_amount FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.serve_status = '{}'"

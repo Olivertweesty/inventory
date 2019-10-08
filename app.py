@@ -23,14 +23,20 @@ def login():
     service = request.form.get("service")
     values = db.selectSpecificItemsFromDb("users","AND",username = username,password = password)
     if len(values) == 0:
-        return redirect(url_for("main"))
+        return redirect(url_for("main",message = "User Not Registered On A System"))
     elif service not in values[0]["access_rights"].split(","):
-        return redirect(url_for("main"))
+        return redirect(url_for("main",message = "User Does Not Have Rights to access {}".format(service)))
     else:
         if service == "warehouse":
             return redirect(url_for("routes.warehouse"))
         elif service == "pointofsale":
             return redirect(url_for("routes.pointofsale"))
+        elif service == "accounting":
+            return redirect(url_for("routes.account"))
+        elif service == "humanresource":
+            return redirect(url_for("routes.humanresource"))
+        elif service == "admin":
+            return redirect(url_for("routes.management"))
         else:
             return str(values)
 
@@ -82,8 +88,10 @@ def warehousepages(name):
         return render_template("head_served_order.html")
     elif name == "receipt":
         return render_template("receipt.html")
-    elif name == "invoices":
+    elif name == "invoiceserved":
         return render_template("account_invoices.html")
+    elif name == "invoicespending":
+        return render_template("account_invoicespending.html")
     elif name == "expenses":
         return render_template("account_expenses.html")
     elif name == "payments":
@@ -96,8 +104,6 @@ def warehousepages(name):
         return render_template("account_monthly_sales.html")
     elif name == "dailysales":
         return render_template("account_daily_sales.html")
-    elif name == "humanresource":
-        return render_template("hr_dashboard.html")
     elif name == "employees":
         return render_template("hr_employees.html")
     elif name == "add_employee":

@@ -234,7 +234,16 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Payments</h1>
+            <h1 class="h3 mb-0 text-gray-800">Pending Invoices</h1>
+            <div class="form-group row">
+            
+            <div class="col-sm-3">
+              <select>
+                <option>POS</option>
+                <option>Accounts</option>
+              </select>
+            </div>
+          </div>
             
           </div>
 
@@ -247,17 +256,19 @@
                   
                       <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Payment Details</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Invoice Details</h6>
+                  
                 </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="table table-bordered" id="payments" width="100%" cellspacing="0">
+                          <table class="table table-bordered" id="invoiceTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
+                                <th>ID</th>
                                 <th>Invoice Number</th>
-                                <th>Payment Type</th>
+                                <th>Client</th>
+                                <th>Date Created</th>
                                 <th>Amount</th>
-                                <th>Transaction Date</th>
                                 <th>Status</th>
                               </tr>
                             </thead>
@@ -321,6 +332,76 @@
     </div>
   </div>
 
+  <!-- process Order Credit Modal-->
+  <div class="modal fade" id="creditProcess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Process Invoice</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="invoicenumber"></p>
+          <div class="table-responsive">
+            <table class="table table-bordered"  width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                </tr>
+              </thead>
+              <tbody id="checkoutproducts">
+          
+              </tbody>
+          
+            </table>
+          </div>
+          <p style="font-size: 15px;" id="others">Others</p>
+          <input type="text" class="invisible" style="display: none;" id="processType">
+          <div class="row">
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="transport" placeholder="Transport">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="discount" placeholder="Discount">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
+            </div>
+          </div>
+          <p style="font-size: 15px;" id="py">Payment Method</p>
+          <div class="row">
+            <div class="col-sm-4">
+              <select class="form-control" id="payment" onchange=" paymentmethods(event)" styles="height:30px">
+                <option>Payment Method</option>
+                <option>Mpesa</option>
+                <option>Cash</option>
+                <option>Cheque</option>
+                <option selected="true">Credit</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <input type="Number" class="form-control" id="amount" placeholder="Amount">
+            </div>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="payment_code" placeholder="Cheque No /Confirmation">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="#" onclick="process()">Process</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -330,39 +411,138 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-  <!-- Page level plugins -->
+
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <script type="text/javascript">
+  <script>
+
+    function getSingleOrder(id){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result)
+          
+          var total = 0.0;
+          for(var item in result['items']){
+            console.log(result['items'][item]);
+            $("#checkoutproducts").append('<tr><td>'+result['items'][item].product_name+'</td><td>'+result['items'][item].quantity+'</td><td>Ksh. '+result['items'][item].selling_price+'</td></tr>');
+            total = total + (parseFloat(result['items'][item].selling_price) * parseInt(result['items'][item].quantity))
+          }
+          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td>Ksh. '+total+'</td></tr>');
+        } 
+      });
+    }
+
+    function hidepayment(){
+        $("#payment").hide();
+        $("#amount").hide();
+        $("#payment_code").hide();
+        $("#py").hide();
+    }
+
+    var id = 0 ;
     $(document).ready(function() {
-    $('#payments').DataTable({
+    $('#invoiceTable').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/payments/finance",
+            "url" :"http://"+window.location.hostname+":4000/getaccountsorders/pending",
             dataSrc : ''
         },
         "columns" : [{
-            "data" : "invoice_id"
+            "data" : "id"
         }, {
-            "data" : "payment_type"
+            "data" : "orderid"
         }, {
-            "data" : "amount"
+            "data" : "name"
         }, {
-            "data" : "date_paid"
+            "data" : "date"
         }, {
-            "data" : "confirmed"
-        }]
+            "data" : "total_amount"
+        }, {
+            "data" : "payment_status"
+        }],
+        "createdRow": function( row, data, dataIndex){
+            if( data['payment_status'] ==  `credit`){
+                $(row).addClass('table-danger');
+            }else{
+              $(row).addClass('table-success');
+            }
+        }
     });
 
-    $('#pending tbody').on( 'click', 'tr', function () {
-      var id = $(this).find("td:first").text();
-      selected_order = id;
-      getSingleOrder(id);
+    $('#invoiceTable tbody').on( 'click', 'tr', function () {
+      id = $(this).find("td:first").text();
+      var invoicenumber = $(this).find("td:nth-child(2)").text();
+      var type = $(this).find("td:nth-child(6)").text();
+      if (type == "credit") {
+        $("#processType").val("credit");
+        $("#creditProcess").modal('show');
+        $("#invoicenumber").text("Invoice : "+invoicenumber);
+        hidepayment()
+        getSingleOrder(id);
+      }else{
+        $("#processType").val("other")
+        $("#creditProcess").modal('show');
+        $("#invoicenumber").text("Invoice : "+invoicenumber);
+        getSingleOrder(id);
+      }
+      
     });
 
     });
+
+
+    function process(){
+        if($("#processType").val()=="other"){
+          if($("#payment").val() == "Payment Method"){
+            alert("Please Select Payment Method");
+            return
+          }
+
+
+
+          if($("#amount").val() == ""){
+            alert("Please Enter Amount");
+            return
+          }else{
+            if ($("#amount").val()< total_cost) {
+              alert("Please Enter Correct Amount");
+            return
+            }
+          }
+        }
+
+        var data = {
+          payment: $("#payment").val(),
+          order_id : id,
+          discount : $("#discount").val(),
+          transport : $("#transport").val(),
+          amount_paid : $("#amount").val(),
+          serve_status : "served",
+          type : $("#processType").val()
+        }
+
+        ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/processpendinginvoice",
+          data: JSON.stringify(data),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+
+            var url = "http://"+window.location.hostname+":4000/receipt#"+result['id'];
+            alert(result["response"]);
+            window.open(url,"_blank");
+            $("#creditProcess").modal('toggle');
+    
+          } 
+      });
+    }
+  
   </script>
+
 
 </body>
 

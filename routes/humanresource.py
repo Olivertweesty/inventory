@@ -9,6 +9,11 @@ from datetime import datetime
 
 db = Database("inventorymanagementsystem","9993revilo")
 
+        
+@routes.route("/humanresource", methods=['GET'])
+def humanresource():
+	return render_template("hr_dashboard.html")
+
 @routes.route("/addemployee",methods=['POST'])
 def addemployees():
 	firstname = str(request.json.get("firstname"))
