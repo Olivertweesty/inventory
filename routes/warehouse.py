@@ -23,6 +23,10 @@ def getSingleItemFromTable(table, **kwargs):
 
     return response
 
+@routes.route("/summarywarehouse", methods = ['POST'])
+def getSummary():
+    return
+
 
 @routes.route('/checkinproducts',methods = ["POST"])
 def checkin_products():
