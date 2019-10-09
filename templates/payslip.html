@@ -85,21 +85,21 @@
             </tr>
             <tr class="item">
                 <td>PAYE</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="paye"></span></td>
             </tr>
             <tr class="item">
                 <td>NHIF</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="nhif_amount"></span></td>
             </tr>
             <tr class="item">
                 <td>NSSF</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="nssf_amount"></span></td>
             </tr>
             <tr class="item last">
                 <td>Advance</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="advance"></span></td>
             </tr>
-            <tr class="total"><td></td><td>Total Deductions : Ksh. 20,000 </td></tr>
+            <tr class="total"><td></td><td>Total Deductions : <span id="deductions"></span></td></tr>
 
             <tr class="heading">
                 <td></td>
@@ -107,18 +107,18 @@
             </tr>
             <tr class="item">
                 <td>Contributions(-)</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="contributions"></span></td>
             </tr>
             <tr class="item">
                 <td>Taxable Income</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="taxable_income"></span></td>
             </tr>
             <tr class="item last">
                 <td>Relief of Month(-)</td>
-                <td>Ksh. 1000</td>
+                <td>Ksh. <span id="relief"></span></td>
             </tr>
             <tr class="total">
-                <td></td><td>NET PAY : Ksh. 20,000 </td>
+                <td></td><td>NET PAY : <span id="netpay"></span></td>
             </tr>
             <tr>
                 <td>Signature</td>
@@ -149,9 +149,26 @@
           $("#nssf").text(result['nssf']);
           $("#nhif").text(result['nhif']);
           $("#date").text(result['date']);
-          $("#basicpay").text(result['basic_pay']);
-          $("#housing").text(result['housing']);
-          $("#grosspay").text(parseFloat(result['basic_pay'])+ parseFloat(result['housing']))
+          $("#basicpay").text(parseFloat(result['basic_pay']).toFixed(2));
+          $("#housing").text(parseFloat(result['housing']).toFixed(2));
+          $("#grosspay").text(parseFloat(parseFloat(result['basic_pay']).toFixed(2)+ parseFloat(result['housing'])).toFixed(2))
+          $('#advance').text(parseFloat(result['advance']).toFixed(2));
+          $('#paye').text(result['other']['Tax Payable (PAYE)']);
+          $('#nhif_amount').text(result['other']['NHIF Contribution']);
+          $('#nssf_amount').text(result['other']['Deductible NSSF Pension Contribution']);
+          $('#taxable_income').text(result['other']['Taxable Income']);
+          $('#relief').text(result['other']['Personal Relief']);
+
+          var contributions = parseFloat(result['other']['NHIF Contribution']) + parseFloat(result['other']['Deductible NSSF Pension Contribution'])
+
+          $('#contributions').text(contributions);
+
+          var netpay = parseFloat(result['other']['Net Pay: Carry Home Pay']) - parseFloat(result['advance']);
+          $('#netpay').text(netpay);
+          var deductions = contributions + parseFloat(result['advance']) + parseFloat(result['other']['Tax Payable (PAYE)']);
+          $('#deductions').text(deductions);
+
+
 
           
         } 

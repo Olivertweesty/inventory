@@ -419,13 +419,13 @@
 
       });
 
-    var selectedleave = ""
+    var selectedleave = "annual_leave"
     function selectleave(evt){
       if(evt.target.value == "maternity_leave"){
         selectedleave = "maternity";
       }else if(evt.target.value == "paternity_leave"){
         selectedleave = "paternity";
-      }else{
+      }else if(evt.target.value == "annual_leave"){
         selectedleave = "annual";
       }
     }
@@ -454,6 +454,7 @@
               success: function(result){
                
                   alert(result['response']);
+                  location.reload();
               } 
             });
           }

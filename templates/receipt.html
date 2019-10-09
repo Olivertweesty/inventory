@@ -30,8 +30,8 @@
                         </tr>
                         <tr>   
                             <td style="text-align:center">
-                                <b>The Leading Dealer In Aluminium & Glas</b><br>
-                                <b>Located At 
+                                <b>The Leading Dealer In : Aluminium & Glass</b><br>
+                                <b>Located At :
                                 Industrial Area Off Kampala Road</b> <br> <b>Ashray Business Park D6</b>
                             </td> 
                         </tr>
@@ -111,7 +111,7 @@
             $("#amount_paid").text(result['total_paid']);
             $("#payment_method").text(result['payment_type']);
             total = total + (parseFloat(result['items'][item]['selling_price']) * parseInt(result['items'][item]['quantity']))
-            var txt = '<tr class="item"><td>'+result['items'][item]['product_name']+'</td><td>Ksh. '+result['items'][item]['selling_price']+'</td><tr>'
+            var txt = '<tr class="item"><td>'+result['items'][item]['product_name']+'</td><td>'+result['items'][item]['quantity']+'&nbsp;&nbsp;&nbsp;&nbsp; X &nbsp;&nbsp;&nbsp;&nbsp;Ksh. '+result['items'][item]['selling_price']+'</td><tr>'
             //<td>'+result['items'][item]['quantity']+'</td>
             $("#mytable").append(txt);
           }
@@ -120,8 +120,19 @@
           $("#mytable").append(txtTotal);
           var blank ='<tr class="heading"><td></td><td></td></tr>'
           $("#mytable").append(blank);
-          var tax = '<tr class="item"><td>WithHolding Tax</td><td>16%</td></tr><br><br><br><br>'
+          var tax = '<tr class="item"><td>V.A.T</td><td>16%</td></tr><br><br><br><br>'
+          var transport = '<tr class="item"><td>Transport</td><td>Ksh. '+result['transport']+'</td></tr><br><br><br><br>'
+          var discount = '<tr class="item"><td>Discount</td><td>Ksh. '+result['discount']+'</td></tr><br><br><br><br>'
           $("#mytable").append(tax);
+          $("#mytable").append(transport);
+          $("#mytable").append(discount);
+          $("#mytable").append(blank);
+          total = (total + parseFloat(result['transport'])) - parseFloat(result['discount'])
+          var txtTotal = '<tr class="total"><td></td><td> Sub Total: Ksh. '+total+'</td></tr>';
+          $("#mytable").append(txtTotal);
+          var change = parseFloat(result['total_paid']) - total
+          var txtTotal = '<tr class="total"><td></td><td> Change : Ksh. '+change+'</td></tr>';
+          $("#mytable").append(txtTotal);
         } 
       });
 </script>

@@ -6,6 +6,8 @@ from flask import jsonify
 from flask import request
 import json
 from datetime import datetime
+from bs4 import BeautifulSoup,Tag, NavigableString
+import requests
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -47,7 +49,12 @@ def addemployees():
 
 	employeeid = responseISD[0]['MAX(id)']
 	sql2 = "INSERT INTO leaveDays VALUES(0,%s,'15','90','7')"
+	sql3 = "INSERT INTO advance VALUES(0,%s,'0','0','0','0')"
+	sql4 = "INSERT INTO missingdays VALUES(0,%s,'0','0','0')"
 	db.insertDataToTable(sql2,employeeid)
+	db.insertDataToTable(sql3,employeeid)
+	db.insertDataToTable(sql4,employeeid)
+
 	if reponse:
 		return jsonify({"response":"successful added employee","code":200})
 	else:
@@ -97,15 +104,40 @@ def applyleave():
 	else:
 		return jsonify({"response":"Leave Application Failed","code":300})
 
+def getPayeeDetails(salary):
+	data = {
+		"pay_period":"month",
+		"salary":salary,
+		"benefits":0,
+		"year":"2019",
+		"deduct_housing":"no",
+		"deduct_social":"yes",
+		"deduct_hospital":"yes",
+		"nssf_rate":"new",
+		"email":"results@calculator.co.ke",
+		"rand":65541018
+	}
+
+	response = requests.get("https://calculator.co.ke/calculate/math/paye.php",params = data)
+	soup = BeautifulSoup(response.text,"lxml")
+	rows = soup.find_all("tr")
+	response = {}
+	for row in rows:
+		response[row.find_all("td")[0].text] = ((row.find_all("td")[1].text).replace("KSh ","").replace(",",""))
+	return response
+
+
+
 @routes.route("/generatepayslip/<id>", methods = ['POST','GET'])
 def generatepayslip(id):
-	sql = "SELECT * FROM employees WHERE id={}".format(id)
+	sql = "SELECT * , SUM(a.amount) as advance FROM employees as e JOIN advance AS a ON e.id = a.employeeID WHERE e.id={}".format(id)
 	response = db.selectAllFromtables(sql)
 	dateTimeObj = datetime.now()
 	dt = dateTimeObj.strftime("%d-%m-%Y")
 	response = dict(response[0])
 	response['date'] = dt
 	response['housing'] = 0
+	response['other'] = getPayeeDetails(42000)
 	return jsonify(response)
 
 @routes.route("/reportmissing", methods = ['POST','GET'])
@@ -120,6 +152,8 @@ def reportmissing():
 		return jsonify({"response":"Reporting successful","code":200})
 	else:
 		return jsonify({"response":"Reporting Failed","code":300})
+
+
 
 
 

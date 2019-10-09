@@ -124,11 +124,12 @@ def payinvoice():
 	details = ""
 	payment_status = "credit"
 
-	current_paid = float(int(total_paid)) + float(int(amount_paid))
-	if current_paid >= float(int(total_amount)):
+	current_paid = float((total_paid)) + float((amount_paid))
+	if current_paid >= float((total_amount)):
 		payment_status = "paid"
 
 	sql3 = "UPDATE orders SET total_paid = '{}',payment_status = '{}' WHERE id = '{}'".format(current_paid,payment_status,order_id)
+	db.updaterecords(sql3)
 
 	sql2 = "INSERT INTO payments VALUES(0,%s,%s,%s,%s,%s,%s,'FINANCE',%s,%s)"
 	response = db.insertDataToTable(sql2,orderID,amount_paid,customer_id,payment_type,dateT,date_confirmed,details,confirmed)
@@ -143,5 +144,72 @@ def getfinancepayments():
 	sql = "SELECT * FROM payments WHERE served_by ='FINANCE'"
 	response = db.selectAllFromtables(sql)
 
+	return jsonify(response)
+
+@routes.route('/getexpensetotal', methods = ['POST'])
+def getexpensetotal():
+	sql = "SELECT * FROM expenses WHERE status='accepted'"
+	response = db.selectAllFromtables(sql)
+	total = 0.0
+	for item in response:
+		if item['type'] == 'credit':
+			total = total + float(item['amount'])
+		else:
+			total = total - float(item['amount'])
+	return str(total)
+
+
+@routes.route("/getgeneralreport", methods = ['POST'])
+def getgeneralreport():
+	sql = "SELECT * FROM expenses WHERE status='accepted'"
+	response = db.selectAllFromtables(sql)
+	total_cash_in,total_cash_out, amount_in_finance,amount_in_pos = 0.0,0.0,0.0,0.0
+	responsedata =  []
+	count = 1
+	for item in response:
+		data = {"id":count}
+		if item['type'] == 'credit':
+			total_cash_in = total_cash_in + float(item['amount'])
+			amount_in_finance = amount_in_finance + float(item['amount'])
+			data['description'] = "Credit - {}".format(item['use'])
+			data['amount'] = item['amount']
+			data['type'] = "Credit"
+
+		else:
+			total_cash_in = total_cash_in - float(item['amount'])
+			total_cash_out = total_cash_out + float(item['amount'])
+			amount_in_finance = amount_in_finance - float(item['amount'])
+			data['description'] = "Debit - {}".format(item['use'])
+			data['amount'] = item['amount']
+			data['type'] = "Debit"
+		responsedata.append(data)
+		count = count +1
+
+	sql2 = "SELECT * FROM payments"
+	response = db.selectAllFromtables(sql2)
+
+	for item in response:
+		data = {"id":count}
+		if item['served_by'] == "POS":
+			total_cash_in = total_cash_in + float(item['amount'])
+			amount_in_pos = amount_in_pos + float(item['amount'])
+			data['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
+			data['amount'] = item['amount']
+			data['type'] = "Sales"
+		else:
+			total_cash_in = total_cash_in + float(item['amount'])
+			amount_in_finance = amount_in_finance + float(item['amount'])
+			data['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
+			data['amount'] = item['amount']
+			data['type'] = "Sales"
+		count = count + 1
+		responsedata.append(data)
+
+	response = {"total_cash_in": total_cash_in,
+				"total_cash_out":total_cash_out,
+				"amount_in_finance":amount_in_finance,
+				"amount_in_pos":amount_in_pos,
+				"other":responsedata
+				}
 	return jsonify(response)
 

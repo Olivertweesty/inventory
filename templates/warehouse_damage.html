@@ -400,15 +400,9 @@
         data: JSON.stringify(product_data),
         contentType: "application/json",  
         success: function(result){
-              alert(result);
               if(result["code"] == 200){
-                Swal.fire({
-                    title: "Successful",
-                    text: "Added successful",
-                    type: 'success',
-                    showConfirmButton: true,
-                    allowOutsideClick: false
-                  });
+                alert(result['response']);
+                location.reload();
               }        
         } 
       });

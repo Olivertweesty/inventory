@@ -426,6 +426,7 @@
           //alert(result)
           
           var total = 0.0;
+          $("#checkoutproducts").empty();
           for(var item in result['items']){
             console.log(result['items'][item]);
             $("#checkoutproducts").append('<tr><td>'+result['items'][item].product_name+'</td><td>'+result['items'][item].quantity+'</td><td>Ksh. '+result['items'][item].selling_price+'</td></tr>');
