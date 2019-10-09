@@ -76,6 +76,7 @@ def submitorder():
     #payment-statis
     if payment_type == "Credit":
         payment_status = "credit"
+        amount_paid = 0
     elif total > 100000:
         payment_status = "pending"
     else:
