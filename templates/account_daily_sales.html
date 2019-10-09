@@ -50,9 +50,17 @@
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="invoices">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Invoice</span></a>
+          <span>Invoice</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header"> Invoices:</h6>
+            <a class="collapse-item" href="invoiceserved">Served</a>
+            <a class="collapse-item" href="invoicespending">Pending</a>
+          </div>
+        </div>
       </li>
       
 
@@ -81,7 +89,7 @@
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="dailyexpense">Expense</a>
-            <a class="collapse-item" href="dailysales">Sales</a>
+            <a class="collapse-item" href="dailysales">General</a>
             
           </div>
         </div>
@@ -226,10 +234,84 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Payments</h1>
+            <h1 class="h3 mb-0 text-gray-800">General Report</h1>
             
           </div>
+          <!-- Content Row -->
+          <div class="row">
 
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total cash  In</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalsales">Ksh. 40,000.00</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total cash Out</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="amount_paid">21</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Amount At Finance</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="amount_in_credit">50</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Amount At POS</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="salesmade">18</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Content Row -->
           <div class="row">
 
@@ -239,18 +321,17 @@
                   
                       <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Payment Details</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Report Details</h6>
                 </div>
                       <div class="card-body">
                         <div class="table-responsive">
                           <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
-                                <th>Expense Number</th>
-                                <th>Reason</th>
-                                <th>Date Created</th>
+                                <th>ID</th>
+                                <th>Description</th>
+                                <th>Type</th>
                                 <th>Amount</th>
-                                <th>Status</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -322,6 +403,65 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script type="text/javascript">
+    var dtable = $('#reportTable').dataTable({
+                      "processing" : true,
+                      "bFilter":false,
+                      "sDom":'t',
+                      "columns" : [{
+                          "data" : "id"
+                      },{
+                          "data" : "description"
+                      }, {
+                          "data" : "type"
+                      }, {
+                          "data" : "amount"
+                      }],
+                        "createdRow": function( row, data, dataIndex){
+                            console.log(data);
+                            if( data['type'] ==  `Credit`){
+                                $(row).addClass('table-danger');
+                            }else{
+                              $(row).addClass('table-success');
+                            }
+                        }
+                  });
+
+    function refreshtable(data){
+      dtable.fnClearTable();
+      dtable.fnAddData(data);
+      dtable.fnDraw();
+    }
+
+    function retrivePdata(){
+      // var data_to_send = {
+      //   thedate : mydate
+      // }
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getgeneralreport",
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result);
+          $("#totalsales").text("Ksh. "+result['total_cash_in']);
+          $("#amount_paid").text("Ksh. "+result['total_cash_out']);
+          $("#amount_in_credit").text("Ksh. "+result['amount_in_finance'])
+          $("#salesmade").text("Ksh. "+result['amount_in_pos'])
+          refreshtable(result['other']);
+          
+        } 
+      });
+      
+    }
+
+    retrivePdata();
+
+
+  </script>
 
 
 </body>

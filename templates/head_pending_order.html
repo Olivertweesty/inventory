@@ -57,8 +57,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
+            <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
             <a class="collapse-item" href="head_all_products">All Products</a>
             <a class="collapse-item" href="head_damaged">Damaged Products</a>
+            <a class="collapse-item" href="warehousetransactions">Check In Transaction</a>
             
           </div>
         </div>
@@ -381,10 +383,10 @@
         contentType: "application/json",  
         success: function(result){
           //alert(result)
-          $('#serve').addClass('visible');
-          $('#serve').removeClass('invisible');
+          // $('#serve').addClass('visible');
+          // $('#serve').removeClass('invisible');
           $("#order_id").text(result['orderid'])
-
+          $("#items").empty();
           for(var item in result['items']){
             console.log(result['items'][item])
             var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'

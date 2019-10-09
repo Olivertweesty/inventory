@@ -78,6 +78,12 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link" href="missing">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Report Missing</span></a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link" href="advancesalary">
           <i class="fas fa-fw fa-table"></i>
           <span>Advance Application</span></a>
@@ -264,7 +270,7 @@
                       </div>
                       <div class="form-group col-md-4">
                         <label for="inputPassword4">Huduma Number</label>
-                        <input type="text" class="form-control" id="huduma_number" placeholder="Huduma Number" required>
+                        <input type="text" class="form-control" id="huduma_number" placeholder="Huduma Number">
                       </div>
                       <div class="form-group col-md-4">
                         <label for="inputPassword4" class="required">NSSF Number</label>
@@ -431,6 +437,10 @@
       var next_of_kin = $("#n_firstname").val()+" "+$("#n_middlename").val()+" "+$("#n_lastname").val();
      
       e.preventDefault();
+      var conf = confirm("Are You sure You want To add The Employees");
+      if (conf == false) {
+        return
+      }
       var data = {
         employeeID : $("#employeeID").val(),
         nssf : $("#nssf").val(),
@@ -464,7 +474,8 @@
           type: "POST",
           contentType: "application/json",  
           success: function(result){
-            alert(result["response"])   
+            alert(result["response"]);
+            location.reload();  
           } 
       });
 

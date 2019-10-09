@@ -17,6 +17,8 @@
 
   <!-- Custom styles for this template-->
   <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="static/select2/dist/css/select2.min.css">
 
 </head>
 
@@ -57,8 +59,10 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header"> Products:</h6>
+            <a class="collapse-item" href="warehouse_checkin">Checkin Product</a>
             <a class="collapse-item" href="head_all_products">All Products</a>
             <a class="collapse-item" href="head_damaged">Damaged Products</a>
+            <a class="collapse-item" href="warehousetransactions">Check In Transaction</a>
             
           </div>
         </div>
@@ -281,7 +285,6 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>Username</th>
                                 <th>Access Rights</th>
                                 <th>Phone</th>
@@ -363,31 +366,31 @@
         </div>
         <div class="modal-body">
 
-          
-          <input type="text" class="form-control" id="fullname" placeholder="Full Name">
+          <form>
+          <div class="input-group" style="width: 100%">
+              
+              <select id="user" onchange="setdetails(event)" class="form-control select2">
+                <option>Select User</option>
+              </select>
+          </div>
+
           <br>
           <input type="text" class="form-control" id="username" placeholder="username">
           <br>
-          <select class="form-control" id="gender" styles="height:30px">
-                <option>Gender</option>
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-          </select>
-          <br>
-          <input type="text" class="form-control" id="email" placeholder="Email">
-          <br>
           <input type="text" class="form-control" id="phone" placeholder="Phone Number">
-          <br>
-          <input type="text" class="form-control" id="password" placeholder="Password">
           <br>
           <select class="form-control" id="access_rights" styles="height:30px">
                 <option>Access Rights</option>
-                <option value="pointofsale,warehouse">POS + WAREHOUSE</option>
+                <option value="pointofsale,warehouse,admin,accounting,humanresource">POS + WAREHOUSE + MANAGEMENT + FINANCE + HUMAN RESOURCE</option>
                 <option value="warehouse">WAREHOUSE</option>
                 <option value="pointofsale">POS</option>
                 <option value="management">MANAGEMENT</option>
-              </select>
+                <option value="accounting">FINANCE</option>
+                <option value="humanresource">HUMAN RESOURCE</option>
+          </select>
+        </form>
         </div>
+
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <button class="btn btn-primary" onclick="adduser()">Add User</button> 
@@ -409,7 +412,39 @@
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+  <!-- date-range-picker -->
+  <script src="static/moment/min/moment.min.js"></script>
+  <script src="static/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+  <!-- bootstrap datepicker -->
+  <script src="static/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
+  <!-- iCheck 1.0.1 -->
+  <script src="static/iCheck/icheck.min.js"></script>
+
+  <!-- bootstrap time picker -->
+  <script src="static/timepicker/bootstrap-timepicker.min.js"></script>
+ 
+  <!-- InputMask -->
+  <script src="static/input-mask/jquery.inputmask.js"></script>
+  <script src="static/input-mask/jquery.inputmask.date.extensions.js"></script>
+  <script src="static/input-mask/jquery.inputmask.extensions.js"></script>
+   <!-- Select2 -->
+  <script src="static/select2/dist/js/select2.full.js"></script>
+  <script src="static/js/advanced-form-element.js"></script>
+  <script src="static/js/sweetalert2.all.min.js"></script>
+
   <script>
+
+  function generatePassword() {
+    var length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+  }
   
   $(document).ready(function() {
     $('#reportTable').DataTable({
@@ -423,9 +458,7 @@
         "columns" : [{
             "data" : "id"
         },{
-            "data" : "name"
-        }, {
-            "data" : "email"
+            "data" : "firstname"
         }, {
             "data" : "username"
         }, {
@@ -438,15 +471,45 @@
   </script>
 
   <script type="text/javascript">
+    var usernames = new Object();
+    function retriveMdata(){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getemployees",
+        type: "GET",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result
+          
+          var options = $("#user");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              
+              usernames[response_data[i]['id']] = response_data[i]['firstname'];
+              //us.username = response_data[i]['firstname'];
+              options.append(new Option(response_data[i]['firstname'],response_data[i]['id']));
+              
+          }
+
+          console.log(usernames);
+        } 
+      });
+    }
+
+
+    retriveMdata();
+
+
+  function setdetails(evt){
+    $("#username").val(usernames[evt.target.value]);
+  }
   function adduser(){
       var userdata = {
-        email: $("#email").val(),
         username: $("#username").val(),
         phone: $("#phone").val(),
-        gender: $("#gender").val(),
-        password: $("#password").val(),
+        password: generatePassword(),
         access_rights : $("#access_rights").val(),
-        full_name : $("#fullname").val()
+        userid : $("#user").val()
       }
       console.log(userdata);
 

@@ -50,9 +50,17 @@
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="invoices">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Invoice</span></a>
+          <span>Invoice</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header"> Invoices:</h6>
+            <a class="collapse-item" href="invoiceserved">Served</a>
+            <a class="collapse-item" href="invoicespending">Pending</a>
+          </div>
+        </div>
       </li>
       
 
@@ -81,7 +89,7 @@
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="dailyexpense">Expense</a>
-            <a class="collapse-item" href="dailysales">Sales</a>
+            <a class="collapse-item" href="dailysales">General</a>
             
           </div>
         </div>
@@ -331,7 +339,7 @@
     $('#payments').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/payments/pos",
+            "url" :"http://"+window.location.hostname+":4000/payments/finance",
             dataSrc : ''
         },
         "columns" : [{

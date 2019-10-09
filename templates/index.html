@@ -54,6 +54,8 @@
 							<option value="warehouse">WareHouse</option>
 							<option value="admin">Management</option>
 							<option value="pointofsale">Point Of Sale</option>
+							<option value="humanresource">Human Resource</option>
+							<option value="accounting">Finance</option>
 						</select>
 						<span class="focus-input100"></span>
 					</div>
@@ -103,6 +105,12 @@
 	<script src="static/login/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="static/login/js/main.js"></script>
+
+	<script type="text/javascript">
+		if((location.search.split('=')[1]) != undefined){
+			alert((location.search.split('=')[1]));
+		}
+	</script>
 
 </body>
 </html>

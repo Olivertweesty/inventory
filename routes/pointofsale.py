@@ -44,6 +44,15 @@ def addcustomer():
         return jsonify({"response":"failed to add customer","code":300})
 
 
+
+def deductQuantity(item):
+    sql = "SELECT quantity FROM products WHERE id = '{}'".format(item['item'])
+    dquantity = db.selectAllFromtables(sql)[0]['quantity']
+    dquantity = int(dquantity) - int(item['quantity'])
+    sql = "UPDATE products SET quantity = '{}' WHERE id = '{}'".format(dquantity,item['item'])
+    db.updaterecords(sql)
+
+
 @routes.route('/submitorder', methods = ["POST"])
 def submitorder():
     orderitems = str(request.json.get("orderitems"))
@@ -60,12 +69,16 @@ def submitorder():
 
     items = json.loads(orderitems.replace("'",'"'))
     #calculate total
-    total = 0
+    total = 0.0
     for item in items:
+        deductQuantity(item)
         total = total + (float(item['quantity']) * float(item['price']))
     #payment-statis
     if payment_type == "Credit":
         payment_status = "credit"
+        amount_paid = 0
+    elif total > 100000:
+        payment_status = "pending"
     else:
         payment_status = "paid"
 
@@ -103,7 +116,7 @@ def getallPosorders():
 
 @routes.route('/cancelOrder/<id>', methods = ['POST','GET'])
 def cancelOrder(id):
-    sql = "UPDATE orders SET status='cancelled' WHERE id = '{}'".format(id)
+    sql = "UPDATE orders SET checkout_status='cancelled' WHERE id = '{}'".format(id)
     response = db.updaterecords(sql)
     if response:
         return jsonify({"response":"Order Cancelled successfully","code":200})
@@ -117,6 +130,8 @@ def getpospayments():
     response = db.selectAllFromtables(sql)
 
     return jsonify(response)
+
+    
 
 
 

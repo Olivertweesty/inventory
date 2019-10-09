@@ -50,9 +50,17 @@
       <hr class="sidebar-divider">
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link" href="invoices">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
-          <span>Invoice</span></a>
+          <span>Invoice</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header"> Invoices:</h6>
+            <a class="collapse-item" href="invoiceserved">Served</a>
+            <a class="collapse-item" href="invoicespending">Pending</a>
+          </div>
+        </div>
       </li>
       
 
@@ -81,7 +89,7 @@
         <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="dailyexpense">Expense</a>
-            <a class="collapse-item" href="dailysales">Sales</a>
+            <a class="collapse-item" href="dailysales">General</a>
           </div>
         </div>
       </li>
@@ -225,7 +233,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Payments</h1>
+            <h1 class="h3 mb-0 text-gray-800">Expense Report</h1>
             
           </div>
 
@@ -238,16 +246,17 @@
                   
                       <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Payment Details</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Expense Details</h6>
                 </div>
                       <div class="card-body">
                         <div class="table-responsive">
                           <table class="table table-bordered" id="reportTable" width="100%" cellspacing="0">
                             <thead>
                               <tr>
-                                <th>Expense Number</th>
-                                <th>Reason</th>
+                                <th>ID</th>
+                                <th>use</th>
                                 <th>Date Created</th>
+                                <th>Type</th>
                                 <th>Amount</th>
                                 <th>Status</th>
                               </tr>
@@ -255,7 +264,12 @@
                             <tbody>
                         
                             </tbody>
-                        
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" style="text-align:right">Total:</th>
+                                    <th colspan="2" id="expenseTotal"></th>
+                                </tr>
+                            </tfoot>
                           </table>
                         </div>
                       </div>
@@ -321,6 +335,62 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+  <!-- Page level plugins -->
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <script type="text/javascript">
+    function getExpenseTotal(){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getexpensetotal",
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result)
+          $("#expenseTotal").text("Ksh. "+result)
+        } 
+      });
+    }
+
+    getExpenseTotal()
+    
+    $(document).ready(function() {
+    
+      $('#reportTable').DataTable({
+          "processing" : true,
+          "sDom":'t',
+          "ajax" : {
+              "url" :"http://"+window.location.hostname+":4000/getexpenses",
+              dataSrc : ''
+          },
+          "columns" : [{
+              "data" : "id"
+          }, {
+              "data" : "use"
+          }, {
+              "data" : "date"
+          }, {
+              "data" : "type"
+          },{
+              "data" : "amount"
+          }, {
+              "data" : "status"
+          }],
+        "createdRow": function( row, data, dataIndex){
+            console.log(data);
+            if( data['type'] ==  `credit`){
+                $(row).addClass('table-danger');
+            }else{
+              $(row).addClass('table-success');
+            }
+        },
+        "footerCallback": function ( row, data, start, end, display ) {
+          console.log(row);
+        }
+      });
+
+      });
+  </script>
 
 
 </body>

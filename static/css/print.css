@@ -21,9 +21,6 @@
         vertical-align: top;
     }
     
-    .invoice-box table tr td:nth-child(2) {
-        text-align: right;
-    }
     
     .invoice-box table tr.top table td {
         padding-bottom: 20px;
@@ -57,10 +54,7 @@
         border-bottom: none;
     }
     
-    .invoice-box table tr.total td:nth-child(2) {
-        border-top: 2px solid #eee;
-        font-weight: bold;
-    }
+    
     
     @media only screen and (max-width: 600px) {
         .invoice-box table tr.top table td {

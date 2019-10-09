@@ -23,6 +23,10 @@ def getSingleItemFromTable(table, **kwargs):
 
     return response
 
+@routes.route("/summarywarehouse", methods = ['POST'])
+def getSummary():
+    return
+
 
 @routes.route('/checkinproducts',methods = ["POST"])
 def checkin_products():
@@ -74,7 +78,7 @@ def addproductname():
     reponse = db.insertDataToTable(sql,product_name)
     print(reponse)
     if reponse:
-        return jsonify({"response":"successful added Manufacterer","code":200})
+        return jsonify({"response":"successful added Product Name","code":200})
     else:
         return jsonify({"response":"failed to add Manufacterer","code":300})
 
@@ -141,12 +145,19 @@ def getallorders(id):
 
 @routes.route('/getreciept/<id>',methods = ["POST","GET"])
 def getreciept(id):
-    sql = "SELECT orderid,items,date_served,date,total_paid FROM orders WHERE id = '{}'".format(id)
+    sql = "SELECT orderid,items,date_served,date,total_paid,payment_type,transport,discount FROM orders WHERE id = '{}'".format(id)
     response = db.selectAllFromtables(sql)
     ids = dict(response[0])['items']
     ids = json.loads(ids.replace("'",'"'))
     print(response)
-    response = {"orderid" : dict(response[0])['orderid'],"total_paid":dict(response[0])['total_paid'],"date":dict(response[0])['date'],"date_served": dict(response[0])['date_served'], "items":[]}
+    response = {"orderid" : dict(response[0])['orderid'],
+                "payment_type":dict(response[0])['payment_type'],
+                "total_paid":dict(response[0])['total_paid'],
+                "date":dict(response[0])['date'],
+                "transport": dict(response[0])['transport'],
+                "discount" : dict(response[0])['discount'],
+                "date_served": dict(response[0])['date_served'], 
+                "items":[]}
     for id_ in ids:
         itemName = getItemNameByID(id_['item'])
         itemName['quantity'] = id_['quantity']
@@ -162,7 +173,7 @@ def processOrder(id):
     
     orderid = response[0]['orderid']
 
-    sql2 = "UPDATE orders SET status='served' WHERE orderid = '{}'".format(orderid)
+    sql2 = "UPDATE orders SET checkout_status='served' WHERE orderid = '{}'".format(orderid)
     response = db.updaterecords(sql2)
 
     if response:
@@ -200,11 +211,20 @@ def adddamagedproduct():
     sql = "INSERT INTO damages VALUES(0,%s,%s,%s,%s,%s)"
 
     reponse = db.insertDataToTable(sql,manufacturer_name,product_name,quantity,message,dateT)
-
-    if reponse:
-        return jsonify({"response":"successful added product","code":200})
-    else:
-        return jsonify({"response":"failed to add product","code":300})
+    sql = "SELECT quantity FROM products WHERE product_name = '{}' AND manufacturer = '{}'".format(product_name,manufacturer_name)
+    dquantity = ""
+    try:
+        dquantity = db.selectAllFromtables(sql)[0]['quantity']
+        dquantity = int(dquantity) - int(quantity)
+        sql = "UPDATE products SET quantity = '{}' WHERE id = '{}'".format(dquantity,product_name)
+        db.updaterecords(sql)
+        if reponse:
+            return jsonify({"response":"successful added product","code":200})
+        else:
+            return jsonify({"response":"failed to add product","code":300})
+    except Exception as e:
+        return jsonify({"response":"Product Does Not Exist","code":200})
+    
 
 @routes.route('/getdamagedproducts',methods = ["POST","GET"])
 def getdamagedproducts():

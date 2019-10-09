@@ -71,6 +71,12 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link" href="missing">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Report Missing</span></a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link" href="advancesalary">
           <i class="fas fa-fw fa-table"></i>
           <span>Advance Application</span></a>
@@ -212,9 +218,9 @@
                           <th>First Name</th>
                           <th>Middle Name</th>
                           <th>ID Number/Passport</th>
-                          <th>Designation</th>
-                          <th>Department</th>
-                          <th>Mobile Number</th>
+                          <th>Rem. Annual Leave</th>
+                          <th>Rem. Maternity Leave</th>
+                          <th>Rem. Paternity Leave</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -292,9 +298,17 @@
         <div class="modal-body">
           <h6>NAME: <span id="employee" style="color: black"></span></h6>
           
-          <h6>No. Of Days Due : <span id="annual" style="color: black"></span></h6>
+          <h6>No. Of Days Due (Annual) : <span id="annual" style="color: black"></span></h6>
+          <h6>No. Of Days Due (Maternity) : <span id="maternity" style="color: black"></span></h6>
+          <h6>No. Of Days Due (Paternity) :<span id="paternity" style="color: black"></span></h6>
           <form>
             <div class="form-row">
+              <select class="form-control" id="leaveType" onchange="selectleave(event)">
+                <option value="annual_leave">Annual</option>
+                <option value="maternity_leave">Maternity</option>
+                <option value="paternity_leave">Paternity</option>
+              </select>
+              <br>
               <div class="form-group col-md-6">
                 <label>Start Date:</label>
                 <input type="date" class="form-control" id="startdate" placeholder="Start Date" required>
@@ -358,7 +372,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployees",
+              "url" :"http://"+window.location.hostname+":4000/getemployeesleaves",
               dataSrc : ''
           },
           "columns" : [{
@@ -370,11 +384,11 @@
           }, {
               "data" : "id_number"
           }, {
-              "data" : "designation"
+              "data" : "annual_leave"
           }, {
-              "data" : "department"
+              "data" : "maternity_leave"
           }, {
-              "data" : "mobile1"
+              "data" : "paternity_leave"
           }]
       });
 
@@ -385,6 +399,8 @@
             contentType: "application/json",  
             success: function(result){
               $("#annual").text(result[0]['annual_leave']);
+              $("#maternity").text(result[0]['maternity_leave']);
+              $("#paternity").text(result[0]['paternity_leave']);
 
             } 
           });
@@ -403,18 +419,30 @@
 
       });
 
+    var selectedleave = "annual_leave"
+    function selectleave(evt){
+      if(evt.target.value == "maternity_leave"){
+        selectedleave = "maternity";
+      }else if(evt.target.value == "paternity_leave"){
+        selectedleave = "paternity";
+      }else if(evt.target.value == "annual_leave"){
+        selectedleave = "annual";
+      }
+    }
+
     function applyleave(){
         var leaveData = {
           employeeid : id,
           startdate : $("#startdate").val(),
           enddate : $("#enddate").val(),
           days_sought : $("#days").text(),
+          type: $("#leaveType").children("option:selected").val()
         }
         console.log(leaveData);
         if(parseInt($("#days").text()) <= 0){
           alert("Leave Days Must Be Greater Than 0");
-        }else if(parseInt($("#days").text()) >= parseInt($("#annual").text())){
-          alert("The Remaining Leave Days are "+$("#annual").text())
+        }else if(parseInt($("#days").text()) >= parseInt($("#"+selectedleave).text())){
+          alert("The Remaining Leave Days are "+$("#"+selectedleave).text())
         }else{
           var conf = confirm("Please Confirm The "+$("#days").text()+" days Leave to The employee");
           if (conf == true) { 
@@ -426,6 +454,7 @@
               success: function(result){
                
                   alert(result['response']);
+                  location.reload();
               } 
             });
           }
