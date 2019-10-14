@@ -19,7 +19,7 @@
 
 <body>
     <div class="invoice-box" id="printTable">
-        <table cellpadding="0" cellspacing="0" id="mytable">
+        <table cellpadding="0" cellspacing="0">
             <tr class="top">
                 <td colspan="2">
                     <table>
@@ -59,8 +59,32 @@
                     </table>
                 </td>
             </tr>
-            
-            <tr class="heading">
+            </table>
+           
+            <table style="height: 200px;">
+                <thead>
+                <tr style="background: #eee; text-align:center;border-bottom: 1px solid #000;font-weight: bold;">
+                    <th style="width:80px;">Code</th>
+                    <th>Description</th>
+                    <th style="width:70px;">Quantity</th>
+                    <th style="width:90px;">Unit Price</th>
+                    <th style="width:90px;">Total Price</th>
+                </tr>
+                </thead>
+                <tbody style="height: 400px; border:1px solid #000 ">
+                    <tr></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="border: none"></td>
+                        <td style="border: none"></td>
+                        <td style="border: none"></td>
+                        <td>Total</td>
+                        <td style="border: 1px solid #000"></td>
+                    </tr>
+                </tfoot>
+            </table>
+           <!--  <tr class="heading">
                 <td>
                     Payment Method
                 </td>
@@ -86,11 +110,11 @@
             
             <tr class="item last">
                 
-            </tr>
+            </tr> -->
             
-            
-        </table>
-    </div>
+           
+            </div>
+        
     <button onclick="printFunc()">Print</button>
 </body>
 <script src="static/vendor/jquery/jquery.min.js"></script>
