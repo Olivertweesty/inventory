@@ -79,6 +79,7 @@ def submitorder():
         amount_paid = 0
     elif total > 100000:
         payment_status = "pending"
+        amount_paid = 0
     else:
         payment_status = "paid"
 

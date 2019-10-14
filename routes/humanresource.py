@@ -137,7 +137,7 @@ def generatepayslip(id):
 	response = dict(response[0])
 	response['date'] = dt
 	response['housing'] = 0
-	response['other'] = getPayeeDetails(42000)
+	response['other'] = getPayeeDetails(float(response['basic_pay']))
 	return jsonify(response)
 
 @routes.route("/reportmissing", methods = ['POST','GET'])

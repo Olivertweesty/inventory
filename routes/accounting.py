@@ -62,9 +62,10 @@ def processpending():
 	dateTimeObj = datetime.now()
 	dateT = dateTimeObj.strftime("%b-%d-%Y %H:%M:%S")
 
-
+	print(amount_paid)
 	if payment_type == "Credit":
 		payment_status = "credit"
+		amount_paid = 0
 	else:
 		payment_status = "paid"
 
@@ -76,8 +77,8 @@ def processpending():
 		confirmed = "Confirmed"
 
 	sql = """UPDATE orders SET 
-							transport='{}',discount='{}',serve_status='{}',payment_type='{}' 
-							WHERE id = '{}'""".format(transport,discount,serve_status,payment_type,order_id)
+							transport='{}',discount='{}',payment_status = '{}',total_paid='{}',serve_status='{}',payment_type='{}' 
+							WHERE id = '{}'""".format(transport,discount,payment_status,amount_paid,serve_status,payment_type,order_id)
 	sql2 = "SELECT orderid,customer_id FROM orders WHERE id='{}'".format(order_id)
 	responseO = db.updaterecords(sql)
 	response = db.selectAllFromtables(sql2)

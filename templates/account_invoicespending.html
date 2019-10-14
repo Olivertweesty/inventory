@@ -363,10 +363,10 @@
           <input type="text" class="invisible" style="display: none;" id="processType">
           <div class="row">
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="transport" placeholder="Transport">
+              <input type="text" class="form-control" id="transport" value="0" onkeyup="transportadded()" placeholder="Transport">
             </div>
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="discount" placeholder="Discount">
+              <input type="text" class="form-control" id="discount" value="0" onkeyup="discountadded()" placeholder="Discount">
             </div>
             <div class="col-sm-4">
               <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
@@ -380,7 +380,7 @@
                 <option>Mpesa</option>
                 <option>Cash</option>
                 <option>Cheque</option>
-                <option selected="true">Credit</option>
+                <option>Credit</option>
               </select>
             </div>
             <div class="col-sm-4">
@@ -416,6 +416,7 @@
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <script>
+    var total = 0.0;
 
     function getSingleOrder(id){
       ajaxObj = $.ajax({ 
@@ -425,14 +426,17 @@
         success: function(result){
           //alert(result)
           
-          var total = 0.0;
+          
           $("#checkoutproducts").empty();
           for(var item in result['items']){
             console.log(result['items'][item]);
             $("#checkoutproducts").append('<tr><td>'+result['items'][item].product_name+'</td><td>'+result['items'][item].quantity+'</td><td>Ksh. '+result['items'][item].selling_price+'</td></tr>');
             total = total + (parseFloat(result['items'][item].selling_price) * parseInt(result['items'][item].quantity))
           }
-          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td>Ksh. '+total+'</td></tr>');
+          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Transport</td><td id="transDis">Ksh. 0.0</td></tr>');
+          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Discount</td><td id="disDis">Ksh. 0.0</td></tr>');
+          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td id="totalDis">Ksh. '+total+'</td></tr>');
+
         } 
       });
     }
@@ -473,7 +477,7 @@
             }
         }
     });
-
+    
     $('#invoiceTable tbody').on( 'click', 'tr', function () {
       id = $(this).find("td:first").text();
       var invoicenumber = $(this).find("td:nth-child(2)").text();
@@ -495,6 +499,65 @@
 
     });
 
+    function transportadded(){
+      var transport = $("#transport").val();
+      if (transport == undefined) {
+        $("#transport").val(0);
+        return
+      }
+      
+      var total_ = (parseFloat(total) + parseFloat(transport)) - parseFloat($("#discount").val());
+      $("#transDis").text("Ksh. "+ transport);
+      $("#totalDis").text("Ksh. "+ total_);
+    }
+
+    
+    function discountadded(){
+      var discount = $("#discount").val();
+      if (discount == undefined) {
+        $("#discount").val(0);
+        return
+      }
+    
+      var total_ = (parseFloat(total) - parseFloat(discount)) + parseFloat($("#transport").val());
+      $("#disDis").text("Ksh. "+ discount);
+      $("#totalDis").text("Ksh. "+ total_);
+    }
+
+    function paymentmethods(evt){
+      if (evt.target.value === "Credit") {
+        $("#amount").hide();
+        $("#payment_code").hide();
+        $("#withholding_tax").hide();
+        $("#discount").hide();
+        $("#transport").hide();
+        $("#others").hide();
+      }else if(evt.target.value === "Mpesa"){
+        $("#amount").show();
+        $("#payment_code").show();
+        $("#withholding_tax").show();
+        $("#discount").show();
+        $("#transport").show();
+        $("#others").show();
+        $("#payment_code").prop('placeholder','Mpesa Code');
+      }else if(evt.target.value === "Cheque"){
+        $("#amount").show();
+        $("#payment_code").show();
+        $("#withholding_tax").show();
+        $("#discount").show();
+        $("#transport").show();
+        $("#others").show();
+        $("#payment_code").prop('placeholder','Cheque Number');
+      }else{
+        $("#amount").show();
+        $("#payment_code").show();
+        $("#withholding_tax").show();
+        $("#discount").show();
+        $("#transport").show();
+        $("#others").show();
+      }
+    }
+
 
     function process(){
         if($("#processType").val()=="other"){
@@ -505,15 +568,39 @@
 
 
 
+        if($("#payment").val() == "Payment Method"){
+          alert("Please Select Payment Method");
+          return
+        }
+
+
+        if ($("#payment").val() != "Credit") {
           if($("#amount").val() == ""){
             alert("Please Enter Amount");
             return
           }else{
-            if ($("#amount").val()< total_cost) {
+            if ($("#amount").val() < ((total+parseFloat($("#transport").val())) - parseFloat($("#discount").val()))){
               alert("Please Enter Correct Amount");
             return
             }
           }
+
+          if($("#payment").val() =="Mpesa"){
+            if($("#payment_code").val() == ""){
+              alert("Please Enter Mpesa Code")
+              return
+            }
+          }
+
+          if($("#payment").val() =="Cheque"){
+            if($("#payment_code").val() == ""){
+              alert("Please Enter Cheque Number")
+              return
+            }
+          }
+
+          }
+
         }
 
         var data = {

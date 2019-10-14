@@ -120,7 +120,7 @@
           $("#mytable").append(txtTotal);
           var blank ='<tr class="heading"><td></td><td></td></tr>'
           $("#mytable").append(blank);
-          var tax = '<tr class="item"><td>V.A.T</td><td>16%</td></tr><br><br><br><br>'
+          var tax = '<tr class="item"><td>V.A.T</td><td>Ksh. '+parseFloat(0.16 * total)+'</td></tr><br><br><br><br>'
           var transport = '<tr class="item"><td>Transport</td><td>Ksh. '+result['transport']+'</td></tr><br><br><br><br>'
           var discount = '<tr class="item"><td>Discount</td><td>Ksh. '+result['discount']+'</td></tr><br><br><br><br>'
           $("#mytable").append(tax);
