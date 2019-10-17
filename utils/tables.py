@@ -25,6 +25,7 @@ products = """CREATE TABLE IF NOT EXISTS products(
                                     `purchase_price` varchar(200) NOT NULL DEFAULT '0',
                                     `unit_of_measurment` varchar(20),
                                     `selling_price` varchar(200) DEFAULT '0',
+                                    `discount` varchar(200) DEFAULT '0',
                                     `quantity` int(200) DEFAULT 0,
                                     `quantity_alert` int(200) DEFAULT 0,
                                     PRIMARY KEY (`id`)
@@ -41,6 +42,13 @@ manufacterer = """CREATE TABLE IF NOT EXISTS manufacterer(
                                     `manufacterer` varchar(200) NOT NULL UNIQUE,
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+product_code = """CREATE TABLE IF NOT EXISTS productCodes(
+                                    `id` int(11) AUTO_INCREMENT,
+                                    `product_code` varchar(200) NOT NULL UNIQUE,
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
 
 damages = """CREATE TABLE IF NOT EXISTS damages(
                                     `id` int(11) AUTO_INCREMENT,
@@ -61,6 +69,7 @@ orders = """CREATE TABLE IF NOT EXISTS orders(
                                     `transport` varchar(20) DEFAULT '0',
                                     `discount` varchar(20) DEFAULT '0',
                                     `checkout_status` varchar(20),
+                                    `tax` varchar(20) DEFAULT '0',
                                     `payment_status` varchar(20),
                                     `total_amount` varchar(200) DEFAULT '0',
                                     `total_paid` varchar(200) DEFAULT  '0',
@@ -171,12 +180,12 @@ advance = """CREATE TABLE IF NOT EXISTS advance(
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
-                            m.manufacterer FROM products 
+                            m.manufacterer,discount FROM products 
                             AS p JOIN products_name 
                             AS n JOIN manufacterer as m WHERE p.product_name = n.id AND m.id = p.manufacturer"""
 
 
-selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price,ap.quantity FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
+selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price,ap.quantity,discount,product_code FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""
 selectdamaged = """SELECT m.manufacterer,p.product_name,d.quantity,d.date FROM damages AS d JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = d.product_id AND m.id = d.manufacterer_id"""
 
 selectOrders = "SELECT o.id, o.orderid, o.date, c.name FROM orders as o JOIN customers as c WHERE c.id = o.customer_id AND o.checkout_status = '{}'"

@@ -46,6 +46,7 @@ class Database:
 		cursor.execute(tb.payments)
 		cursor.execute(tb.misseddays)
 		cursor.execute(tb.advance)
+		cursor.execute(tb.product_code)
 		conn.commit()
 		conn.close()
 	

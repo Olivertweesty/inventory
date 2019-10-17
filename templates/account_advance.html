@@ -48,8 +48,7 @@
 
       <!-- Divider -->
       <hr class="sidebar-divider">
-
-       <!-- Nav Item - Pages Collapse Menu -->
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-fw fa-cog"></i>
@@ -68,11 +67,10 @@
       
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="expenses">
+        <a class="nav-link" href="">
           <i class="fas fa-fw fa-table"></i>
           <span>Expenses</span></a>
       </li>
-
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="account_advance">
@@ -86,7 +84,7 @@
           <i class="fas fa-fw fa-table"></i>
           <span>Payments</span></a>
       </li>
-      
+     
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -238,90 +236,49 @@
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid" style="background: url('static/img/logo1.png') no-repeat center; background-size: 50% 100%; height: 80%;">
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <h1 class="h3 mb-0 text-gray-800">Advance Salary Application</h1>
             
           </div>
-
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
+            <!-- Area Chart -->
+            <div class="col-xl-12 col-lg-12">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Employees Details</h6>
+                </div>
+                <!-- Card Body -->
                 <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Available Funds</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="employees" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>First Name</th>
+                          <th>Middle Name</th>
+                          <th>ID Number/Passport</th>
+                          <th>Advance Requested</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                  
+                      </tbody>
+                  
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Expenses</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Amount In Credit</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Orders</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
-
           <!-- Content Row -->
           
 
@@ -380,13 +337,79 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
-
   <!-- Page level plugins -->
-  <script src="static/vendor/chart.js/Chart.min.js"></script>
+  <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-  <!-- Page level custom scripts -->
-  <script src="static/js/demo/chart-area-demo.js"></script>
-  <script src="static/js/demo/chart-pie-demo.js"></script>
+  <script type="text/javascript">
+    var id = 0;
+    $(document).ready(function() {
+      $('#employees').DataTable({
+          "processing" : true,
+          "ajax" : {
+              "url" :"http://"+window.location.hostname+":4000/getemployeesadvance",
+              dataSrc : ''
+          },
+          "columns" : [{
+              "data" : "id"
+          }, {
+              "data" : "firstname"
+          }, {
+              "data" : "middlename"
+          }, {
+              "data" : "id_number"
+          }, {
+              "data" : "amount"
+          }, {
+              "data" : "cashout"
+          }],
+          "createdRow": function( row, data, dataIndex){
+            console.log(data);
+            if( data['cashout'] ==  `Not Cashed Out`){
+                $(row).addClass('table-danger');
+            }else{
+              $(row).addClass('table-success');
+            }
+        }
+      });
+
+      $('#employees tbody').on( 'click', 'tr', function () {
+        id = $(this).find("td:first").text();
+        var firstname = $(this).find("td:nth-child(2)").text();
+        var middlename = $(this).find("td:nth-child(3)").text();
+        var advance = $(this).find("td:nth-child(5)").text();
+        var confirmation = confirm("Are you sure to Give Ksh . "+advance+" To "+firstname+" "+middlename+" ?");
+        if(confirmation == true){
+          requests()
+        }
+        //$("#leaveModal").modal("show"); 
+        
+      });
+
+      });
+
+    function requests(){
+        var leaveData = {
+          employeeid : id,
+        }
+        console.log(leaveData);
+        
+          
+          
+        ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/confirmadvance",
+          data : JSON.stringify(leaveData),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+              alert(result['response']);
+              location.reload();
+          } 
+        });
+    
+    }
+  </script>
+
 
 </body>
 

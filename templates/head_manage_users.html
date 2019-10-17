@@ -472,6 +472,7 @@
 
   <script type="text/javascript">
     var usernames = new Object();
+    var phones = new Object();
     function retriveMdata(){
       ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getemployees",
@@ -486,6 +487,7 @@
               console.log(response_data[i]);
               
               usernames[response_data[i]['id']] = response_data[i]['firstname'];
+              phones[response_data[i]['id']] = response_data[i]['mobile1']
               //us.username = response_data[i]['firstname'];
               options.append(new Option(response_data[i]['firstname'],response_data[i]['id']));
               
@@ -502,6 +504,7 @@
 
   function setdetails(evt){
     $("#username").val(usernames[evt.target.value]);
+    $("#phone").val(phones[evt.target.value]);
   }
   function adduser(){
       var userdata = {

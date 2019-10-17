@@ -216,6 +216,7 @@
                             <thead>
                               <tr>
                                 <th>ID</th>
+                                <th>Product Code</th>
                                 <th>Product Name</th>
                                 <th>Manufacturer</th>
                                 <th>Price</th>
@@ -344,16 +345,14 @@
           <p style="font-size: 15px;" id="others">Others</p>
           <input type="text" class="invisible" style="display: none;" id="total">
           <div class="row">
-            <div class="col-sm-4">
-              <input type="number" class="form-control" id="transport" onkeyup="transportadded()" placeholder="Transport" value="0">
+            <div class="col-sm-5">
+              <input type="number" class="form-control" id="transport" onkeyup="transportadded()" placeholder="Transport">
             </div>
-            <div class="col-sm-4">
-              <input type="number" class="form-control" id="discount" onkeyup="discountadded()" placeholder="Discount" value="0">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
+            <div class="col-sm-7">
+              <label class="checkbox-inline" style="align-items: center;"><input type="checkbox" id="tax"> Include 16% VAT</label>
             </div>
           </div>
+
           <p style="font-size: 15px;" id="item_name">Payment Method</p>
           <div class="row">
             <div class="col-sm-4">
@@ -443,14 +442,12 @@
         $("#amount").hide();
         $("#payment_code").hide();
         $("#withholding_tax").hide();
-        $("#discount").hide();
         $("#transport").hide();
         $("#others").hide();
       }else if(evt.target.value === "Mpesa"){
         $("#amount").show();
         $("#payment_code").show();
         $("#withholding_tax").show();
-        $("#discount").show();
         $("#transport").show();
         $("#others").show();
         $("#payment_code").prop('placeholder','Mpesa Code');
@@ -458,15 +455,20 @@
         $("#amount").show();
         $("#payment_code").show();
         $("#withholding_tax").show();
-        $("#discount").show();
         $("#transport").show();
         $("#others").show();
         $("#payment_code").prop('placeholder','Cheque Number');
+      }else if(evt.target.value === "Cash"){
+        $("#amount").show();
+        $("#payment_code").show();
+        $("#withholding_tax").show();
+        $("#transport").show();
+        $("#others").show();
+        $("#payment_code").hide();
       }else{
         $("#amount").show();
         $("#payment_code").show();
         $("#withholding_tax").show();
-        $("#discount").show();
         $("#transport").show();
         $("#others").show();
       }
@@ -475,6 +477,8 @@
 
     var items = new Object();
     var quantities = new Object();
+    var discounts = new Object();
+    var prod_codes = new Object();
     function getQuantities(){
        ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getposproducts",
@@ -485,7 +489,9 @@
           response_data = result;
           for(var i = 0; i< response_data.length;i++){
               console.log(response_data[i]);
+              discounts[response_data[i].id] = response_data[i].discount;
               quantities[response_data[i].id] = response_data[i].quantity;
+              prod_codes[response_data[i].id] = response_data[i].product_code;
           }
           console.log(quantities);
         } 
@@ -513,6 +519,8 @@
         "columns" : [{
             "data" : "id"
         },{
+            "data" : "product_code"
+        },{
             "data" : "product_name"
         }, {
             "data" : "manufacterer"
@@ -526,8 +534,8 @@
 
     $('#posproducts tbody').on( 'click', 'tr', function () {
 			var id = $(this).find("td:first").text();
-      var item_name = $(this).find("td:nth-child(2)").text();
-      var item_price = $(this).find("td:nth-child(4)").text();
+      var item_name = $(this).find("td:nth-child(3)").text();
+      var item_price = $(this).find("td:nth-child(5)").text();
 
       if(items['item'+id] === undefined){
         var divtoadd = $('#eachItem').clone().prop('id', 'item'+id );
@@ -539,7 +547,7 @@
         divtoadd.find('#item_price').text(item_price);
         $('#selected').append(divtoadd);
         if(checkQuantity(id,1)){
-          items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name,"item_price":item_price}
+          items['item'+id] = {"id":id,"price":item_price,"quantity":1,"name":item_name,"item_price":item_price,"discount":discounts[id],"prod_code": prod_codes[id]}
         }
         
       }else{
@@ -631,12 +639,12 @@
 
   <script>
     var total = 0.0;
+    var tDiscount = 0.0;
     function hidepayment(){
         $("#payment").hide();
         $("#amount").hide();
         $("#payment_code").hide();
         $("#withholding_tax").hide();
-        $("#discount").hide();
         $("#transport").hide();
         $("#others").hide();
     }
@@ -647,10 +655,12 @@
       
       for(var key in items){
         $("#checkoutproducts").append('<tr><td>'+items[key].name+'</td><td>'+items[key].quantity+'</td><td>Ksh. '+items[key].price+'</td></tr>');
-        total = total + (parseFloat(items[key].price) * parseInt(items[key].quantity))
+        total = total + (parseFloat(items[key].price) * parseInt(items[key].quantity)) - (parseFloat(items[key].discount) * parseInt(items[key].quantity))
+
+        tDiscount = tDiscount + (parseFloat(items[key].discount) * parseInt(items[key].quantity))
       }
       $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Transport</td><td id="transDis">Ksh. 0.0</td></tr>');
-      $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Discount</td><td id="disDis">Ksh. 0.0</td></tr>');
+      $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Discount</td><td id="disDis">Ksh. '+tDiscount+'</td></tr>');
       $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td id="totalDis">Ksh. '+total+'</td></tr>');
       if(parseFloat(total)<100001){
         $("#total").val("served");
@@ -667,7 +677,7 @@
         return
       }
       
-      var total_ = (parseFloat(total) + parseFloat(transport)) - parseFloat($("#discount").val());
+      var total_ = (parseFloat(total) + parseFloat(transport));
       $("#transDis").text("Ksh. "+ transport);
       $("#totalDis").text("Ksh. "+ total_);
     }
@@ -736,9 +746,19 @@
       var products = []
       var total_cost = 0.0;
       for(var key in items){
-        var pr = {item : items[key].id, quantity : items[key].quantity,price:items[key].price}
-        total_cost = total_cost + (parseFloat(items[key].price) * parseInt(items[key].quantity));
+        var pr = {item : items[key].id, quantity : items[key].quantity,price:items[key].price, discount : items[key].discount,prod_code : items[key].prod_code}
+        total_cost = total_cost + (parseFloat(items[key].price) * parseInt(items[key].quantity)) - (parseFloat(items[key].discount) * parseInt(items[key].quantity));
         products.push(pr);
+      }
+      console.log(total_cost);
+
+      if($("#transport").val() == ""){
+        $("#transport").val(0)
+      }
+
+      if ($("#customerdetails").val() == "Select Customer" || $("#customerdetails").val() == "Add Customer") {
+          alert("Please Select Customer");
+          return
       }
 
       if ( $("#payment").val() =="Credit" || total_cost > 100000) {
@@ -758,10 +778,11 @@
           alert("Please Enter Amount");
           return
         }else{
-          if ($("#amount").val() < ((total_cost+parseFloat($("#transport").val())) - parseFloat($("#discount").val()))){
+          if (parseFloat($("#amount").val()) < parseFloat(total_cost + parseFloat($("#transport").val()))){
             alert("Please Enter Correct Amount");
           return
           }
+
         }
 
         if($("#payment").val() =="Mpesa"){
@@ -780,16 +801,14 @@
 
       }
 
-      if ($("#customerdetails").val() == "Select Customer" || $("#customerdetails").val() == "Add Customer") {
-          alert("Please Select Customer");
-          return
-      }
+      
 
       var orderdata = {
         orderitems : products,
         payment: $("#payment").val(),
         customer_id : $("#customerdetails").val(),
-        discount : $("#discount").val(),
+        discount : tDiscount,
+        tax : $("#tax").prop('checked'),
         transport : $("#transport").val(),
         amount_paid : $("#amount").val(),
         serve_status : $("#total").val()

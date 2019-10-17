@@ -219,6 +219,7 @@
                           <th>Middle Name</th>
                           <th>ID Number/Passport</th>
                           <th>Advance Given</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -344,7 +345,17 @@
               "data" : "id_number"
           }, {
               "data" : "amount"
-          }]
+          }, {
+              "data" : "cashout"
+          }],
+          "createdRow": function( row, data, dataIndex){
+            console.log(data);
+            if( data['cashout'] ==  `Not Cashed Out`){
+                $(row).addClass('table-danger');
+            }else{
+              $(row).addClass('table-success');
+            }
+        }
       });
 
       $('#employees tbody').on( 'click', 'tr', function () {
@@ -364,8 +375,8 @@
           amount : $("#amount").val(),
         }
         console.log(leaveData);
-        
-          var conf = confirm("Please Confirm an Advance Salary Of Ksh. "+$("#amount").text()+" to the employee");
+          var amount = $("#amount").val();
+          var conf = confirm("Please Confirm an Advance Salary Of Ksh. "+amount+" to the employee");
           if (conf == true) { 
             ajaxObj = $.ajax({ 
               url: "http://"+window.location.hostname+":4000/applyadvance",

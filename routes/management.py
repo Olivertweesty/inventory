@@ -46,6 +46,26 @@ def addSystemUsers():
 	else:
 		return jsonify({"response":"failed to add user","code":300})
 
+@routes.route("/discount/<id>", methods =["POST","GET"])
+def discount(id):
+	todo = str(request.json.get("action"))
+	response = 0
+	if todo == "remove":
+		sql = "UPDATE products SET discount = '0' WHERE id = {}".format(id)
+		response = db.updaterecords(sql)
+	else:
+		amount = str(request.json.get("amount"))
+		print(amount)
+		sql = "UPDATE products SET discount = '{}' WHERE id = '{}'".format(amount,id)
+		response = db.updaterecords(sql)
+
+	if response:
+		return jsonify({"response":"successful"})
+	else:
+		return jsonify({"response":"failed"})
+
+
+
 def getPayedAndNot(data):
 	totalsales = 0.0
 	totaloncredit = 0.0

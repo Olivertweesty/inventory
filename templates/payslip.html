@@ -18,6 +18,12 @@
         font-weight: bold;
     }
 </style>
+<style type="text/css" media="print">
+@page {
+    size: auto;   /* auto is the initial value */
+    margin: 0;  /* this affects the margin in the printer settings */
+}
+</style>
 
 <body>
     <div class="invoice-box" id="printTable">
@@ -27,7 +33,7 @@
                     <table>
                         <tr>   
                             <td class="title" style="text-align:center">
-                                <img src="static/img/logo1.png" style="width:100px; max-width:300px; display: none;">
+                                <img src="static/img/logo1.png" style="width:100px; max-width:300px;">
                             </td> 
                         </tr>
                         <tr>   
@@ -123,6 +129,9 @@
             <tr>
                 <td>Signature</td>
                 <td>Accountant</td>
+            </tr>
+            <tr style="height: 50px">
+                
             </tr>
             
             

@@ -43,14 +43,15 @@ def checkin_products():
     purchase_price = str(request.json.get("purchase_price"))
     selling_price = str(request.json.get("selling_price"))
     
-    product_code = (manufacterer_name[0:4]+product_name[0:4])
+    product_code = str(request.json.get("productcode"))
+    # (manufacterer_name[0:4]+product_name[0:4])
 
     print(product_code)
 
     existance = db.selectSpecificItemsFromDb("products","AND",product_code=product_code,manufacturer=manufacterer,product_name=productname)
     if len(existance) == 0:
-        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,%s,%s,%s)"
-        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,selling_price,quantity,quantity_alert)
+        sql = "INSERT INTO products VALUES(0,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        response = db.insertDataToTable(sql,product_code,manufacterer,productname,purchase_price,unit_of_measument,selling_price,"0",quantity,quantity_alert)
     else:
         new_quantity = int(existance[0]['quantity']) + int(quantity)
         sql = "UPDATE products SET quantity = %s WHERE product_code=%s AND manufacturer=%s AND product_name=%s AND selling_price = %s"
@@ -81,6 +82,20 @@ def addproductname():
         return jsonify({"response":"successful added Product Name","code":200})
     else:
         return jsonify({"response":"failed to add Manufacterer","code":300})
+
+
+
+@routes.route('/addproductcode',methods = ["POST"])
+def addproductcode():
+    product_code = str(request.json.get("productcode"))
+    
+    sql = "INSERT INTO productCodes VALUES(0,%s)"
+    reponse = db.insertDataToTable(sql,product_code)
+    print(reponse)
+    if reponse:
+        return jsonify({"response":"successful added Product Code","code":200})
+    else:
+        return jsonify({"response":"failed to add Product Code","code":300})
 
 
 
@@ -138,6 +153,7 @@ def getallorders(id):
     for id_ in ids:
         itemName = getItemNameByID(id_['item'])
         itemName['quantity'] = id_['quantity']
+        itemName['discount'] = id_['discount']
         response['items'].append(itemName) 
     
 
@@ -145,7 +161,7 @@ def getallorders(id):
 
 @routes.route('/getreciept/<id>',methods = ["POST","GET"])
 def getreciept(id):
-    sql = "SELECT orderid,items,date_served,date,total_paid,payment_type,transport,discount FROM orders WHERE id = '{}'".format(id)
+    sql = "SELECT o.orderid,o.items,o.date_served,o.date,c.mobile_number,o.tax,o.total_paid,o.payment_type,o.transport,o.discount,c.name FROM orders as o JOIN customers as c ON c.id = o.customer_id WHERE o.id = '{}'".format(id)
     response = db.selectAllFromtables(sql)
     ids = dict(response[0])['items']
     ids = json.loads(ids.replace("'",'"'))
@@ -154,14 +170,20 @@ def getreciept(id):
                 "payment_type":dict(response[0])['payment_type'],
                 "total_paid":dict(response[0])['total_paid'],
                 "date":dict(response[0])['date'],
+                "customer_name" : dict(response[0])['name'],
+                "mobile_number" : dict(response[0])['mobile_number'],
                 "transport": dict(response[0])['transport'],
+                "tax": dict(response[0])['tax'],
                 "discount" : dict(response[0])['discount'],
                 "date_served": dict(response[0])['date_served'], 
                 "items":[]}
     for id_ in ids:
         itemName = getItemNameByID(id_['item'])
         itemName['quantity'] = id_['quantity']
-        response['items'].append(itemName) 
+        itemName['product_code'] = id_['prod_code']
+        itemName['discount'] = id_['discount']
+        response['items'].append(itemName)
+
     
 
     return jsonify(response)

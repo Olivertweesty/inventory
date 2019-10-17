@@ -170,11 +170,21 @@ def applyadvance():
 	else:
 		return jsonify({"response":"Advance salary Application Failed","code":300})
 
+@routes.route("/confirmadvance", methods = ["POST"])
+def confirmadvance():
+	id = str(request.json.get("employeeid"))
+	sql = "UPDATE advance SET cashout='Cashed Out' WHERE id = '{}'".format(id)
+	response = db.updaterecords(sql)
+	if response:
+		return jsonify({"response":"successful","code":200})
+	else:
+		return jsonify({"response":"Application","code":300})
+
 
 
 @routes.route("/getemployeesadvance",methods=['GET'])
 def getemployeesadvance():
-	sql = """SELECT e.id,e.firstname,e.middlename,e.id_number, SUM(m.amount) as amount
-			 FROM employees AS e JOIN advance as m WHERE e.id = m.employeeID AND m.status ='Not Deducted'"""
+	sql = """SELECT e.id,e.firstname,e.middlename,e.id_number, m.amount, m.cashout
+			 FROM advance as m JOIN employees AS e WHERE e.id = m.employeeID AND m.status ='Not Deducted'"""
 	response = db.selectAllFromtables(sql)
 	return jsonify(response)	

@@ -74,6 +74,13 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
+        <a class="nav-link" href="account_advance">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Advance Applications</span></a>
+      </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
         <a class="nav-link" href="payments">
           <i class="fas fa-fw fa-table"></i>
           <span>Payments</span></a>
@@ -538,7 +545,6 @@
           success: function(result){
 
             alert(result["response"]);
-            
             $("#creditProcess").modal('toggle');
             location.reload();
     

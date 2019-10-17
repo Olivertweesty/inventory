@@ -269,6 +269,13 @@
 
                         <form>
                             <div class="input-group">
+                                <select onchange="add_proc(event)" id="product_code" class="form-control select2" style="height:50px;">
+                                <option>Product Code</option>
+                                <option>Add Product Code</option>
+                              </select>
+                            </div>
+                            <br>
+                            <div class="input-group">
                                 <!--<input type="text" id = "manufacterer" class="form-control" placeholder="Manufacturer"  aria-describedby="basic-addon2">-->
                                 <select onchange="add_manu(event)" id="manufacterer" class="form-control select2" style="height:50px;">
                                 <option>Manufacturer Name</option>
@@ -303,7 +310,7 @@
                             </div>
                             <br>
                             <div class="input-group">
-                                <input type="text" id = "unit_s_price" class="form-control" placeholder="Unit Selling Price"  aria-describedby="basic-addon2">
+                                <input type="text" id = "unit_s_price" onkeyup="Summary('#unit_s_price','#Summary_price')" class="form-control" placeholder="Unit Selling Price"  aria-describedby="basic-addon2">
                             </div>
                             <br>
                             <div class="input-group">
@@ -338,6 +345,9 @@
                     
                   </div>
                   <div class="card-footer bg-transparent border-primary" id="total_div">
+                    Total :
+                  </div>
+                  <div class="card-footer bg-transparent" id="total_p_div">
                     Total :
                   </div>
                 </div>
@@ -460,6 +470,31 @@
     </div>
   </div>
 
+  <!-- Add product code Modal-->
+  <div class="modal fade" id="addproductcode" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Product Code</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="input-group">
+                    <input type="text" id = "productcode" class="form-control" placeholder="Product Code"  aria-describedby="basic-addon2">
+                </div>   
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" onclick="addProductCode()">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -500,7 +535,16 @@
     function add_name(evt){
       
       if (evt.target.value === "Add Product") {
-        $("#addproduct").modal('show');
+        $("#addproductcode").modal('show');
+        $("#product_code").val("Product Code").prop('selected', true);
+        $("#productcode").val("");
+      }
+    }
+
+    function add_proc(evt){
+      
+      if (evt.target.value === "Add Product Code") {
+        $("#addproductcode").modal('show');
         $("#products_name").val("Product Name").prop('selected', true);
         $("#productname").val("");
       }else{
@@ -560,6 +604,61 @@
         });
     }
 
+    function addProductCode(){
+      
+        var productcode = $("#productcode").val();
+        var product = {
+          productcode : productcode
+        }
+        console.log(product);
+        ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/addproductcode",
+          data: JSON.stringify(product),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+            alert(result["response"]);
+            $("#addproductcode").modal("toggle");
+            retriveCdata("productCodes");
+
+          } 
+        });
+    }
+
+    function retrivePdata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#products_name");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['product_name'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
+    function retriveCdata(service){
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          //alert(result["response"])
+          response_data = result["response"]
+          var options = $("#product_code");
+          for(var i = 0; i< response_data.length;i++){
+              console.log(response_data[i]);
+              options.append(new Option(response_data[i]['product_code'],response_data[i]['id']));
+          } 
+        } 
+      });
+    }
+
     function retrivePdata(service){
       ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
@@ -596,6 +695,7 @@
 
     retrivePdata("products_name");
     retriveMdata("manufacterer");
+    retriveCdata("productCodes");
     
 
     function Summary(from,to){
@@ -603,7 +703,12 @@
 
         if(from == "#unit_price"){
           var total = $("#quantity").val() * $(from).val()
-          $("#total_div").text("Total : Ksh. "+total)
+          $("#total_div").text("Total Purchase : Ksh. "+total)
+        }
+
+        if(from == "#unit_s_price"){
+          var total = $("#quantity").val() * $(from).val()
+          $("#total_p_div").text("Total Profit : Ksh. "+total)
         }
     }
 
@@ -615,6 +720,7 @@
 
     function submit_checkin(){
       var product_data = {
+        productcode : $("#product_code option:selected").text(),
         manufacterer : $("#manufacterer").val(),
         productname : $("#products_name").val(),
         unit_of_measument : $("#units_of_measure").val(),

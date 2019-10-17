@@ -74,6 +74,13 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
+        <a class="nav-link" href="account_advance">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Advance Applications</span></a>
+      </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
         <a class="nav-link" href="payments">
           <i class="fas fa-fw fa-table"></i>
           <span>Payments</span></a>
@@ -363,13 +370,7 @@
           <input type="text" class="invisible" style="display: none;" id="processType">
           <div class="row">
             <div class="col-sm-4">
-              <input type="text" class="form-control" id="transport" value="0" onkeyup="transportadded()" placeholder="Transport">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="discount" value="0" onkeyup="discountadded()" placeholder="Discount">
-            </div>
-            <div class="col-sm-4">
-              <input type="text" class="form-control" id="withholding_tax" value="16%" placeholder="Tax" disabled>
+              <input type="text" class="form-control" id="transport" onkeyup="transportadded()" placeholder="Transport">
             </div>
           </div>
           <p style="font-size: 15px;" id="py">Payment Method</p>
@@ -417,7 +418,7 @@
 
   <script>
     var total = 0.0;
-
+    var discount = 0.0;
     function getSingleOrder(id){
       ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
@@ -431,10 +432,11 @@
           for(var item in result['items']){
             console.log(result['items'][item]);
             $("#checkoutproducts").append('<tr><td>'+result['items'][item].product_name+'</td><td>'+result['items'][item].quantity+'</td><td>Ksh. '+result['items'][item].selling_price+'</td></tr>');
-            total = total + (parseFloat(result['items'][item].selling_price) * parseInt(result['items'][item].quantity))
+            discount = discount + (parseFloat(result['items'][item].discount) * parseInt(result['items'][item].quantity))
+            total = total + (parseFloat(result['items'][item].selling_price) * parseInt(result['items'][item].quantity)) - (parseFloat(result['items'][item].discount) * parseInt(result['items'][item].quantity))
           }
           $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Transport</td><td id="transDis">Ksh. 0.0</td></tr>');
-          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Discount</td><td id="disDis">Ksh. 0.0</td></tr>');
+          $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Discount</td><td id="disDis">Ksh. '+discount+'</td></tr>');
           $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td id="totalDis">Ksh. '+total+'</td></tr>');
 
         } 
@@ -506,23 +508,12 @@
         return
       }
       
-      var total_ = (parseFloat(total) + parseFloat(transport)) - parseFloat($("#discount").val());
+      var total_ = (parseFloat(total) + parseFloat(transport));
       $("#transDis").text("Ksh. "+ transport);
       $("#totalDis").text("Ksh. "+ total_);
     }
 
     
-    function discountadded(){
-      var discount = $("#discount").val();
-      if (discount == undefined) {
-        $("#discount").val(0);
-        return
-      }
-    
-      var total_ = (parseFloat(total) - parseFloat(discount)) + parseFloat($("#transport").val());
-      $("#disDis").text("Ksh. "+ discount);
-      $("#totalDis").text("Ksh. "+ total_);
-    }
 
     function paymentmethods(evt){
       if (evt.target.value === "Credit") {
@@ -560,18 +551,16 @@
 
 
     function process(){
+        if ($("#transport").val() == "") {
+          $("#transport").val(0);
+        }
         if($("#processType").val()=="other"){
+
+
           if($("#payment").val() == "Payment Method"){
             alert("Please Select Payment Method");
             return
           }
-
-
-
-        if($("#payment").val() == "Payment Method"){
-          alert("Please Select Payment Method");
-          return
-        }
 
 
         if ($("#payment").val() != "Credit") {
@@ -579,7 +568,7 @@
             alert("Please Enter Amount");
             return
           }else{
-            if ($("#amount").val() < ((total+parseFloat($("#transport").val())) - parseFloat($("#discount").val()))){
+            if ($("#amount").val() < ((total+ parseFloat($("#transport").val())))){
               alert("Please Enter Correct Amount");
             return
             }
@@ -601,17 +590,23 @@
 
           }
 
+        }else{
+          $("#payment").val("Credit");
         }
+
+        
 
         var data = {
           payment: $("#payment").val(),
           order_id : id,
-          discount : $("#discount").val(),
+          discount : discount,
           transport : $("#transport").val(),
           amount_paid : $("#amount").val(),
           serve_status : "served",
           type : $("#processType").val()
         }
+
+        console.log(data)
 
         ajaxObj = $.ajax({ 
           url: "http://"+window.location.hostname+":4000/processpendinginvoice",

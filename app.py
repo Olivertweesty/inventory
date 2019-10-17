@@ -120,6 +120,8 @@ def warehousepages(name):
         return render_template("hr_payslip.html")
     elif name == "payslipPrint":
         return render_template("payslip.html")
+    elif name == "account_advance":
+        return render_template("account_advance.html")
     else:
         return render_template("404.html")
 
