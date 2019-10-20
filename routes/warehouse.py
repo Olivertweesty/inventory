@@ -16,11 +16,13 @@ def warehouse():
 
 
 def getSingleItemFromTable(table, **kwargs):
-    key = [key for key, value in kwargs.items()]
+    key = list([key for key, value in kwargs.items()])
+    key = key[0]
     value = [value for key, value in kwargs.items()]
-    sql = "SELECT * FROM {} WHERE {} = '{}'".format(table,key[0],value[0])
+    print(value)
+    sql = "SELECT * FROM {} WHERE {} = '{}'".format(table,key,value[0])
     response = db.selectAllFromtables(sql)
-
+    print(sql)
     return response
 
 @routes.route("/summarywarehouse", methods = ['POST'])
@@ -33,6 +35,7 @@ def checkin_products():
     manufacterer = str(request.json.get("manufacterer"))
 
     manufacterer_name = getSingleItemFromTable("manufacterer",id=manufacterer)
+    print(manufacterer_name)
     manufacterer_name = (manufacterer_name[0]['manufacterer']).upper()
     productname = str(request.json.get("productname"))
     product_name = getSingleItemFromTable("products_name",id=productname)
