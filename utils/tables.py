@@ -68,6 +68,7 @@ orders = """CREATE TABLE IF NOT EXISTS orders(
                                     `customer_id` varchar(20),
                                     `transport` varchar(20) DEFAULT '0',
                                     `discount` varchar(20) DEFAULT '0',
+                                    `installations` varchar(20) DEFAULT '0',
                                     `checkout_status` varchar(20),
                                     `tax` varchar(20) DEFAULT '0',
                                     `payment_status` varchar(20),

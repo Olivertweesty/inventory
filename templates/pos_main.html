@@ -345,10 +345,13 @@
           <p style="font-size: 15px;" id="others">Others</p>
           <input type="text" class="invisible" style="display: none;" id="total">
           <div class="row">
-            <div class="col-sm-5">
+            <div class="col-sm-4">
               <input type="number" class="form-control" id="transport" onkeyup="transportadded()" placeholder="Transport">
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-4">
+              <input type="number" class="form-control" id="installation" onkeyup="installationadded()" placeholder="Installation">
+            </div>
+            <div class="col-sm-4">
               <label class="checkbox-inline" style="align-items: center;"><input type="checkbox" id="tax"> Include 16% VAT</label>
             </div>
           </div>
@@ -526,7 +529,12 @@
             "data" : "manufacterer"
         }, {
             "data" : "selling_price"
-        }]
+        }],
+        "fnDrawCallback": function(oSettings) {
+          if ($('#example tr').length < 11) {
+              $('.dataTables_paginate').hide();
+          }
+        }
     });
     
 
@@ -659,8 +667,8 @@
 
         tDiscount = tDiscount + (parseFloat(items[key].discount) * parseInt(items[key].quantity))
       }
-      $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Transport</td><td id="transDis">Ksh. 0.0</td></tr>');
-      $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Discount</td><td id="disDis">Ksh. '+tDiscount+'</td></tr>');
+      $("#checkoutproducts").append('<tr><th>Installation</th><th>Transport</th><th>Discount</th></tr>');
+      $("#checkoutproducts").append('<tr><td id="install"> Ksh. 0.0</td><td id="transDis">Ksh. 0.0</td><td id="disDis">Ksh. '+tDiscount+'</td></tr>');
       $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td id="totalDis">Ksh. '+total+'</td></tr>');
       if(parseFloat(total)<100001){
         $("#total").val("served");
@@ -676,22 +684,34 @@
         $("#transport").val(0);
         return
       }
+      var installation = 0;
+      if ($("#installation").val() == "") {
+        $("#installation").val(0);
+      }else{
+        installation = $("#installation").val();
+      }
       
-      var total_ = (parseFloat(total) + parseFloat(transport));
+      var total_ = (parseFloat(total) + parseFloat(transport)) + parseFloat(installation);
       $("#transDis").text("Ksh. "+ transport);
       $("#totalDis").text("Ksh. "+ total_);
     }
 
     
-    function discountadded(){
-      var discount = $("#discount").val();
-      if (discount == undefined) {
-        $("#discount").val(0);
+    function installationadded(){
+      var installation = $("#installation").val();
+      if (installation == undefined) {
+        $("#installation").val(0);
         return
       }
+      var transport = 0;
+      if ($("#transport").val() == "") {
+        $("#transport").val(0);
+      }else{
+        transport = $("#transport").val();
+      }
     
-      var total_ = (parseFloat(total) - parseFloat(discount)) + parseFloat($("#transport").val());
-      $("#disDis").text("Ksh. "+ discount);
+      var total_ = (parseFloat(total) + parseFloat(installation)) + parseFloat(transport);
+      $("#install").text("Ksh. "+ installation);
       $("#totalDis").text("Ksh. "+ total_);
     }
   </script>
