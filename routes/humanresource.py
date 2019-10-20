@@ -49,7 +49,7 @@ def addemployees():
 
 	employeeid = responseISD[0]['MAX(id)']
 	sql2 = "INSERT INTO leaveDays VALUES(0,%s,'15','90','7')"
-	sql3 = "INSERT INTO advance VALUES(0,%s,'0','0','0','0')"
+	sql3 = "INSERT INTO advance VALUES(0,%s,'0','0','Not Deducted','0')"
 	sql4 = "INSERT INTO missingdays VALUES(0,%s,'0','0','0')"
 	db.insertDataToTable(sql2,employeeid)
 	db.insertDataToTable(sql3,employeeid)
@@ -174,6 +174,7 @@ def applyadvance():
 def confirmadvance():
 	id = str(request.json.get("employeeid"))
 	sql = "UPDATE advance SET cashout='Cashed Out' WHERE id = '{}'".format(id)
+
 	response = db.updaterecords(sql)
 	if response:
 		return jsonify({"response":"successful","code":200})
@@ -184,7 +185,12 @@ def confirmadvance():
 
 @routes.route("/getemployeesadvance",methods=['GET'])
 def getemployeesadvance():
-	sql = """SELECT e.id,e.firstname,e.middlename,e.id_number, m.amount, m.cashout
-			 FROM advance as m JOIN employees AS e WHERE e.id = m.employeeID AND m.status ='Not Deducted'"""
+	sql = """SELECT e.id,m.id,e.firstname,e.middlename,e.id_number, SUM(m.amount) as amount, m.cashout FROM advance as m JOIN employees AS e ON e.id = m.employeeID WHERE m.status ='Not Deducted'"""
+	response = db.selectAllFromtables(sql)
+	return jsonify(response)
+
+@routes.route("/getemployeesadvance2",methods=['GET'])
+def getemployeesadvance2():
+	sql = """SELECT m.id,m.id,e.firstname,e.middlename,e.id_number, m.amount, m.cashout FROM advance as m JOIN employees AS e ON e.id = m.employeeID WHERE m.status ='Not Deducted'"""
 	response = db.selectAllFromtables(sql)
 	return jsonify(response)	

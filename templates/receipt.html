@@ -53,7 +53,7 @@
                         </tr>
                         <tr>   
                             <td style="text-align:center">
-                                <b>The Leading Dealer In : Aluminium & Glass</b><br>
+                                <b>The Leading Dealer In : Aluminium, Glass & Accessories</b><br>
                                 <b>Located At :
                                 Industrial Area Off Kampala Road</b> <br> <b>Ashray Business Park D6</b>
                             </td> 
@@ -87,7 +87,7 @@
                 </td>
             </tr>
             </table>
-           <div class="itemsRow" style="height: 300px;">
+           <div class="itemsRow" style="height: 250px;">
             <table style="box-shadow: 0 0 0 1px white; ">
                 <thead>
                 <tr style="background: #eee; text-align:center;border-bottom: 0px solid #000;font-weight: bold;">
@@ -128,10 +128,10 @@
             </div>
             <div>
                 <b>Terms & Conditions:</b>
-                <ul>
+                <ul style="font-size: 10px;">
                     <li>Payment Terms strictly as indicated above or sooner on demand</li>
-                    <li>Interest of 3% per month will be charges on all overdue accounts</li>
-                    <li>Any queries on prices/items supplied must be sent in writting within 2 weeks from the date of invoice and thereafter will not be entertained</li>
+                    <li>An Upfront of 50% is required before delivery of goods</li>
+                    <li>Any queries on prices/items supplied must be sent in writting within one weeks from the date of invoice and thereafter will not be entertained</li>
                     <li>Goods may be accepted back only at our discretion. Any return of goods without confirmation signature will be invalid</li>
                 </ul>
             </div>
@@ -189,7 +189,8 @@
             $("#customertel").text(result['mobile_number']);
             $("#customername").text(result['customer_name']);
              var itemTotal = (parseFloat(result['items'][item]['selling_price']) * parseInt(result['items'][item]['quantity']))
-            total = total + itemTotal - (parseFloat(result['items'][item]['discount']) * parseInt(result['items'][item]['quantity']))
+            total = (total + itemTotal) - (parseFloat(result['items'][item]['discount']) * parseInt(result['items'][item]['quantity']))
+            console.log(total)
             var txt = '<tr><td>'+result['items'][item]['product_code']+'</td><td style=" text-align:center">'+result['items'][item]['product_name']+'</td><td>'+result['items'][item]['quantity']+'</td><td>'+result['items'][item]['selling_price']+'</td><td>'+parseFloat(itemTotal)+'</td><tr>'
             //<td>'+result['items'][item]['quantity']+'</td>
             $("#mytable").append(txt);
@@ -198,18 +199,18 @@
      
           var blank ='<tr class="heading"><td></td><td></td></tr>'
           if(result['tax'] == "True"){
-            $("#vat").text("Ksh. "+parseFloat(0.16 * total));
-            total = (total + parseFloat(result['transport'])) - parseFloat(result['discount']) + parseFloat(0.16 * total)
+            $("#vat").text("Ksh. "+parseFloat(0.16 * total).toFixed(2));
+            total = ((total + parseFloat(result['transport'])) + parseFloat(0.16 * total)).toFixed(2)
             $("#total").text("Ksh. "+total);
           }else{
             $("#vat").text("Ksh. 0.00");
-            total = (total + parseFloat(result['transport'])) - parseFloat(result['discount'])
+            total = (total + parseFloat(result['transport']))
             $("#total").text("Ksh. "+total);
           }
           //$("#mytable").append(blank);
           
-         $("#transport").text("Ksh. "+result['transport']);
-          $("#discount").text("Ksh. "+result['discount']);
+         $("#transport").text("Ksh. "+parseFloat(result['transport']).toFixed(2));
+          $("#discount").text("Ksh. "+parseFloat(result['discount']).toFixed(2));
           
           
           

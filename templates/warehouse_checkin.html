@@ -532,19 +532,19 @@
   <script src="static/js/sweetalert2.all.min.js"></script>
 
   <script>
-    function add_name(evt){
+    function add_proc(evt){
       
-      if (evt.target.value === "Add Product") {
+      if (evt.target.value === "Add Product Code") {
         $("#addproductcode").modal('show');
         $("#product_code").val("Product Code").prop('selected', true);
         $("#productcode").val("");
       }
     }
 
-    function add_proc(evt){
+    function add_name(evt){
       
-      if (evt.target.value === "Add Product Code") {
-        $("#addproductcode").modal('show');
+      if (evt.target.value === "Add Product") {
+        $("#addproduct").modal('show');
         $("#products_name").val("Product Name").prop('selected', true);
         $("#productname").val("");
       }else{

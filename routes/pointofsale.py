@@ -5,7 +5,7 @@ import utils.tables as tb
 from flask import jsonify
 from flask import request
 from datetime import datetime
-import json
+import json, ast
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -15,7 +15,7 @@ def generateOderID():
     dateTimeObj = datetime.now()
     timestampStr = dateTimeObj.strftime("%d%m%Y%H%M%S")
 
-    return "INV-{}".format(timestampStr)
+    return "ZHL-{}".format(timestampStr)
 
 
 @routes.route('/pointofsale')
@@ -67,7 +67,9 @@ def submitorder():
     orderID = generateOderID()
     dateTimeObj = datetime.now()
     dateT = dateTimeObj.strftime("%b-%d-%Y %H:%M:%S")
-
+    
+    orderitems = orderitems.replace("u'","'")
+    print(orderitems)
     items = json.loads(orderitems.replace("'",'"'))
     #calculate total
     total = 0.0
