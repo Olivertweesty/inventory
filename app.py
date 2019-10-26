@@ -47,6 +47,9 @@ def main():
 @app.route("/login.html",methods=["GET","POST"])
 def logout():
     return redirect(url_for("main"))
+@app.route("/getallowedarea", methods=["POST"])
+def getAllowedArea():
+    return ""
 
 @app.route('/<name>')
 def warehousepages(name):
