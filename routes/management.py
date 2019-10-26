@@ -24,6 +24,11 @@ def getSystemUsers():
     sql = "SELECT u.id, e.firstname,u.phone,u.access_rights,u.username FROM users AS u JOIN employees AS e ON u.userid = e.id"
     response = db.selectAllFromtables(sql)
     return jsonify(response)
+@routes.route("/getuserrights/<id>", methods = ["POST","GET"])
+def getuserrights(id):
+	sql = "SELECT access_rights FROM users WHERE id = {}".format(id)
+	response = db.selectAllFromtables(sql)
+	return jsonify(response)
 
 @routes.route("/addsystemuser", methods = ["POST","GET"])
 def addSystemUsers():
