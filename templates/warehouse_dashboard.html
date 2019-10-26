@@ -195,18 +195,6 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -373,6 +361,32 @@
   <!-- Page level custom scripts -->
   <script src="static/js/demo/chart-area-demo.js"></script>
   <script src="static/js/demo/chart-pie-demo.js"></script>
+  <script type="text/javascript">
+  var userid = location.search.split('=')[1];
+  sessionStorage.setItem("userid",userid)
+  ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getuserrights/"+userid,
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          var access_rights = (result[0]['access_rights'].split(','))
+          for(var i = 0; i<access_rights.length;i++){
+            if (access_rights[i] == "warehouse") {
+              $('[aria-labelledby=userDropdown]').prepend('<a class="dropdown-item" href="warehouse"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>WareHouse</a>');
+            }else if(access_rights[i] == "admin"){
+              $("[aria-labelledby=userDropdown]").prepend('<a class="dropdown-item" href="management"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Management</a>');
+            }else if(access_rights[i] == "humanresource"){
+              $("[aria-labelledby=userDropdown]").prepend('<a class="dropdown-item" href="humanresource"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Human Resource</a>');
+            }else if(access_rights[i] == "pointofsale"){
+              $("[aria-labelledby=userDropdown]").prepend('<a class="dropdown-item" href="pointofsale"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Point Of Sale</a>');
+            }else if(access_rights[i] == "accounting"){
+              $("[aria-labelledby=userDropdown]").prepend('<a class="dropdown-item" href="account"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Finance</a>');
+            }
+          }
+
+        } 
+  });
+  </script>
 
 </body>
 

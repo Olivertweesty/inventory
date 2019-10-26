@@ -3,6 +3,7 @@ from flask import Flask, request, url_for
 from flask import render_template,redirect
 from utils.Database import Database
 import os
+import json
 from flask import send_from_directory
 
 
@@ -22,21 +23,24 @@ def login():
     password = request.form.get("pass")
     service = request.form.get("service")
     values = db.selectSpecificItemsFromDb("users","AND",username = username,password = password)
+    data = json.dumps(values)
+    user = json.loads(data)[0]['id']
+        
     if len(values) == 0:
         return redirect(url_for("main",message = "User Not Registered On A System"))
     elif service not in values[0]["access_rights"].split(","):
         return redirect(url_for("main",message = "User Does Not Have Rights to access {}".format(service)))
     else:
         if service == "warehouse":
-            return redirect(url_for("routes.warehouse"))
+            return redirect(url_for("routes.warehouse",login = user))
         elif service == "pointofsale":
-            return redirect(url_for("routes.pointofsale"))
+            return redirect(url_for("routes.pointofsale", login = user))
         elif service == "accounting":
-            return redirect(url_for("routes.account"))
+            return redirect(url_for("routes.account", login = user))
         elif service == "humanresource":
-            return redirect(url_for("routes.humanresource"))
+            return redirect(url_for("routes.humanresource", login = user))
         elif service == "admin":
-            return redirect(url_for("routes.management"))
+            return redirect(url_for("routes.management", login = user))
         else:
             return str(values)
 
