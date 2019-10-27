@@ -17,6 +17,15 @@
 
   <!-- Custom styles for this template-->
   <link href="static/css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.3.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
 
 </head>
 
@@ -56,7 +65,7 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="">All Employees</a>
+            <a class="collapse-item" href="employees">All Employees</a>
             <a class="collapse-item" href="add_employee">Add Employee</a>
             
           </div>
@@ -201,7 +210,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Employees</h1>
+            <h1 class="h3 mb-0 text-gray-800">Pay Slips</h1>
             
           </div>
           <!-- Content Row -->
@@ -223,11 +232,10 @@
                           <th>ID</th>
                           <th>First Name</th>
                           <th>Middle Name</th>
-                          <th>ID Number/Passport</th>
-                          <th>Designation</th>
-                          <th>Department</th>
-                          <th>Mobile Number</th>
-                          <th>Action</th>
+                          <th>PAYE</th>
+                          <th>NSSF</th>
+                          <th>NHIF</th>
+                          <th>NetPay</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -304,29 +312,34 @@
 
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.0.3/js/dataTables.buttons.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-  <script type="text/javascript">
 
-    function removeemployee(id){
-      
-        ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/removeemployee/"+id,
-          type: "POST",
-          contentType: "application/json",  
-          success: function(result){
-            alert(result["response"]);
-            window.reload()
-          }
-        });
-    }
+  <script src="https://cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+  <script type="text/javascript">
     
     $(document).ready(function() {
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployees",
+              "url" :"http://"+window.location.hostname+":4000/getemployeesalaries",
               dataSrc : ''
           },
+          "dom": 'Bfrtip',
+          "buttons": [
+          {
+            extend: 'excel',
+            text: 'Export excel',
+            className: 'exportExcel',
+            filename: 'Export excel',
+            exportOptions: {
+              modifier: {
+                page: 'all'
+              }
+            }
+          }],
           "columns" : [{
               "data" : "id"
           }, {
@@ -334,21 +347,29 @@
           }, {
               "data" : "middlename"
           }, {
-              "data" : "id_number"
+              "data" : "payee"
           }, {
-              "data" : "designation"
+              "data" : "nssf"
           }, {
-              "data" : "department"
+              "data" : "nhif"
           }, {
-              "data" : "mobile1"
-          },{data: "id" , mRender : function ( data, type, row, meta ) {
-          
-              return '<button class="btn btn-danger" onclick="removeemployee('+row['id']+')" style="margin-right: 2px;"><span style="font-size:17px;">Remove</span></button>'
-          }}]
+              "data" : "net_pay"
+          }],
+          "fnDrawCallback": function(oSettings) {
+          if ($('#example tr').length < 11) {
+              $('.dataTables_paginate').hide();
+          }
+        }
       });
 
       $('#employees tbody').on( 'click', 'tr', function () {
         var id = $(this).find("td:first").text();
+        var name = $(this).find("td:nth-child(2)").text() +" "+$(this).find("td:nth-child(3)").text();
+        var conf = confirm("Are You sure you want to Generate Pay Slip for "+name);
+        if (conf == true) {
+          var url = "http://"+window.location.hostname+":4000/payslipPrint#"+id;
+          window.open(url,"_blank");
+        }
         
       });
 

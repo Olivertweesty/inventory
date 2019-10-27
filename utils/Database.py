@@ -8,7 +8,7 @@ class Database:
 		self.password = "9993revilo"
 		#Creating the database if it does not exist
 		connection = pymysql.connect(host='localhost',
-                             user='admin',
+                             user='root',
                              password=self.password,
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
@@ -21,7 +21,7 @@ class Database:
 
 	def connectToDatabase(self):
 		connection = pymysql.connect(host='localhost',
-                             user='admin',
+                             user='root',
                              password=self.password,
                              db=self.databasename,
                              charset='utf8mb4',
@@ -47,6 +47,7 @@ class Database:
 		cursor.execute(tb.misseddays)
 		cursor.execute(tb.advance)
 		cursor.execute(tb.product_code)
+		cursor.execute(tb.salariesTable)
 		conn.commit()
 		conn.close()
 	

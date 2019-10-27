@@ -30,6 +30,12 @@ def getuserrights(id):
 	response = db.selectAllFromtables(sql)
 	return jsonify(response)
 
+@routes.route("/updatesellingprice", methods = ["POST"])
+def updatesellingprice():
+	amount = str(request.json.get("amount"))
+	id = str(request.json.get("product_id"))
+	sql = "UPDATE products SET selling_price"
+
 @routes.route("/addsystemuser", methods = ["POST","GET"])
 def addSystemUsers():
 	userid = str(request.json.get("userid"))

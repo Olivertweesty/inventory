@@ -180,10 +180,25 @@ advance = """CREATE TABLE IF NOT EXISTS advance(
                                     `date_given` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
-selectallproduct = """SELECT p.id, product_code,n.product_name, quantity,
+selectallproduct = """SELECT p.id, product_code,selling_price,n.product_name, quantity,
                             m.manufacterer,discount FROM products 
                             AS p JOIN products_name 
                             AS n JOIN manufacterer as m WHERE p.product_name = n.id AND m.id = p.manufacturer"""
+
+salariesTable = """ CREATE TABLE IF NOT EXISTS salaries(
+                                    `id` int(20) AUTO_INCREMENT,
+                                    `employeeID` int(20),
+                                    `year` varchar(20),
+                                    `month` varchar(20),
+                                    `net_pay` varchar(20),
+                                    `payee` varchar(20),
+                                    `nhif` varchar(20),
+                                    `nssf` varchar(20),
+                                    `advance` varchar(20),
+                                    `taxable` varchar(20),
+                                    `relief` varchar(20),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
 
 selectproductPOS = """SELECT ap.id,m.manufacterer,p.product_name, ap.selling_price,ap.quantity,discount,product_code FROM products AS ap JOIN manufacterer AS m JOIN products_name AS p WHERE p.id = ap.product_name AND m.id = ap.manufacturer"""

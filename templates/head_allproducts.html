@@ -273,6 +273,7 @@
                                 <th>Product Code</th>
                                 <th>Product Name</th>
                                 <th>Manufacturer</th>
+                                <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Discount</th>
                                 <th>Action</th>
@@ -337,6 +338,34 @@
     </div>
   </div>
 
+  <!-- change Price Modal-->
+  <div class="modal fade" id="addpriceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <span id="p_id" style="display: none;"></span>
+          <p>Product Code : <span id="p_code"></span></p>
+          <p>Manufacturer : <span id="p_man"></span></p>
+          <p>Product Name : <span id="p_name"></span></p>
+          <p>Quantity : <span id="p_quant"></span></p>
+          <p>Price</p>
+          <input type="number" class="form-control" name="" id="p_price">
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" onclick="updateSellingPrice()">Save</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- add Discount Modal-->
   <div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -374,6 +403,26 @@
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script>
+    function updateSellingPrice(){
+      var id = $("#p_id").text();
+      var product = {
+          amount : $("#p_price").val(),
+          product_id : id
+        }
+        ajaxObj = $.ajax({ 
+          url: "http://"+window.location.hostname+":4000/updatesellingprice",
+          data: JSON.stringify(product),
+          type: "POST",
+          contentType: "application/json",  
+          success: function(result){
+            alert(result["response"]);
+            $("#addDiscount").modal("toggle");
+          }
+        });
+
+
+    }
+
     var url = ""
     function process(id){
       var product = {
@@ -431,6 +480,8 @@
         }, {
             "data" : "manufacterer"
         }, {
+            "data" : "selling_price"
+        }, {
             "data" : "quantity"
         }, {
             "data" : "discount"
@@ -448,12 +499,19 @@
 
     $('#products tbody').on( 'click', 'tr', function () {
       var id = $(this).find("td:first").text();
-      
-      console.log(id);
+
+      $("#p_id").text(id)
+      $("#p_code").text($(this).find("td:nth-child(2)").text())
+      $("#p_man").text($(this).find("td:nth-child(3)").text())
+      $("#p_name").text($(this).find("td:nth-child(4)").text())
+      $("#p_quant").text($(this).find("td:nth-child(6)").text())
+      $("#p_price").val($(this).find("td:nth-child(5)").text())
+      $("#addpriceModal").modal("show");
       
     });
 
 });
+
   </script>
 
 </body>

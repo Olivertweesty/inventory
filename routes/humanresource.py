@@ -8,6 +8,7 @@ import json
 from datetime import datetime
 from bs4 import BeautifulSoup,Tag, NavigableString
 import requests
+from dateutil.relativedelta import relativedelta
 
 db = Database("inventorymanagementsystem","9993revilo")
 
@@ -126,6 +127,18 @@ def getPayeeDetails(salary):
 		response[row.find_all("td")[0].text] = ((row.find_all("td")[1].text).replace("KSh ","").replace(",",""))
 	return response
 
+def savePayslipInfo(data):
+	sql = "INSERT INTO salaries VALUES(0,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+	year = datetime.now().strftime("%Y")
+	last_month = datetime.now() - relativedelta(months=1)
+	month = format(last_month, '%B')
+	response = db.insertDataToTable(sql,data['id'],year,month,data['other']['Net Pay: Carry Home Pay'],data['other']['Tax Payable (PAYE)'],data['other']['NHIF Contribution'],data['other']['Deductible NSSF Pension Contribution'],data['advance'],data['other']['Taxable Income'],data['other']['Personal Relief'])
+
+@routes.route("/getemployeesalaries", methods = ['POST','GET'])	
+def getEmployeeSalaries():
+	sql = "SELECT * FROM salaries AS s JOIN employees AS e ON s.employeeID = e.id"
+	response = db.selectAllFromtables(sql)
+	return jsonify(response)
 
 
 @routes.route("/generatepayslip/<id>", methods = ['POST','GET'])
@@ -138,6 +151,7 @@ def generatepayslip(id):
 	response['date'] = dt
 	response['housing'] = 0
 	response['other'] = getPayeeDetails(float(response['basic_pay']))
+	savePayslipInfo(response)
 	return jsonify(response)
 
 @routes.route("/reportmissing", methods = ['POST','GET'])
@@ -154,6 +168,14 @@ def reportmissing():
 		return jsonify({"response":"Reporting Failed","code":300})
 
 
+@routes.route("/removeemployee/<id>",methods = ["POST"])
+def removeemployee(id):
+	sql = "DELETE FROM employees WHERE id = '{}'".format(id)
+	response = db.updaterecords(sql)
+	if response:
+		return jsonify({"response":"successful","code":200})
+	else:
+		return jsonify({"response":"Failed","code":300})
 
 
 
