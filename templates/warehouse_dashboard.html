@@ -354,6 +354,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+  
 
   <!-- Page level plugins -->
   <script src="static/vendor/chart.js/Chart.min.js"></script>
@@ -362,8 +363,19 @@
   <script src="static/js/demo/chart-area-demo.js"></script>
   <script src="static/js/demo/chart-pie-demo.js"></script>
   <script type="text/javascript">
-  var userid = location.search.split('=')[1];
-  sessionStorage.setItem("userid",userid)
+    var userid;
+    if(location.search.split('=')[1] == undefined){
+      if (sessionStorage.getItem("userid") === null) {
+        window.location = "http://"+window.location.hostname+":4000"
+      }else{
+        userid = sessionStorage.getItem("userid");
+      }
+    }else{
+      userid = location.search.split('=')[1];
+      sessionStorage.setItem("userid",userid)
+    }
+  
+
   ajaxObj = $.ajax({ 
         url: "http://"+window.location.hostname+":4000/getuserrights/"+userid,
         type: "POST",

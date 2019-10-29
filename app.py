@@ -23,14 +23,14 @@ def login():
     password = request.form.get("pass")
     service = request.form.get("service")
     values = db.selectSpecificItemsFromDb("users","AND",username = username,password = password)
-    data = json.dumps(values)
-    user = json.loads(data)[0]['id']
-        
+            
     if len(values) == 0:
         return redirect(url_for("main",message = "User Not Registered On A System"))
     elif service not in values[0]["access_rights"].split(","):
         return redirect(url_for("main",message = "User Does Not Have Rights to access {}".format(service)))
     else:
+        data = json.dumps(values)
+        user = json.loads(data)[0]['id']
         if service == "warehouse":
             return redirect(url_for("routes.warehouse",login = user))
         elif service == "pointofsale":
