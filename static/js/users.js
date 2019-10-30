@@ -1,3 +1,5 @@
+$('[id=alertsDropdown]').hide();
+
 var userid;
     if(location.search.split('=')[1] == undefined){
       if (sessionStorage.getItem("userid") === null) {

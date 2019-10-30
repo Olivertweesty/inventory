@@ -50,6 +50,19 @@ product_code = """CREATE TABLE IF NOT EXISTS productCodes(
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
 
 
+product_sales = """CREATE TABLE IF NOT EXISTS product_sales(
+                                    `id` int(11) AUTO_INCREMENT,
+                                    `customer_id` varchar(20),
+                                    `product_id` varchar(20),
+                                    `price` varchar(200),
+                                    `discount` varchar(200),
+                                    `quantity` varchar(200),
+                                    `sale_person` varchar(20),
+                                    `date_sale` varchar(30),
+                                    PRIMARY KEY (`id`)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+
+
 damages = """CREATE TABLE IF NOT EXISTS damages(
                                     `id` int(11) AUTO_INCREMENT,
                                     `manufacterer_id` varchar(200) NOT NULL,

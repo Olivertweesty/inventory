@@ -33,8 +33,17 @@ def getuserrights(id):
 @routes.route("/updatesellingprice", methods = ["POST"])
 def updatesellingprice():
 	amount = str(request.json.get("amount"))
-	id = str(request.json.get("product_id"))
-	sql = "UPDATE products SET selling_price"
+	pid = str(request.json.get("product_id"))
+	print(pid)
+	print(amount)
+	sql = "UPDATE products SET selling_price='{}' WHERE id = '{}'".format(amount,pid)
+	response = db.updaterecords(sql)
+	print(response)
+	if response:
+		return jsonify({"response":"successful"})
+	else:
+		return jsonify({"response":"failed"})
+
 
 @routes.route("/addsystemuser", methods = ["POST","GET"])
 def addSystemUsers():

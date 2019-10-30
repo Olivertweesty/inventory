@@ -52,6 +52,14 @@ def deductQuantity(item):
     sql = "UPDATE products SET quantity = '{}' WHERE id = '{}'".format(dquantity,item['item'])
     db.updaterecords(sql)
 
+def updateproductsales(product,customer,salesperson,dateT):
+    orderitems = product.replace("u'","'")
+    items = json.loads(orderitems.replace("'",'"'))
+
+    for item in items:
+        sql = "INSERT INTO product_sales VALUES(0,%s,%s,%s,%s,%s,%s,%s)"
+        db.insertDataToTable(sql,customer,item['id'],item['price'],item['discount'],item['quantity'],salesperson,dateT)
+
 
 @routes.route('/submitorder', methods = ["POST"])
 def submitorder():

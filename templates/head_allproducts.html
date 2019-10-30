@@ -406,7 +406,8 @@
           contentType: "application/json",  
           success: function(result){
             alert(result["response"]);
-            $("#addDiscount").modal("toggle");
+            $("#addpriceModal").modal("toggle");
+            location.reload();
           }
         });
 

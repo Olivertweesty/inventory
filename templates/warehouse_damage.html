@@ -373,6 +373,7 @@
   <script src="static/js/advanced-form-element.js"></script>
   <script src="static/js/users.js"></script>
   <script type="text/javascript">
+    $('[id=alertsDropdown]').hide();
     if (sessionStorage.getItem("userid") === null) {
       window.location = "http://"+window.location.hostname+":4000"
     }else{
