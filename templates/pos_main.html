@@ -357,7 +357,7 @@
               </select>
             </div>
             <div class="col-sm-4">
-              <input type="Number" class="form-control" id="amount" placeholder="Amount">
+              <input type="Number" class="form-control" id="amount" placeholder="Amount" disabled>
             </div>
             <div class="col-sm-4">
               <input type="text" class="form-control" id="payment_code" placeholder="Cheque No /Confirmation">
@@ -659,6 +659,7 @@
       $("#checkoutproducts").append('<tr><th>Installation</th><th>Transport</th><th>Discount</th></tr>');
       $("#checkoutproducts").append('<tr><td id="install"> Ksh. 0.0</td><td id="transDis">Ksh. 0.0</td><td id="disDis">Ksh. '+tDiscount+'</td></tr>');
       $("#checkoutproducts").append('<tr><td style="border: none!important;"></td><td>Total</td><td id="totalDis">Ksh. '+total+'</td></tr>');
+      $("#amount").val(total);
       if(parseFloat(total)<100001){
         $("#total").val("served");
       }else{
@@ -681,6 +682,8 @@
       }
       
       var total_ = (parseFloat(total) + parseFloat(transport)) + parseFloat(installation);
+      $("#amount").val(total_);
+
       $("#transDis").text("Ksh. "+ transport);
       $("#totalDis").text("Ksh. "+ total_);
     }
@@ -700,6 +703,7 @@
       }
     
       var total_ = (parseFloat(total) + parseFloat(installation)) + parseFloat(transport);
+      $("#amount").val(total_);
       $("#install").text("Ksh. "+ installation);
       $("#totalDis").text("Ksh. "+ total_);
     }

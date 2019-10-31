@@ -58,7 +58,7 @@ def updateproductsales(product,customer,salesperson,dateT):
 
     for item in items:
         sql = "INSERT INTO product_sales VALUES(0,%s,%s,%s,%s,%s,%s,%s)"
-        db.insertDataToTable(sql,customer,item['id'],item['price'],item['discount'],item['quantity'],salesperson,dateT)
+        db.insertDataToTable(sql,customer,item['item'],item['price'],item['discount'],item['quantity'],salesperson,dateT)
 
 
 @routes.route('/submitorder', methods = ["POST"])
@@ -75,7 +75,7 @@ def submitorder():
     orderID = generateOderID()
     dateTimeObj = datetime.now()
     dateT = dateTimeObj.strftime("%b-%d-%Y %H:%M:%S")
-    
+    updateproductsales(orderitems,customer_id,"POS",dateT)
     orderitems = orderitems.replace("u'","'")
     print(orderitems)
     items = json.loads(orderitems.replace("'",'"'))

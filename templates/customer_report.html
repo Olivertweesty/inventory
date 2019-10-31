@@ -97,7 +97,6 @@
             <a class="collapse-item" href="customerreport">Customer</a>
             <a class="collapse-item" href="productreport">Product</a>
             <a class="collapse-item" href="paymentreport">Payment</a>
-            
           </div>
         </div>
       </li>
@@ -222,7 +221,7 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-               
+                
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -241,101 +240,17 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Monthly Sales Report</h1>
-            <div class="input-group mb-2 col-sm-3">
+            <h1 class="h3 mb-0 text-gray-800">Customers Report</h1>
+            <div class="input-group mb-2 col-sm-4">
               <div class="input-group-prepend">
-                <div class="input-group-text">From</div>
+                <div class="input-group-text">Select Date</div>
               </div>
-              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-            </div>
-            <div class="input-group mb-2 col-sm-3">
-              <div class="input-group-prepend">
-                <div class="input-group-text">To</div>
-              </div>
-              <input type="date" class="form-control" id="inlineFormInputGroup" placeholder="Username">
-            </div>
-
-            <div class="input-group mb-2 col-sm-3">
-              <input type="submit" class="form-control btn bg-gradient-dark" id="inlineFormInputGroup" value="Filter">
+              <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
             </div>
             
           </div>
 
-          <!-- Content Row -->
-          <div class="row">
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-primary shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Sales</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">Ksh. 40,000.00</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-success shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Amount Paid</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-info shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Amount in Credit</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sales made</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-comments fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          
 
           <!-- Content Row -->
           <div class="row">
@@ -354,8 +269,7 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Quantity</th>
-                                <th>Price Per Unit</th>
+                                <th>Products</th>
                                 <th>Total</th>
                               </tr>
                             </thead>
@@ -437,25 +351,19 @@
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script src="static/js/users.js"></script>
+
   <script>
-  
-  $(document).ready(function() {
-    
-    function retrivePdata(){
-      var data_to_send = {
-        thedate : 
-      }
-      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport",
-        type: "POST",
-        contentType: "application/json",  
-        success: function(result){
-          //alert(result["response"])
-          $('#reportTable').DataTable({
+    var todayDate = new Date();
+    var dd = todayDate.getDate();
+    var mm = todayDate.getMonth()+1; //January is 0!
+    var yyyy = todayDate.getFullYear();
+
+    var today = yyyy+'-'+mm +'-'+ dd;
+
+    var dtable = $('#reportTable').dataTable({
               "processing" : true,
               "bFilter":false,
               "sDom":'t',
-              "data":result,
               "columns" : [{
                   "data" : "id"
               },{
@@ -468,13 +376,41 @@
                   "data" : "total"
               }]
           });
+
+    function refreshtable(data){
+      dtable.fnClearTable();
+      dtable.fnAddData(data);
+      dtable.fnDraw();
+    }
+    
+    function retrivePdata(mydate){
+      var data_to_send = {
+        thedate : mydate
+      }
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        type: "POST",
+        data: JSON.stringify(data_to_send),
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result);
+          $("#totalsales").text("Ksh. "+result['other']['totalsale']);
+          $("#amount_paid").text("Ksh. "+result['other']['paid']);
+          $("#amount_in_credit").text("Ksh. "+result['other']['oncredit'])
+          $("#salesmade").text("Ksh. "+result['other']['sales'])
+          refreshtable(result['table_data']);
           
         } 
       });
     }
-    retrivePdata()
-    
-  });
+    retrivePdata(today)
+
+  function getDate(th){
+      
+      var d = new Date(th.value);
+      var today_ = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      retrivePdata(today_);
+  }
   </script>
 
 </body>
