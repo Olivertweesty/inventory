@@ -241,11 +241,20 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Customers Report</h1>
-            <div class="input-group mb-2 col-sm-4">
+            <div class="d-sm-flex align-items-right col-sm-8 mb-2">
+            <div class="input-group mb-2 col-sm-5">
               <div class="input-group-prepend">
-                <div class="input-group-text">Select Date</div>
+                <div class="input-group-text">From</div>
               </div>
               <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
+              </div>
+              <div class="input-group mb-2 col-sm-5">
+              <div class="input-group-prepend">
+                <div class="input-group-text">To</div>
+                </div>
+                <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
+              </div>
+              <input type="button" class="form-control col-sm-2" value ="Filter">
             </div>
             
           </div>
