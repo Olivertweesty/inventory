@@ -246,15 +246,15 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">From</div>
               </div>
-              <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
+              <input type="date" class="form-control" id="fromdate" placeholder="Date">
               </div>
               <div class="input-group mb-2 col-sm-5">
               <div class="input-group-prepend">
                 <div class="input-group-text">To</div>
                 </div>
-                <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
+                <input type="date" class="form-control" id="todate" placeholder="Date">
               </div>
-              <input type="button" class="form-control col-sm-2" value ="Filter">
+              <input type="button" class="form-control col-sm-2" value ="Filter" onclick="getData()">
             </div>
             
           </div>
@@ -278,8 +278,9 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Products</th>
-                                <th>Total</th>
+                                <th>Product Purchased</th>
+                                <th>Contact</th>
+                                
                               </tr>
                             </thead>
                             <tbody>
@@ -347,6 +348,47 @@
     </div>
   </div>
 
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logout_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Produts Bought By <span id="customer_name"></span></h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="detailreportTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Product Name </th>
+                  <th>Quantity</th>
+                  <th>Selling Price</th>
+                  <th>Discount</th>
+                  <th>Served By</th>
+                  <th>Date</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+          
+              </tbody>
+          
+            </table>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <!-- <a class="btn btn-primary" href="login.html">Logout</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="static/vendor/jquery/jquery.min.js"></script>
   <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -362,13 +404,7 @@
   <script src="static/js/users.js"></script>
 
   <script>
-    var todayDate = new Date();
-    var dd = todayDate.getDate();
-    var mm = todayDate.getMonth()+1; //January is 0!
-    var yyyy = todayDate.getFullYear();
-
-    var today = yyyy+'-'+mm +'-'+ dd;
-
+  
     var dtable = $('#reportTable').dataTable({
               "processing" : true,
               "bFilter":false,
@@ -376,50 +412,98 @@
               "columns" : [{
                   "data" : "id"
               },{
-                  "data" : "item_name"
+                  "data" : "customers"
+              }, {
+                  "data" : "product_purchased"
+              }, {
+                  "data" : "contact"
+              }]
+          });
+
+    var dtabletwo = $('#detailreportTable').dataTable({
+              "processing" : true,
+              "bFilter":false,
+              "sDom":'t',
+              "columns" : [{
+                  "data" : "id"
+              },{
+                  "data" : "product_name"
               }, {
                   "data" : "quantity"
               }, {
-                  "data" : "price_per_item"
+                  "data" : "price"
               }, {
-                  "data" : "total"
+                  "data" : "discount"
+              }, {
+                  "data" : "sale_person"
+              }, {
+                  "data" : "date_sale"
               }]
           });
+
+
+    function retrieveDetails(customername){
+      var data_to_send = {
+        name : customername
+      }
+
+      ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/getcustomerdetailreport",
+        type: "POST",
+        data: JSON.stringify(data_to_send),
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result);
+          dtabletwo.fnClearTable();
+          dtabletwo.fnAddData(result);
+          dtabletwo.fnDraw();
+        } 
+      });
+    }
+
+    $('#reportTable tbody').on( 'click', 'tr', function () {
+      var item_name = $(this).find("td:nth-child(2)").text();
+      retrieveDetails(item_name)
+      $("#customer_name").text(item_name);
+      $("#logout_Modal").modal("show");
+    });
 
     function refreshtable(data){
       dtable.fnClearTable();
       dtable.fnAddData(data);
       dtable.fnDraw();
     }
+
     
-    function retrivePdata(mydate){
+    
+    function retrivePdata(fromdate,todate){
       var data_to_send = {
-        thedate : mydate
+        fromdate : fromdate,
+        todate : todate
       }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        url: "http://"+window.location.hostname+":4000/getcustomerreport",
         type: "POST",
         data: JSON.stringify(data_to_send),
         contentType: "application/json",  
         success: function(result){
           console.log(result);
-          $("#totalsales").text("Ksh. "+result['other']['totalsale']);
-          $("#amount_paid").text("Ksh. "+result['other']['paid']);
-          $("#amount_in_credit").text("Ksh. "+result['other']['oncredit'])
-          $("#salesmade").text("Ksh. "+result['other']['sales'])
-          refreshtable(result['table_data']);
+          refreshtable(result);
           
         } 
       });
     }
     retrivePdata(today)
 
-  function getDate(th){
+  function getData(){
       
-      var d = new Date(th.value);
-      var today_ = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
-      retrivePdata(today_);
+      var d = new Date($("#fromdate").val());
+      var fromdate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      var d = new Date($("#todate").val());
+      var todate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      retrivePdata(fromdate,todate);
   }
+  getData()
   </script>
 
 </body>

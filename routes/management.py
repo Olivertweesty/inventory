@@ -140,3 +140,91 @@ def getdailyreport():
 		items_to_return.append(the_items)
 
 	return jsonify({"table_data":items_to_return,"other":other})
+
+def getrquiredtwodates(fromdate,todate,data):
+	data_to_return = []
+	for order in data:
+		order_date = datetime.strptime(order['date_sale'],"%b-%d-%Y %H:%M:%S")
+		if order_date.date() >= fromdate.date() and order_date.date() <= todate.date():
+			data_to_return.append(order)
+	return data_to_return
+
+@routes.route("/getproductreport", methods = ["POST","GET"])
+def getproductreport():
+	fromdate = str(request.json.get("fromdate"))
+	todate = str(request.json.get("todate"))
+	sql = "SELECT * FROM product_sales AS p JOIN customers AS c JOIN products_name AS pn ON p.customer_id = c.id  WHERE p.product_id = pn.id"
+
+	data = []
+	if fromdate == "NaN-NaN-NaN" or todate == "NaN-NaN-NaN":
+		data = db.selectAllFromtables(sql)
+
+	else:
+		fromdate = datetime.strptime(fromdate, '%Y-%m-%d')
+		todate = datetime.strptime(todate, '%Y-%m-%d')
+
+		data = getrquiredtwodates(fromdate,todate,db.selectAllFromtables(sql))
+	response = []
+	for item in data:
+		itemt = {}
+		itemt["id"] = item["id"]
+		itemt["product_name"] = item["product_name"]
+		itemt["quantity"] = item["quantity"]
+		itemt["price"] = item["price"]
+		itemt["discount"] = item["discount"]
+		itemt["date"] = item["date_sale"]
+		itemt["server"] = item["sale_person"]
+		itemt["total"] = float(item["price"]) * int(item["quantity"])
+		response.append(itemt)
+		
+	return jsonify(response)
+
+
+@routes.route("/getcustomerdetailreport", methods = ["POST","GET"])
+def getcustomerdetailreport():
+	customer = str(request.json.get("name"))
+	sql = "SELECT * FROM product_sales AS p JOIN customers AS c JOIN products_name AS pn ON p.customer_id = c.id  WHERE c.name = '{}' AND p.product_id = pn.id".format(customer)
+	data = db.selectAllFromtables(sql)
+	print(data)
+	return jsonify(data)
+
+
+@routes.route("/getcustomerreport" ,methods = ["POST","GET"])
+def getcustomerreport():
+	fromdate = str(request.json.get("fromdate"))
+	todate = str(request.json.get("todate"))
+	print(fromdate)
+	sql = "SELECT * FROM product_sales AS p JOIN customers AS c WHERE p.customer_id = c.id"
+	data = []
+	if fromdate == "NaN-NaN-NaN" or todate == "NaN-NaN-NaN":
+		data = db.selectAllFromtables(sql)
+
+	else:
+		fromdate = datetime.strptime(fromdate, '%Y-%m-%d')
+		todate = datetime.strptime(todate, '%Y-%m-%d')
+
+		data = getrquiredtwodates(fromdate,todate,db.selectAllFromtables(sql))
+	ids = []
+	response = []
+	for item in data:
+		ids.append(item['customer_id'])
+	count = 1
+	added = []
+	for item in data:
+		if item['customer_id'] in added:
+			continue
+		else:
+			itemt = {}
+			added.append(item['customer_id'])
+			itemt['id'] = count
+			itemt['customers'] = item['name']
+			itemt['contact'] = item['mobile_number']
+			itemt['product_purchased'] = ids.count(item['customer_id'])
+			count = count + 1
+			response.append(itemt)
+
+
+	
+	return jsonify(response)
+
+

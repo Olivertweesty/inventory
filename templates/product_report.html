@@ -246,15 +246,15 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">From</div>
               </div>
-              <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
+              <input type="date" class="form-control" id="thedate" placeholder="Date">
               </div>
               <div class="input-group mb-2 col-sm-5">
               <div class="input-group-prepend">
                 <div class="input-group-text">To</div>
                 </div>
-                <input type="date" class="form-control" id="thedate" placeholder="Date" onchange="getDate(this)">
+                <input type="date" class="form-control" id="thedate" placeholder="Date">
               </div>
-              <input type="button" class="form-control col-sm-2" value ="Filter">
+              <input type="button" class="form-control col-sm-2" value ="Filter" onclick="getData()">
             </div>
             
           </div>
@@ -276,9 +276,12 @@
                               <tr>
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Quantity</th>
-                                <th>Price Per Unit</th>
+                                <th>Sold Units</th>
+                                <th>Price</th>
+                                <th>Discount</th>
                                 <th>Total</th>
+                                <th>Sold By</th>
+                                <th>Date</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -361,12 +364,6 @@
   <script src="static/js/users.js"></script>
 
   <script>
-    var todayDate = new Date();
-    var dd = todayDate.getDate();
-    var mm = todayDate.getMonth()+1; //January is 0!
-    var yyyy = todayDate.getFullYear();
-
-    var today = yyyy+'-'+mm +'-'+ dd;
 
     var dtable = $('#reportTable').dataTable({
               "processing" : true,
@@ -375,13 +372,19 @@
               "columns" : [{
                   "data" : "id"
               },{
-                  "data" : "item_name"
+                  "data" : "product_name"
               }, {
                   "data" : "quantity"
               }, {
-                  "data" : "price_per_item"
+                  "data" : "price"
+              }, {
+                  "data" : "discount"
               }, {
                   "data" : "total"
+              }, {
+                  "data" : "server"
+              }, {
+                  "data" : "date"
               }]
           });
 
@@ -391,34 +394,34 @@
       dtable.fnDraw();
     }
     
-    function retrivePdata(mydate){
+    function retrivePdata(fromdate,todate){
       var data_to_send = {
-        thedate : mydate
+        fromdate : fromdate,
+        todate : todate
       }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        url: "http://"+window.location.hostname+":4000/getproductreport",
         type: "POST",
         data: JSON.stringify(data_to_send),
         contentType: "application/json",  
         success: function(result){
           console.log(result);
-          $("#totalsales").text("Ksh. "+result['other']['totalsale']);
-          $("#amount_paid").text("Ksh. "+result['other']['paid']);
-          $("#amount_in_credit").text("Ksh. "+result['other']['oncredit'])
-          $("#salesmade").text("Ksh. "+result['other']['sales'])
-          refreshtable(result['table_data']);
+          refreshtable(result);
           
         } 
       });
     }
-    retrivePdata(today)
-
-  function getDate(th){
+    
+  function getData(){
       
-      var d = new Date(th.value);
-      var today_ = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
-      retrivePdata(today_);
+      var d = new Date($("#fromdate").val());
+      var fromdate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      var d = new Date($("#todate").val());
+      var todate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      retrivePdata(fromdate,todate);
   }
+
+  getData()
   </script>
 
 </body>

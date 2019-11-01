@@ -139,15 +139,25 @@ def getEmployeeSalaries():
 	sql = "SELECT * FROM salaries AS s JOIN employees AS e ON s.employeeID = e.id"
 	response = db.selectAllFromtables(sql)
 	return jsonify(response)
-
+def getAdvance(id):
+	sql = "SELECT SUM(amount) as amount FROM advance WHERE employeeID = '{}' AND cashout = 'Cashed Out' AND status = 'Not Deducted'".format(id)
+	response = db.selectAllFromtables(sql)
+	print(response)
+	if response[0]['amount'] == None:
+		return 0.0
+	else:
+		sql= "UPDATE advance SET status = 'DEDUCTED' WHERE cashout = 'Cashed Out' AND id = '{}'".format(id)
+		db.updaterecords(sql)
+		return response[0]['amount']
 
 @routes.route("/generatepayslip/<id>", methods = ['POST','GET'])
 def generatepayslip(id):
-	sql = "SELECT * , SUM(a.amount) as advance FROM employees as e JOIN advance AS a ON e.id = a.employeeID WHERE e.id={}".format(id)
+	sql = "SELECT * FROM employees WHERE id={}".format(id)
 	response = db.selectAllFromtables(sql)
 	dateTimeObj = datetime.now()
 	dt = dateTimeObj.strftime("%d-%m-%Y")
 	response = dict(response[0])
+	response['advance'] = getAdvance(id)
 	response['date'] = dt
 	response['housing'] = 0
 	response['other'] = getPayeeDetails(float(response['basic_pay']))
