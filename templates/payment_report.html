@@ -275,10 +275,10 @@
                             <thead>
                               <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Quantity</th>
-                                <th>Price Per Unit</th>
-                                <th>Total</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                
                               </tr>
                             </thead>
                             <tbody>
@@ -361,64 +361,58 @@
   <script src="static/js/users.js"></script>
 
   <script>
-    var todayDate = new Date();
-    var dd = todayDate.getDate();
-    var mm = todayDate.getMonth()+1; //January is 0!
-    var yyyy = todayDate.getFullYear();
-
-    var today = yyyy+'-'+mm +'-'+ dd;
-
-    var dtable = $('#reportTable').dataTable({
+        var dtable = $('#reportTable').dataTable({
               "processing" : true,
               "bFilter":false,
               "sDom":'t',
               "columns" : [{
                   "data" : "id"
               },{
-                  "data" : "item_name"
+                  "data" : "type"
               }, {
-                  "data" : "quantity"
+                  "data" : "description"
               }, {
-                  "data" : "price_per_item"
-              }, {
-                  "data" : "total"
+                  "data" : "amount"
               }]
           });
+
+  
 
     function refreshtable(data){
       dtable.fnClearTable();
       dtable.fnAddData(data);
       dtable.fnDraw();
     }
+
     
-    function retrivePdata(mydate){
+    
+    function retrivePdata(fromdate,todate){
       var data_to_send = {
-        thedate : mydate
+        fromdate : fromdate,
+        todate : todate
       }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        url: "http://"+window.location.hostname+":4000/getpaymentreport",
         type: "POST",
         data: JSON.stringify(data_to_send),
         contentType: "application/json",  
         success: function(result){
           console.log(result);
-          $("#totalsales").text("Ksh. "+result['other']['totalsale']);
-          $("#amount_paid").text("Ksh. "+result['other']['paid']);
-          $("#amount_in_credit").text("Ksh. "+result['other']['oncredit'])
-          $("#salesmade").text("Ksh. "+result['other']['sales'])
-          refreshtable(result['table_data']);
+          refreshtable(result);
           
         } 
       });
     }
-    retrivePdata(today)
 
-  function getDate(th){
+  function getData(){
       
-      var d = new Date(th.value);
-      var today_ = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
-      retrivePdata(today_);
+      var d = new Date($("#fromdate").val());
+      var fromdate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      var d = new Date($("#todate").val());
+      var todate = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+ d.getDate();
+      retrivePdata(fromdate,todate);
   }
+  getData();
   </script>
 
 </body>

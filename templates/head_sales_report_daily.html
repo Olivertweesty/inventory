@@ -474,7 +474,12 @@
           $("#amount_paid").text("Ksh. "+result['other']['paid']);
           $("#amount_in_credit").text("Ksh. "+result['other']['oncredit'])
           $("#salesmade").text("Ksh. "+result['other']['sales'])
-          refreshtable(result['table_data']);
+          if(result['table_data'].length == 0){
+            window.alert("No Data For The Selected Data")
+          }else{
+            refreshtable(result['table_data']);
+          }
+          
           
         } 
       });

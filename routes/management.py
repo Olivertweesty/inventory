@@ -118,7 +118,7 @@ def getOnlyRequired(thedate,data):
 def getdailyreport():
 	thedate = str(request.json.get("thedate"))
 	datetime_object = datetime.strptime(thedate, '%Y-%m-%d')
-	
+
 	sql = "SELECT items,date,payment_type FROM orders"
 	response = getOnlyRequired(datetime_object, db.selectAllFromtables(sql))
 	items_to_return = []
@@ -187,6 +187,42 @@ def getcustomerdetailreport():
 	data = db.selectAllFromtables(sql)
 	print(data)
 	return jsonify(data)
+
+@routes.route("/getpaymentreport", methods = ["POST","GET"])
+def getpaymentreport():
+	fromdate = str(request.json.get("fromdate"))
+	todate = str(request.json.get("todate"))
+	sql = "SELECT * FROM payments"
+	data = []
+	total_cash_in,total_cash_out, amount_in_finance,amount_in_pos = 0.0,0.0,0.0,0.0
+	if fromdate == "NaN-NaN-NaN" or todate == "NaN-NaN-NaN":
+		data = db.selectAllFromtables(sql)
+
+	else:
+		fromdate = datetime.strptime(fromdate, '%Y-%m-%d')
+		todate = datetime.strptime(todate, '%Y-%m-%d')
+
+		data = getrquiredtwodates(fromdate,todate,db.selectAllFromtables(sql))
+	responsedata = []
+	count = 1
+	for item in data:
+		data_current = {"id":count}
+		if item['served_by'] == "POS":
+			total_cash_in = total_cash_in + float(item['amount'])
+			amount_in_pos = amount_in_pos + float(item['amount'])
+			data_current['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
+			data_current['amount'] = item['amount']
+			data_current['type'] = "Sales"
+		else:
+			total_cash_in = total_cash_in + float(item['amount'])
+			amount_in_finance = amount_in_finance + float(item['amount'])
+			data_current['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
+			data_current['amount'] = item['amount']
+			data_current['type'] = "Sales"
+		count = count + 1
+		responsedata.append(data_current)
+
+	return jsonify(responsedata)
 
 
 @routes.route("/getcustomerreport" ,methods = ["POST","GET"])
