@@ -703,12 +703,62 @@
     }
 
     function confirmBox(){
+      if (!checkinputs()) {
+        return
+      }
        $("#conf_quantity").text($("#quantity").val()+" "+$("#units_of_measure").children("option:selected").text());
        $("#conf_name").text($("#products_name").children("option:selected").text());
        $("#confirmCheckinModal").modal('toggle');
     }
 
+    function checkinputs(){
+      if ($("#product_code option:selected").text() == "Product Code") {
+        window.alert("Please Select Product Code");
+        return false;
+      }
+
+      if($("#manufacterer").val() == "Manufacturer Name"){
+        window.alert("Please Select A Manufacturer");
+        return false;
+      }
+
+      if ($("#products_name").val() == "Product Name") {
+        window.alert("Please Specify the product name");
+        return false;
+      }
+
+      if ($("#units_of_measure").val() == "Unit of Measurement") {
+        window.alert("Please Specify the Unit of Measurement");
+        return false;
+      }
+
+      if ($("#quantity").val() == "") {
+        window.alert("Please Specify the Quantity of the product");
+        return false;
+      }
+
+      if ($("#unit_price").val() == "") {
+        window.alert("Please Specify the Buying Price of the product");
+        return false;
+      }
+
+      if ($("#unit_s_price").val() == "") {
+        window.alert("Please Specify the Selling Price of the product");
+        return false;
+      }
+
+      if ($("#quantity_alert").val() == "") {
+        window.alert("Please Specify Quantity Alert Amount");
+        return false;
+      }
+
+
+      return true
+    }
+
     function submit_checkin(){
+
+
       var product_data = {
         productcode : $("#product_code option:selected").text(),
         manufacterer : $("#manufacterer").val(),

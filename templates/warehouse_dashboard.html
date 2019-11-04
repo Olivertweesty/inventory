@@ -227,7 +227,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Out of Stock</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="outofstock">5</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -244,7 +244,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Available Products</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">21</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="availableproducts">21</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -263,7 +263,7 @@
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Damaged Products</div>
                       <div class="row no-gutters align-items-center">
                         <div class="col-auto">
-                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50</div>
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="damagedproducts">50</div>
                         </div>
                       </div>
                     </div>
@@ -282,7 +282,7 @@
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Today's Orders</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="todayorders">18</div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -355,13 +355,6 @@
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
   
-
-  <!-- Page level plugins -->
-  <script src="static/vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="static/js/demo/chart-area-demo.js"></script>
-  <script src="static/js/demo/chart-pie-demo.js"></script>
   <script type="text/javascript">
     $('[id=alertsDropdown]').hide();
     var userid;
@@ -400,6 +393,23 @@
 
         } 
   });
+
+
+  ajaxObj = $.ajax({ 
+        url: "http://"+window.location.hostname+":4000/warehousemain",
+        type: "POST",
+        contentType: "application/json",  
+        success: function(result){
+          console.log(result);
+          $("#availableproducts").text(result['products_available']);
+          $("#outofstock").text(result['outofstock']);
+          $("#damagedproducts").text(result['damages']);
+          $("#todayorders").text(result['orders']);
+        } 
+  });
+
+
+
   </script>
 
 </body>

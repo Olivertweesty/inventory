@@ -5,6 +5,7 @@ from flask import request
 from utils.Database import Database
 import utils.tables as tb
 from datetime import date
+from datetime import datetime
 import json
 
 db = Database("inventorymanagementsystem","9993revilo")
@@ -280,5 +281,33 @@ def reversetransaction(id):
             return jsonify({"response":"Unable to reverse transaction"})
 
     return jsonify(new_quantity)
+
+@routes.route('/warehousemain', methods = ['POST','GET'])
+def warehousemain():
+    response = {}
+    sql = "SELECT * FROM products"
+    products = db.selectAllFromtables(sql)
+    outofstock = 0
+    sql = "SELECT SUM(quantity) AS quantity FROM damages"
+    damages = db.selectAllFromtables(sql)
+    total_selling_price = 0
+    for product in products:
+        total_selling_price = total_selling_price + (float(product['selling_price']) * int(product['quantity']))
+        if int(product['quantity_alert'] > int(product['quantity'])):
+            outofstock = outofstock + 1
+    sql = "SELECT * FROM orders"
+    orders = db.selectAllFromtables(sql)
+    data_to_return = []
+    for order in orders:
+        order_date = datetime.strptime(order['date'],"%b-%d-%Y %H:%M:%S")
+        if order_date.date() == datetime.now().date():
+            data_to_return.append(order)
+    
+    response['stock'] = total_selling_price
+    response['orders'] = str(len(data_to_return))
+    response['damages'] = str(damages[0]['quantity'])
+    response['outofstock'] = outofstock
+    response['products_available'] = len(products)
+    return jsonify(response)
 
     
