@@ -35,3 +35,32 @@ var userid;
 
         } 
   });
+var myswal;
+function loading(boxTitle){
+  $(document).ready(function(){       
+        
+      myswal = Swal.fire({
+         title : boxTitle,
+         text : 'Please Wait ...',
+         imageUrl : 'static/img/loading.gif',
+         showConfirmButton : false,
+         allowOutsideClick : false
+        });
+    });
+}
+
+function showError(boxTitle,boxMessage){
+  $(document).ready(function(){
+    Swal.fire({        
+               type: 'error',
+               title: boxTitle,
+               text: boxMessage,
+               showConfirmButton: true
+        });
+  });
+    
+}
+
+function closeLoading(){
+  myswal.close()
+}

@@ -138,6 +138,9 @@ def warehousepages(name):
     else:
         return render_template("404.html")
 
+
+context=('/etc/letsencrypt/live/riwaa.co.ke/fullchain.pem','/etc/letsencrypt/live/riwaa.co.ke/privkey.pem')
+
 if __name__ == "__main__":
     app.run(debug=True,port=4000,host="0.0.0.0")
     
