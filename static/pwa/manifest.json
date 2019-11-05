@@ -16,7 +16,15 @@
             "type": "image/png"
         },{
             "src": "logo1.png",
-            "sizes": "14x14",
+            "sizes": "144x144",
+            "type": "image/png"
+        },{
+            "src": "logo1.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        },{
+            "src": "logo1.png",
+            "sizes": "128x128",
             "type": "image/png"
         }
     ],
