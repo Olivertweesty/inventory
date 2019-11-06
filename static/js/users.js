@@ -3,7 +3,7 @@ $('[id=alertsDropdown]').hide();
 var userid;
     if(location.search.split('=')[1] == undefined){
       if (sessionStorage.getItem("userid") === null) {
-        window.location = "http://"+window.location.hostname+":4000"
+        window.location = window.location.protocol+"//"+window.location.hostname+":4000"
       }else{
         userid = sessionStorage.getItem("userid");
       }
@@ -14,7 +14,7 @@ var userid;
   
 
   ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getuserrights/"+userid,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getuserrights/"+userid,
         type: "POST",
         contentType: "application/json",  
         success: function(result){

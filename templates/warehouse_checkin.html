@@ -604,15 +604,21 @@
         }
         console.log(product);
         ajaxObj = $.ajax({ 
-          url: window.location.protocol+"//"+window.location.hostname+":4000/addproductcode",
+          url: "https://"+window.location.hostname+":4000/addproductcode",
           data: JSON.stringify(product),
           type: "POST",
-          contentType: "application/json",  
+          contentType: "application/json",
+          beforeSend: function(){
+            loading("Adding Product Code");
+          },  
           success: function(result){
             alert(result["response"]);
             $("#addproductcode").modal("toggle");
             retriveCdata("productCodes");
 
+          },
+          error : function(xhr){
+            showError("Error","An error Occurred! Try again.")
           } 
         });
     }
@@ -777,12 +783,18 @@
         type: "POST",
         data: JSON.stringify(product_data),
         contentType: "application/json",  
+        beforeSend: function(){
+          loading("Adding Item To the Inventory");
+        },
         success: function(result){
               alert(result['response']);
               if (result['code'] == 200) {
                 location.reload();
               }
               
+        },
+        error : function(xhr){
+          showError("Error","An error Occurred! Try again.")
         } 
       });
     }
