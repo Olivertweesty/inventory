@@ -48,9 +48,9 @@ def login():
 def main():
     return render_template("index.html")
 
-@app.route('/static/pwa', methods = ["GET"])
+@app.route('/manifest.json', methods = ["GET"])
 def main2():
-    return render_template("index.html")
+    return send_from_directory("./static/pwa/manifest.json")
 
 @app.route("/login.html",methods=["GET","POST"])
 def logout():
