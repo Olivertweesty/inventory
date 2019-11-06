@@ -50,7 +50,7 @@ def main():
 
 @app.route('/manifest.json', methods = ["GET"])
 def main2():
-    return send_from_directory("./static/pwa/manifest.json")
+    return send_from_directory("static/pwa/manifest.json")
 
 @app.route("/login.html",methods=["GET","POST"])
 def logout():
