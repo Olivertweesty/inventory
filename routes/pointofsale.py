@@ -69,6 +69,7 @@ def submitorder():
     transport = str(request.json.get("transport"))
     discount = str(request.json.get("discount"))
     amount_paid = str(request.json.get("amount_paid"))
+    installation = str(request.json.get("installation"))
     tax = str(request.json.get("tax"))
     payment_status = ""
     serve_status = str(request.json.get("serve_status"))
@@ -106,8 +107,8 @@ def submitorder():
 
     sqlID = "SELECT MAX(id) FROM orders"
     sql2 = "INSERT INTO payments VALUES(0,%s,%s,%s,%s,%s,%s,'POS',%s,%s)"
-    sql = "INSERT INTO orders VALUES(0,%s,%s,%s,%s,%s,%s,'pending',%s,%s,%s,%s,%s,%s,'')"
-    reponse = db.insertDataToTable(sql,orderID,orderitems,dateT,customer_id,transport,discount,tax,payment_status,total,amount_paid,serve_status,payment_type)
+    sql = "INSERT INTO orders VALUES(0,%s,%s,%s,%s,%s,%s,%s,'pending',%s,%s,%s,%s,%s,%s,'')"
+    reponse = db.insertDataToTable(sql,orderID,orderitems,dateT,customer_id,transport,discount,installation,tax,payment_status,total,amount_paid,serve_status,payment_type)
     responseISD = db.selectAllFromtables(sqlID)
     if serve_status == "pending" or payment_status == "credit":
         pass
