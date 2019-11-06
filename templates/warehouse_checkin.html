@@ -614,6 +614,7 @@
           success: function(result){
             alert(result["response"]);
             $("#addproductcode").modal("toggle");
+            closeLoading();
             retriveCdata("productCodes");
 
           },
@@ -788,6 +789,7 @@
         },
         success: function(result){
               alert(result['response']);
+              closeLoading();
               if (result['code'] == 200) {
                 location.reload();
               }
