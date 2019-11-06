@@ -49,7 +49,8 @@ def main():
     return render_template("index.html")
 
 @app.route('/static/pwa/', methods = ["GET"])
-main()
+def main2():
+    return render_template("index.html")
 
 @app.route("/login.html",methods=["GET","POST"])
 def logout():
