@@ -329,7 +329,7 @@
 
   function reversetransaction(id){
     ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/reversetransaction/"+id,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/reversetransaction/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -345,7 +345,7 @@
         "bFilter":false,
         "sDom":'t',
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/gettransactions",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/gettransactions",
             dataSrc : ''
         },
         "columns" : [{

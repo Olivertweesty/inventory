@@ -382,7 +382,7 @@
         "bFilter":false,
         "sDom":'t',
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getexpenses",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getexpenses",
             dataSrc : ''
         },
         "columns" : [{
@@ -413,7 +413,7 @@
       console.log(userdata);
 
        ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/addexpense",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/addexpense",
         type: "POST",
         data: JSON.stringify(userdata),
         contentType: "application/json",  

@@ -367,7 +367,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployeesmissing",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployeesmissing",
               dataSrc : ''
           },
           "columns" : [{
@@ -407,7 +407,7 @@
           var conf = confirm("Please Confirm That the Employee Missed "+$("#days").text()+" days");
           if (conf == true) { 
             ajaxObj = $.ajax({ 
-              url: "http://"+window.location.hostname+":4000/reportmissing",
+              url: window.location.protocol+"//"+window.location.hostname+":4000/reportmissing",
               data : JSON.stringify(leaveData),
               type: "POST",
               contentType: "application/json",  

@@ -310,7 +310,7 @@
     function removeemployee(id){
       
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/removeemployee/"+id,
+          url: window.location.protocol+"//"+window.location.hostname+":4000/removeemployee/"+id,
           type: "POST",
           contentType: "application/json",  
           success: function(result){
@@ -324,7 +324,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployees",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployees",
               dataSrc : ''
           },
           "columns" : [{

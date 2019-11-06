@@ -326,7 +326,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployeesalaries",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployeesalaries",
               dataSrc : ''
           },
           "dom": 'Bfrtip',
@@ -369,7 +369,7 @@
         var name = $(this).find("td:nth-child(2)").text() +" "+$(this).find("td:nth-child(3)").text();
         var conf = confirm("Are You sure you want to Generate Pay Slip for "+name);
         if (conf == true) {
-          var url = "http://"+window.location.hostname+":4000/payslipPrint#"+id;
+          var url = window.location.protocol+"//"+window.location.hostname+":4000/payslipPrint#"+id;
           window.open(url,"_blank");
         }
         

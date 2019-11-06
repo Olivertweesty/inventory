@@ -338,7 +338,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployeesadvance",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployeesadvance",
               dataSrc : ''
           },
           "columns" : [{
@@ -385,7 +385,7 @@
           var conf = confirm("Please Confirm an Advance Salary Of Ksh. "+amount+" to the employee");
           if (conf == true) { 
             ajaxObj = $.ajax({ 
-              url: "http://"+window.location.hostname+":4000/applyadvance",
+              url: window.location.protocol+"//"+window.location.hostname+":4000/applyadvance",
               data : JSON.stringify(leaveData),
               type: "POST",
               contentType: "application/json",  

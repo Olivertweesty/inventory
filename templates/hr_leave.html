@@ -378,7 +378,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployeesleaves",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployeesleaves",
               dataSrc : ''
           },
           "columns" : [{
@@ -400,7 +400,7 @@
 
       function getLeaves(id){
           ajaxObj = $.ajax({ 
-            url: "http://"+window.location.hostname+":4000/getleaves/"+id,
+            url: window.location.protocol+"//"+window.location.hostname+":4000/getleaves/"+id,
             type: "GET",
             contentType: "application/json",  
             success: function(result){
@@ -453,7 +453,7 @@
           var conf = confirm("Please Confirm The "+$("#days").text()+" days Leave to The employee");
           if (conf == true) { 
             ajaxObj = $.ajax({ 
-              url: "http://"+window.location.hostname+":4000/applyleave",
+              url: window.location.protocol+"//"+window.location.hostname+":4000/applyleave",
               data : JSON.stringify(leaveData),
               type: "POST",
               contentType: "application/json",  

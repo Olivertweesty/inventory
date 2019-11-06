@@ -448,7 +448,7 @@
       }
 
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getcustomerdetailreport",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getcustomerdetailreport",
         type: "POST",
         data: JSON.stringify(data_to_send),
         contentType: "application/json",  
@@ -482,7 +482,7 @@
         todate : todate
       }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getcustomerreport",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getcustomerreport",
         type: "POST",
         data: JSON.stringify(data_to_send),
         contentType: "application/json",  

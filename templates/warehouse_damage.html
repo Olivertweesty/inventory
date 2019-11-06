@@ -375,11 +375,11 @@
   <script type="text/javascript">
     $('[id=alertsDropdown]').hide();
     if (sessionStorage.getItem("userid") === null) {
-      window.location = "http://"+window.location.hostname+":4000"
+      window.location = window.location.protocol+"//"+window.location.hostname+":4000"
     }else{
       var userid = sessionStorage.getItem("userid");
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getuserrights/"+userid,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getuserrights/"+userid,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -414,7 +414,7 @@
 
 
       $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/adddamagedproduct",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/adddamagedproduct",
         type: "POST",
         data: JSON.stringify(product_data),
         contentType: "application/json",  
@@ -429,7 +429,7 @@
 
   function retrivePdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -448,7 +448,7 @@
 
     function retriveMdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -471,7 +471,7 @@
     $('#damageproducts').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getdamagedproducts",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getdamagedproducts",
             dataSrc : ''
         },
         "columns" : [{

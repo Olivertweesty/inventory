@@ -400,7 +400,7 @@
         todate : todate
       }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getproductreport",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getproductreport",
         type: "POST",
         data: JSON.stringify(data_to_send),
         contentType: "application/json",  

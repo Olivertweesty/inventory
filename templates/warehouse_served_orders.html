@@ -335,7 +335,7 @@
 
     function getSingleOrder(id){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getsingleorder/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -358,7 +358,7 @@
     $('#served').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getallorders/served",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getallorders/served",
             dataSrc : ''
         },
         "columns" : [{

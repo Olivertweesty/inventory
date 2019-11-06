@@ -339,7 +339,7 @@
   <script type="text/javascript">
     function getExpenseTotal(){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getexpensetotal",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getexpensetotal",
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -357,7 +357,7 @@
           "processing" : true,
           "sDom":'t',
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getexpenses",
+              "url" : window.location.protocol+"//"+window.location.hostname+":4000/getexpenses",
               dataSrc : ''
           },
           "columns" : [{

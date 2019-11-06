@@ -443,7 +443,7 @@
         "bFilter":false,
         "sDom":'t',
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getsystemusers",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getsystemusers",
             dataSrc : ''
         },
         "columns" : [{
@@ -466,7 +466,7 @@
     var phones = new Object();
     function retriveMdata(){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getemployees",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getemployees",
         type: "GET",
         contentType: "application/json",  
         success: function(result){
@@ -508,7 +508,7 @@
       console.log(userdata);
 
        ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/addsystemuser",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/addsystemuser",
         type: "POST",
         data: JSON.stringify(userdata),
         contentType: "application/json",  

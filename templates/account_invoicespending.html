@@ -411,7 +411,7 @@
     var discount = 0.0;
     function getSingleOrder(id){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getsingleorder/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -445,7 +445,7 @@
     $('#invoiceTable').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getaccountsorders/pending",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getaccountsorders/pending",
             dataSrc : ''
         },
         "columns" : [{
@@ -599,13 +599,13 @@
         console.log(data)
 
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/processpendinginvoice",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/processpendinginvoice",
           data: JSON.stringify(data),
           type: "POST",
           contentType: "application/json",  
           success: function(result){
 
-            var url = "http://"+window.location.hostname+":4000/receipt#"+result['id'];
+            var url = window.location.protocol+"//"+window.location.hostname+":4000/receipt#"+result['id'];
             alert(result["response"]);
             window.open(url,"_blank");
             $("#creditProcess").modal('toggle');

@@ -482,7 +482,7 @@
 
 
       ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addemployee",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addemployee",
           data: JSON.stringify(data),
           type: "POST",
           contentType: "application/json",  
