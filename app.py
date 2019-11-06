@@ -48,7 +48,7 @@ def login():
 def main():
     return render_template("index.html")
 
-@app.route('/static/pwa/', methods = ["GET"])
+@app.route('/static/pwa', methods = ["GET"])
 def main2():
     return render_template("index.html")
 
