@@ -30,5 +30,6 @@
       ],
     "orientation": "portrait",
     "theme_color": "#000000",
-    "scope": "/"
+    "scope": "/",
+    "short_name":"Zakihila Inventory"
 }
