@@ -131,6 +131,8 @@ def warehousepages(name):
         return render_template("hr_leave.html")
     elif name == "advancesalary":
         return render_template("hr_advance.html")
+    elif name == "account_advance":
+        return render_template("account_advance.html")
     elif name == "payslip":
         return render_template("hr_payslip.html")
     elif name == "payslipPrint":
