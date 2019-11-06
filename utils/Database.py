@@ -49,6 +49,7 @@ class Database:
 		cursor.execute(tb.product_code)
 		cursor.execute(tb.salariesTable)
 		cursor.execute(tb.product_sales)
+		cursor.execute(tb.createuser)
 		conn.commit()
 		conn.close()
 	

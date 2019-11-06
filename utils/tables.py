@@ -7,6 +7,7 @@ appusers = """CREATE TABLE IF NOT EXISTS users(
                                     `password` varchar(20),
                                     PRIMARY KEY (`id`)
                                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;"""
+createuser = """INSERT INTO users VALUES(1,1,'admin','admin','','zakilaadmin')"""
 
 transactions = """CREATE TABLE IF NOT EXISTS transactions(
                                     `id` int(11) AUTO_INCREMENT,
