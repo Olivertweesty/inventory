@@ -561,7 +561,7 @@
           productname : productname
         }
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addproductname",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addproductname",
           data: JSON.stringify(product),
           type: "POST",
           contentType: "application/json",  
@@ -583,7 +583,7 @@
         }
         console.log(manufacturer);
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addmanufacturername",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addmanufacturername",
           data: JSON.stringify(manufacturer),
           type: "POST",
           contentType: "application/json",  
@@ -604,7 +604,7 @@
         }
         console.log(product);
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addproductcode",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addproductcode",
           data: JSON.stringify(product),
           type: "POST",
           contentType: "application/json",  
@@ -619,7 +619,7 @@
 
     function retrivePdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -636,7 +636,7 @@
 
     function retriveCdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -653,7 +653,7 @@
 
     function retrivePdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -670,7 +670,7 @@
 
     function retriveMdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -773,7 +773,7 @@
       }
       console.log(product_data);
       $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/checkinproducts",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/checkinproducts",
         type: "POST",
         data: JSON.stringify(product_data),
         contentType: "application/json",  
