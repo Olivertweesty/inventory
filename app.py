@@ -48,6 +48,10 @@ def login():
 def main():
     return render_template("index.html")
 
+@app.route("/images/icons/<imagename>", methods = ["GET"])
+def getImage(imagename):
+    return send_from_directory("./images/icons/", imagename)
+
 @app.route('/manifest.json', methods = ["GET"])
 def main2():
     return send_from_directory("./static/pwa/","manifest.json")
