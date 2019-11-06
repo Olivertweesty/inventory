@@ -402,7 +402,7 @@
           product_id : id
         }
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/updatesellingprice",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/updatesellingprice",
           data: JSON.stringify(product),
           type: "POST",
           contentType: "application/json",  
@@ -441,7 +441,7 @@
         $("#addDis").show();
         $("#confirm").text("Add");
         $("#confirm").attr("onClick","process('add')");
-        url = "http://"+window.location.hostname+":4000/discount/"+id
+        url = window.location.protocol+"//"+window.location.hostname+":4000/discount/"+id
 
 
       }else{
@@ -450,7 +450,7 @@
         $("#removeDis").show();
         $("#confirm").text("Confirm");
         $("#confirm").attr("onClick","process('remove')");
-        url = "http://"+window.location.hostname+":4000/discount/"+id
+        url = window.location.protocol+"//"+window.location.hostname+":4000/discount/"+id
 
 
 
@@ -461,7 +461,7 @@
     $('#products').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getallproducts",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getallproducts",
             dataSrc : ''
         },
         "columns" : [ {
