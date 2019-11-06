@@ -3,7 +3,7 @@
     "description": "Inventory Management System For Zakihila glasses and Accessories",
     "lang": "en",
     "background_color": "#000000",
-    "start_url": ".",
+    "start_url": "./",
     "display": "standalone",
     "icons": [
         {
