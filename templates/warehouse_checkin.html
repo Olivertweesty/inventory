@@ -564,14 +564,21 @@
           url: window.location.protocol+"//"+window.location.hostname+":4000/addproductname",
           data: JSON.stringify(product),
           type: "POST",
-          contentType: "application/json",  
+          contentType: "application/json",
+          beforeSend: function(){
+            loading("Adding Product Name");
+          },  
           success: function(result){
             alert(result["response"]);
+            closeLoading();
             $("#addproduct").modal('toggle');
             retrivePdata("products_name");
 
               
-          } 
+          },
+          error : function(xhr){
+            showError("Error","An error Occurred! Try again.")
+          }
         });
     }
 
@@ -586,13 +593,20 @@
           url: window.location.protocol+"//"+window.location.hostname+":4000/addmanufacturername",
           data: JSON.stringify(manufacturer),
           type: "POST",
-          contentType: "application/json",  
+          contentType: "application/json",
+          beforeSend: function(){
+            loading("Adding Manufacturer");
+          },  
           success: function(result){
             alert(result["response"]);
+            closeLoading();
             $("#addmanufacturer").modal("toggle");
             retriveMdata("manufacterer");
 
-          } 
+          },
+          error : function(xhr){
+            showError("Error","An error Occurred! Try again.")
+          }
         });
     }
 
