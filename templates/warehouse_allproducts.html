@@ -341,7 +341,7 @@
     $('#products').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getallproducts",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getallproducts",
             dataSrc : ''
         },
         "columns" : [ {

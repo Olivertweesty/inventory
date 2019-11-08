@@ -305,12 +305,13 @@
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="static/js/users.js"></script>
   <script type="text/javascript">
 
     function removeemployee(id){
       
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/removeemployee/"+id,
+          url: window.location.protocol+"//"+window.location.hostname+":4000/removeemployee/"+id,
           type: "POST",
           contentType: "application/json",  
           success: function(result){
@@ -324,7 +325,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployees",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployees",
               dataSrc : ''
           },
           "columns" : [{

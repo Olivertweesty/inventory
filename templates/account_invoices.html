@@ -414,7 +414,7 @@
 
     function getSingleOrder(id){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getsingleorder/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -462,7 +462,7 @@
     $('#invoiceTable').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getaccountsorders/served",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getaccountsorders/served",
             dataSrc : ''
         },
         "columns" : [{
@@ -527,7 +527,7 @@
         }
         console.log(data)
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/payinvoince",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/payinvoince",
           data: JSON.stringify(data),
           type: "POST",
           contentType: "application/json",  

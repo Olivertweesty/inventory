@@ -145,7 +145,7 @@
     
     var id = location.hash.substr(1);
      ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/generatepayslip/"+id,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/generatepayslip/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){

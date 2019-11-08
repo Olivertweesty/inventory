@@ -561,17 +561,24 @@
           productname : productname
         }
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addproductname",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addproductname",
           data: JSON.stringify(product),
           type: "POST",
-          contentType: "application/json",  
+          contentType: "application/json",
+          beforeSend: function(){
+            loading("Adding Product Name");
+          },  
           success: function(result){
             alert(result["response"]);
+            closeLoading();
             $("#addproduct").modal('toggle');
             retrivePdata("products_name");
 
               
-          } 
+          },
+          error : function(xhr){
+            showError("Error","An error Occurred! Try again.")
+          }
         });
     }
 
@@ -583,16 +590,23 @@
         }
         console.log(manufacturer);
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addmanufacturername",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addmanufacturername",
           data: JSON.stringify(manufacturer),
           type: "POST",
-          contentType: "application/json",  
+          contentType: "application/json",
+          beforeSend: function(){
+            loading("Adding Manufacturer");
+          },  
           success: function(result){
             alert(result["response"]);
+            closeLoading();
             $("#addmanufacturer").modal("toggle");
             retriveMdata("manufacterer");
 
-          } 
+          },
+          error : function(xhr){
+            showError("Error","An error Occurred! Try again.")
+          }
         });
     }
 
@@ -604,22 +618,29 @@
         }
         console.log(product);
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addproductcode",
+          url: "https://"+window.location.hostname+":4000/addproductcode",
           data: JSON.stringify(product),
           type: "POST",
-          contentType: "application/json",  
+          contentType: "application/json",
+          beforeSend: function(){
+            loading("Adding Product Code");
+          },  
           success: function(result){
             alert(result["response"]);
             $("#addproductcode").modal("toggle");
+            closeLoading();
             retriveCdata("productCodes");
 
+          },
+          error : function(xhr){
+            showError("Error","An error Occurred! Try again.")
           } 
         });
     }
 
     function retrivePdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -636,7 +657,7 @@
 
     function retriveCdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -653,7 +674,7 @@
 
     function retrivePdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -670,7 +691,7 @@
 
     function retriveMdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -773,16 +794,23 @@
       }
       console.log(product_data);
       $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/checkinproducts",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/checkinproducts",
         type: "POST",
         data: JSON.stringify(product_data),
         contentType: "application/json",  
+        beforeSend: function(){
+          loading("Adding Item To the Inventory");
+        },
         success: function(result){
               alert(result['response']);
+              closeLoading();
               if (result['code'] == 200) {
                 location.reload();
               }
               
+        },
+        error : function(xhr){
+          showError("Error","An error Occurred! Try again.")
         } 
       });
     }

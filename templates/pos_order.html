@@ -327,7 +327,7 @@
     function cancelOrder(){
       
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/cancelOrder/"+selected_order,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/cancelOrder/"+selected_order,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -340,7 +340,7 @@
     }
     function getSingleOrder(id,status){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getsingleorder/"+id,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getsingleorder/"+id,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -366,7 +366,7 @@
     $('#pending').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getallposorders",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getallposorders",
             dataSrc : ''
         },
         "columns" : [{

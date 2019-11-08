@@ -48,6 +48,14 @@ def login():
 def main():
     return render_template("index.html")
 
+@app.route("/images/icons/<imagename>", methods = ["GET"])
+def getImage(imagename):
+    return send_from_directory("./images/icons/", imagename)
+
+@app.route('/manifest.json', methods = ["GET"])
+def main2():
+    return send_from_directory("./static/pwa/","manifest.json")
+
 @app.route("/login.html",methods=["GET","POST"])
 def logout():
     return redirect(url_for("main"))
@@ -123,6 +131,8 @@ def warehousepages(name):
         return render_template("hr_leave.html")
     elif name == "advancesalary":
         return render_template("hr_advance.html")
+    elif name == "account_advance":
+        return render_template("account_advance.html")
     elif name == "payslip":
         return render_template("hr_payslip.html")
     elif name == "payslipPrint":
@@ -137,6 +147,9 @@ def warehousepages(name):
         return render_template("payment_report.html")
     else:
         return render_template("404.html")
+
+
+context=('/etc/letsencrypt/live/riwaa.co.ke/fullchain.pem','/etc/letsencrypt/live/riwaa.co.ke/privkey.pem')
 
 if __name__ == "__main__":
     app.run(debug=True,port=4000,host="0.0.0.0")

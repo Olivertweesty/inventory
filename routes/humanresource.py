@@ -17,6 +17,17 @@ db = Database("inventorymanagementsystem","9993revilo")
 def humanresource():
 	return render_template("hr_dashboard.html")
 
+@routes.route("/addadmin", methods=["GET"])
+def addAdmin():
+	sql = """INSERT INTO users VALUES(1,1,%s,%s,'',%s)"""
+	reponse = db.insertDataToTable(sql,'admin','admin','zakilaadmin')
+
+	if response:
+		return "Admin Added successfully"
+	else:
+		return "Adding admin failed"
+
+
 @routes.route("/addemployee",methods=['POST'])
 def addemployees():
 	firstname = str(request.json.get("firstname"))

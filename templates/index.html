@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V14</title>
+	<title>ZakiHila Inventory Management System</title>
 	<meta charset="UTF-8">
+	<link rel="manifest" href="static/pwa/manifest.json">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="static/login/images/icons/favicon.ico"/>
@@ -26,6 +27,12 @@
 	<link rel="stylesheet" type="text/css" href="static/login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="static/login/css/main.css">
 <!--===============================================================================================-->
+
+<link href="static/swal/sweetalert2.min.css" rel="stylesheet" type="text/css">
+
+
+
+
 </head>
 <body>
 	
@@ -105,11 +112,38 @@
 	<script src="static/login/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="static/login/js/main.js"></script>
+	<script src="static/swal/sweetalert2.all.min.js"></script>
 
 	<script type="text/javascript">
-		if((location.search.split('=')[1]) != undefined){
-			window.alert((location.search.split('=')[1]));
+		if ('serviceWorker' in navigator) {
+	        window.addEventListener('load', () => {
+	            navigator.serviceWorker
+	                .register('static/pwa/sw_cached_pages.js')
+	                .then(reg => console.log('Service Worker: Registered'))
+	                .catch(err => console.log(`Service Worker: Error: ${err}`));
+	        });
+    	}
+
+
+
+		function showError(boxTitle,boxMessage){
+		  $(document).ready(function(){
+		    Swal.fire({        
+		           type: 'error',
+		           title: boxTitle,
+		           text: boxMessage,
+		           showConfirmButton: true
+		    });
+		  });
+		    
 		}
+		if((location.search.split('=')[1]) != undefined){
+			//window.alert((location.search.split('=')[1]));
+			var message = (location.search.split('=')[1]).replace('+',' ');
+			showError("Log In Error",message);
+		}
+
+
 	</script>
 
 </body>

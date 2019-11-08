@@ -67,7 +67,7 @@
       
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="expenses">
           <i class="fas fa-fw fa-table"></i>
           <span>Expenses</span></a>
       </li>
@@ -336,7 +336,7 @@
       $('#employees').DataTable({
           "processing" : true,
           "ajax" : {
-              "url" :"http://"+window.location.hostname+":4000/getemployeesadvance2",
+              "url" :window.location.protocol+"//"+window.location.hostname+":4000/getemployeesadvance2",
               dataSrc : ''
           },
           "columns" : [{
@@ -386,7 +386,7 @@
           
           
         ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/confirmadvance",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/confirmadvance",
           data : JSON.stringify(leaveData),
           type: "POST",
           contentType: "application/json",  

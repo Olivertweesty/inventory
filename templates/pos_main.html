@@ -473,7 +473,7 @@
     var prod_codes = new Object();
     function getQuantities(){
        ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getposproducts",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getposproducts",
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -505,7 +505,7 @@
     $('#posproducts').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getposproducts",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getposproducts",
             dataSrc : ''
         },
         "columns" : [{
@@ -714,7 +714,7 @@
     //retrieving customer details
     function retriveCdata(service){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdatafromtable/"+service,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdatafromtable/"+service,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -740,7 +740,7 @@
       }
 
       ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/addcustomer",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addcustomer",
           data: JSON.stringify(customerdata),
           type: "POST",
           contentType: "application/json",  
@@ -822,6 +822,7 @@
         customer_id : $("#customerdetails").val(),
         discount : tDiscount,
         tax : $("#tax").prop('checked'),
+        installation : $("#installation").val(),
         transport : $("#transport").val(),
         amount_paid : $("#amount").val(),
         serve_status : $("#total").val()
@@ -829,13 +830,13 @@
       console.log(orderdata)
       
       ajaxObj = $.ajax({ 
-          url: "http://"+window.location.hostname+":4000/submitorder",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/submitorder",
           data: JSON.stringify(orderdata),
           type: "POST",
           contentType: "application/json",  
           success: function(result){
 
-            var url = "http://"+window.location.hostname+":4000/receipt#"+result['id'];
+            var url = window.location.protocol+"//"+window.location.hostname+":4000/receipt#"+result['id'];
              alert(result["response"]);
              if($("#total").val() == "served"){
               window.open(url,"","width=600,height=600");

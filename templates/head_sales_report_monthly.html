@@ -446,7 +446,7 @@
         thedate : 
       }
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getdailyreport",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getdailyreport",
         type: "POST",
         contentType: "application/json",  
         success: function(result){

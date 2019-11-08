@@ -336,7 +336,7 @@
     $('#payments').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/payments/finance",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/payments/finance",
             dataSrc : ''
         },
         "columns" : [{

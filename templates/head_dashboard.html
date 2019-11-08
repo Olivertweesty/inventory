@@ -461,7 +461,7 @@
   <script type="text/javascript">
     
     ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/warehousemain",
+        url: window.location.protocol+"//"+window.location.hostname+":4000/warehousemain",
         type: "POST",
         contentType: "application/json",  
         success: function(result){

@@ -3,7 +3,7 @@ $('[id=alertsDropdown]').hide();
 var userid;
     if(location.search.split('=')[1] == undefined){
       if (sessionStorage.getItem("userid") === null) {
-        window.location = "http://"+window.location.hostname+":4000"
+        window.location = window.location.protocol+"//"+window.location.hostname+":4000"
       }else{
         userid = sessionStorage.getItem("userid");
       }
@@ -14,7 +14,7 @@ var userid;
   
 
   ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/getuserrights/"+userid,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/getuserrights/"+userid,
         type: "POST",
         contentType: "application/json",  
         success: function(result){
@@ -35,3 +35,32 @@ var userid;
 
         } 
   });
+var myswal;
+function loading(boxTitle){
+  $(document).ready(function(){       
+        
+      myswal = Swal.fire({
+         title : boxTitle,
+         text : 'Please Wait ...',
+         imageUrl : 'static/img/loading.gif',
+         showConfirmButton : false,
+         allowOutsideClick : false
+        });
+    });
+}
+
+function showError(boxTitle,boxMessage){
+  $(document).ready(function(){
+    Swal.fire({        
+               type: 'error',
+               title: boxTitle,
+               text: boxMessage,
+               showConfirmButton: true
+        });
+  });
+    
+}
+
+function closeLoading(){
+  myswal.close()
+}

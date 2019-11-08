@@ -394,7 +394,7 @@
 
     function processExpense(what){
       ajaxObj = $.ajax({ 
-        url: "http://"+window.location.hostname+":4000/processExpense/"+$('#selected_expense').val()+"/"+what,
+        url: window.location.protocol+"//"+window.location.hostname+":4000/processExpense/"+$('#selected_expense').val()+"/"+what,
         type: "POST",
         contentType: "application/json",  
         success: function(result){

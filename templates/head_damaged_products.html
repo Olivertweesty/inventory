@@ -338,7 +338,7 @@
     $('#damageproducts').DataTable({
         "processing" : true,
         "ajax" : {
-            "url" :"http://"+window.location.hostname+":4000/getdamagedproducts",
+            "url" :window.location.protocol+"//"+window.location.hostname+":4000/getdamagedproducts",
             dataSrc : ''
         },
         "columns" : [{
