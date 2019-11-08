@@ -363,8 +363,9 @@
   <script>
         var dtable = $('#reportTable').dataTable({
               "processing" : true,
-              "bFilter":false,
+              "bFilter":true,
               "sDom":'t',
+              "paging":true,
               "columns" : [{
                   "data" : "id"
               },{

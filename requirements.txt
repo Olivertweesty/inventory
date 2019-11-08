@@ -1,0 +1,13 @@
+
+beautifulsoup4
+bs4
+cryptography
+Flask
+Flask-Cors
+lxml
+PyMySQL
+python-dateutil
+python-Levenshtein
+pytz
+requests
+
