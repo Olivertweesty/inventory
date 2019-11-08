@@ -5,7 +5,7 @@ import utils.tables as tb
 class Database:
 	def __init__(self, databasename,_password):
 		self.databasename = databasename
-		self.password = "9993revilo"
+		self.password = "9993Rev!lo"
 		#Creating the database if it does not exist
 		connection = pymysql.connect(host='localhost',
                              user='root',
