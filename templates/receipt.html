@@ -93,17 +93,21 @@
             </tr>
             </table>
            <div class="itemsRow" style="height: 250px; overflow:hidden;">
-            <table style="box-shadow: 0 0 0 1px white; border : 1px solid #000;height:250px; ">
+            <table style="border: 1px solid #000;height:250px;border-collapse: collapse; ">
                 <thead>
-                <tr style="background: #eee; height:16px; text-align:center;border-bottom: 1px solid #000;font-weight: bold;">
-                    <th style="width:80px;">Code</th>
+                <tr style="height:40px; text-align:center;border-bottom: 1px solid #000;font-weight: bold;">
+                    <th style="width:100px;">Code</th>
                     <th>Description</th>
                     <th style="width:70px;">Quantity</th>
-                    <th style="width:90px;">Unit Price</th>
-                    <th style="width:90px;">Total Price</th>
+                    <th style="width:100px;">Unit Price</th>
+                    <th style="width:100px;">Total Price</th>
                 </tr>
                 </thead>
                 <tbody id="mytable">
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
+                <tr></tr>
                 </tbody>
             </table>
             </div>
@@ -198,7 +202,7 @@
             console.log(total)
             var txt = '<tr><td>'+result['items'][item]['product_code']+'</td><td style=" text-align:center">'+result['items'][item]['product_name']+'</td><td>'+result['items'][item]['quantity']+'</td><td>'+result['items'][item]['selling_price']+'</td><td>'+parseFloat(itemTotal)+'</td><tr>'
             //<td>'+result['items'][item]['quantity']+'</td>
-            $("#mytable").append(txt);
+            $("#mytable").prepend(txt);
           }
 
      
