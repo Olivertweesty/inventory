@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup,Tag, NavigableString
 import requests
 from dateutil.relativedelta import relativedelta
 
-db = Database("inventorymanagementsystem","9993revilo")
+db = Database("inventorymanagementsystem","9993Rev!lo")
 
         
 @routes.route("/humanresource", methods=['GET'])
