@@ -20,7 +20,7 @@ def humanresource():
 @routes.route("/addadmin", methods=["GET"])
 def addAdmin():
 	sql = """INSERT INTO users VALUES(1,1,%s,%s,'',%s)"""
-	reponse = db.insertDataToTable(sql,'admin','admin','zakilaadmin')
+	response = db.insertDataToTable(sql,'admin','admin','zakilaadmin')
 
 	if response:
 		return "Admin Added successfully"
