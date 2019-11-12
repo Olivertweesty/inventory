@@ -149,9 +149,9 @@ def warehousepages(name):
         return render_template("404.html")
 
 
-context=('/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/fullchain.pem','/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/privkey.pem')
-
+# context=('/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/fullchain.pem','/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/privkey.pem')
+# ,ssl_context = context
 if __name__ == "__main__":
-    app.run(debug=True,port=4000,host="0.0.0.0",ssl_context = context)
+    app.run(debug=True,port=4000,host="0.0.0.0")
     
 
