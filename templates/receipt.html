@@ -15,6 +15,11 @@
         font-weight: bold;
     }
 
+    #mytable td {
+        height: 16px;
+        border-bottom: 1px solid #000
+    }
+
     /*.itemsRow table {
     border:none;
     border-collapse: collapse;
@@ -70,15 +75,15 @@
                                 ZAKIHILA E.A LTD<br>
                                 P.O. BOX 1073 - 00100 , Nairobi<br>
                                 info@zakihila.co.ke<br>
-                                Tel : 020 8000 530 /020 8000 531 /020 8000 532 <br>
+                                Tel : 020 8000 530 /1/2 <br>
                                 PIN : P05180316D
                             </td>
                             
-                            <td style="text-align:left;">
+                            <td style="text-align:right;">
                                 Invoice To:<br>
                                 <b><span id="customername"></span></b><br>
-                                Tel : <span id="customertel"></span>
-                                Invoice N0.: <span id="orderid"></span><br>
+                                Tel : <span id="customertel"></span><br>
+                                Invoice No.: <span id="orderid"></span><br>
                                 Date : <span id="dateCreated"></span><br>
                                 
                             </td>
@@ -87,18 +92,26 @@
                 </td>
             </tr>
             </table>
-           <div class="itemsRow" style="height: 250px;">
-            <table style="box-shadow: 0 0 0 1px white; ">
+           <div class="itemsRow" style="height: 250px; overflow:hidden;">
+            <table style="border: 1px solid #000;height:250px;border-collapse: collapse; ">
                 <thead>
-                <tr style="background: #eee; text-align:center;border-bottom: 0px solid #000;font-weight: bold;">
-                    <th style="width:80px;">Code</th>
+                <tr style="height:40px; text-align:center;border-bottom: 1px solid #000;font-weight: bold;">
+                    <th style="width:100px;">Code</th>
                     <th>Description</th>
                     <th style="width:70px;">Quantity</th>
-                    <th style="width:90px;">Unit Price</th>
-                    <th style="width:90px;">Total Price</th>
+                    <th style="width:100px;">Unit Price</th>
+                    <th style="width:100px;">Total Price</th>
                 </tr>
                 </thead>
                 <tbody id="mytable">
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td></td></tr>
                 </tbody>
             </table>
             </div>
@@ -128,7 +141,7 @@
             </div>
             <div>
                 <b>Terms & Conditions:</b>
-                <ul style="font-size: 10px;">
+                <ul style="font-size: 14px;">
                     <li>Payment Terms strictly as indicated above or sooner on demand</li>
                     <li>An Upfront of 50% is required before delivery of goods</li>
                     <li>Any queries on prices/items supplied must be sent in writting within one weeks from the date of invoice and thereafter will not be entertained</li>
@@ -193,7 +206,7 @@
             console.log(total)
             var txt = '<tr><td>'+result['items'][item]['product_code']+'</td><td style=" text-align:center">'+result['items'][item]['product_name']+'</td><td>'+result['items'][item]['quantity']+'</td><td>'+result['items'][item]['selling_price']+'</td><td>'+parseFloat(itemTotal)+'</td><tr>'
             //<td>'+result['items'][item]['quantity']+'</td>
-            $("#mytable").append(txt);
+            $("#mytable").prepend(txt);
           }
 
      
