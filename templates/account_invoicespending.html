@@ -410,6 +410,8 @@
     var total = 0.0;
     var discount = 0.0;
     function getSingleOrder(id){
+      total = 0.0;
+      discount = 0.0;
       ajaxObj = $.ajax({ 
         url: window.location.protocol+"//"+window.location.hostname+":4000/getsingleorder/"+id,
         type: "POST",

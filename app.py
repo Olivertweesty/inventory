@@ -11,7 +11,7 @@ from flask import send_from_directory
 
 app = Flask(__name__)
 app.register_blueprint(routes)
-db = Database("inventorymanagementsystem","9993revilo")
+db = Database("inventorymanagementsystem","9993Rev!lo")
 
 @app.route('/favicon.ico')
 def favicon():
@@ -149,9 +149,9 @@ def warehousepages(name):
         return render_template("404.html")
 
 
-# context=('/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/fullchain.pem','/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/privkey.pem')
+context=('/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/fullchain.pem','/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/privkey.pem')
 # ,ssl_context = context
 if __name__ == "__main__":
-    app.run(debug=True,port=4000,host="0.0.0.0")
+    app.run(debug=True,port=4000,host="0.0.0.0",ssl_context = context)
     
 

@@ -390,7 +390,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fa fa-minus pull-right" onclick="reduceproduct(this)" style="margin-right:3px;"></i></span>
               </div>
-              <input type="number" id="quantity" class="form-control" onkeyup="alterQuantity(this)" value="1" aria-label="Amount (to the nearest dollar)" disabled>
+              <input type="number" id="quantity" class="form-control" onkeyup="alterQuantity(this)" value="1" aria-label="Amount (to the nearest dollar)">
               <div class="input-group-append">
                 <span class="input-group-text"><i class="fa fa-plus pull-right" onclick="increasequantity(this)" style="margin-right:3px;"></i></span>
               </div>
@@ -611,6 +611,8 @@
   function alterQuantity(item){
     var cardid = $(item).parent().parent().parent().parent().parent().attr('id');
     console.log(cardid);
+    var qua = 0;
+    console.log();
     var quantity = parseInt(item.value);
     var i_d = cardid.replace("item","");
     console.log(i_d);
@@ -622,12 +624,10 @@
     if(checkQuantity(i_d,quantity)){
       console.log(items)
       items[cardid].quantity = quantity;
-    
-      var divm = $(item).parent().parent().parent().parent().parent().parent().parent();
       
-      divm.find('#quantity').val(quantity);
+      $("#"+cardid).find('#quantity').val(quantity);
       var price = parseInt(items[cardid].price) * quantity;
-      divm.find('#item_price').text(price);
+      $("#"+cardid).find('#item_price').text(price);
     }
 
 
