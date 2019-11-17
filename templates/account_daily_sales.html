@@ -231,7 +231,21 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">General Report</h1>
-            
+            <div class="d-sm-flex align-items-right col-sm-8 mb-2">
+            <div class="input-group mb-2 col-sm-5">
+              <div class="input-group-prepend">
+                <div class="input-group-text">From</div>
+              </div>
+              <input type="date" class="form-control" id="fromdate" placeholder="Date">
+              </div>
+              <div class="input-group mb-2 col-sm-5">
+              <div class="input-group-prepend">
+                <div class="input-group-text">To</div>
+                </div>
+                <input type="date" class="form-control" id="todate" placeholder="Date">
+              </div>
+              <input type="button" class="form-control col-sm-2" value ="Filter" onclick="getData()">
+            </div>
           </div>
           <!-- Content Row -->
           <div class="row">
@@ -399,12 +413,17 @@
 
   <!-- Custom scripts for all pages-->
   <script src="static/js/sb-admin-2.min.js"></script>
+
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
   <script src="static/js/users.js"></script>
 
   <script type="text/javascript">
+    var today = new Date().toISOString().split('T')[0];
+
+    $("#fromdate").val(today);
+    $("#todate").val(today);
     var dtable = $('#reportTable').dataTable({
                       "processing" : true,
                       "bFilter":false,
@@ -434,14 +453,19 @@
       dtable.fnDraw();
     }
 
-    function retrivePdata(){
-      // var data_to_send = {
-      //   thedate : mydate
-      // }
+    function retrivePdata(fromdate,todate){
+      var data = {
+        fromdate : fromdate,
+        todate : todate
+      }
       ajaxObj = $.ajax({ 
         url: window.location.protocol+"//"+window.location.hostname+":4000/getgeneralreport",
         type: "POST",
-        contentType: "application/json",  
+        data: JSON.stringify(data),
+        contentType: "application/json", 
+        beforeSend: function(){
+          loading("Retrieving Data");
+        }, 
         success: function(result){
           console.log(result);
           $("#totalsales").text("Ksh. "+result['total_cash_in']);
@@ -450,13 +474,19 @@
           $("#salesmade").text("Ksh. "+result['amount_in_pos'])
           refreshtable(result['other']);
           
-        } 
+        },
+        error : function(xhr){
+          showError("Error","An error Occurred! Try again.")
+        }  
       });
       
     }
 
-    retrivePdata();
+    function getData(){
+      retrivePdata($("#fromdate").val(),$("#todate").val());
+    }
 
+    getData();
 
   </script>
 

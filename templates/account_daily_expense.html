@@ -230,7 +230,21 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Expense Report</h1>
-            
+            <div class="d-sm-flex align-items-right col-sm-8 mb-2">
+            <div class="input-group mb-2 col-sm-5">
+              <div class="input-group-prepend">
+                <div class="input-group-text">From</div>
+              </div>
+              <input type="date" class="form-control" id="fromdate" placeholder="Date">
+              </div>
+              <div class="input-group mb-2 col-sm-5">
+              <div class="input-group-prepend">
+                <div class="input-group-text">To</div>
+                </div>
+                <input type="date" class="form-control" id="todate" placeholder="Date">
+              </div>
+              <input type="button" class="form-control col-sm-2" value ="Filter" onclick="getData()">
+            </div>
           </div>
 
           <!-- Content Row -->
@@ -337,19 +351,31 @@
   <script src="static/js/users.js"></script>
   
   <script type="text/javascript">
-    function getExpenseTotal(){
+    function getExpenseTotal(fromdate,todate){
+      var data = {
+        fromdate : fromdate,
+        todate : todate
+      }
       ajaxObj = $.ajax({ 
         url: window.location.protocol+"//"+window.location.hostname+":4000/getexpensetotal",
         type: "POST",
-        contentType: "application/json",  
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        beforeSend: function(){
+          loading("Retrieving Data");
+        },   
         success: function(result){
           console.log(result)
           $("#expenseTotal").text("Ksh. "+result)
+        }
+        ,
+        error : function(xhr){
+          showError("Error","An error Occurred! Try again.")
         } 
       });
     }
 
-    getExpenseTotal()
+    
     
     $(document).ready(function() {
     
@@ -387,6 +413,13 @@
       });
 
       });
+
+
+    function getData(){
+       getExpenseTotal($("#fromdate").val(),$("#todate").val());
+    }
+
+    getData();
   </script>
 
 

@@ -75,7 +75,13 @@
             <tr>
 
                 <td colspan="2">
-                    Invoice To:
+                    <table>
+                        <tr>
+                            <td><b>Invoice To:</b></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    
                     <table border="1" style="border: 1px solid #000;height:25px;border-collapse: collapse;">
                         <tr>
                             <td>
@@ -95,8 +101,6 @@
                 </td>
             </tr>
             </table>
-            <br>
-            <br>
            <div class="itemsRow" style=" overflow:hidden;">
             <table border="1" style="border: 1px solid #000;border-collapse: collapse; ">
                 <thead>
@@ -135,7 +139,7 @@
                 <b>Terms & Conditions:</b>
                 <ul style="font-size: 14px;">
                     <li>Payment Terms strictly as indicated above or sooner on demand</li>
-                    <li>An Upfront of 50% is required before delivery of goods</li>
+                    <li>An Upfront of 50% is required upon placement of order.</li>
                     <li>Any queries on prices/items supplied must be sent in writting within one weeks from the date of invoice and thereafter will not be entertained</li>
                     <li>Goods may be accepted back only at our discretion. Any return of goods without confirmation signature will be invalid</li>
                 </ul>
@@ -192,7 +196,7 @@
             $("#amount_paid").text(result['total_paid']);
             $("#payment_method").text(result['payment_type']);
             $("#customertel").text(result['mobile_number']);
-            $("#customername").text(result['customer_name']);
+            $("#customername").text(result['company_name']);
              var itemTotal = (parseFloat(result['items'][item]['selling_price']) * parseInt(result['items'][item]['quantity']))
             total = (total + itemTotal) - (parseFloat(result['items'][item]['discount']) * parseInt(result['items'][item]['quantity']))
             console.log(total)

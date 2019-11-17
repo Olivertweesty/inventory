@@ -501,6 +501,10 @@
       }
     }
 
+    function getQuantitymax(id){
+      return quantities[id];
+    }
+
     $(document).ready(function() {
     $('#posproducts').DataTable({
         "processing" : true,
@@ -616,18 +620,25 @@
     var quantity = parseInt(item.value);
     var i_d = cardid.replace("item","");
     console.log(i_d);
-    if (isNaN(quantity) || quantity == 0) {
-      item.value = 1
-      quantity = 1
-    }
+    // if (isNaN(quantity) || quantity == 0) {
+    //   item.value = 1
+    //   quantity = 1
+    // }
 
     if(checkQuantity(i_d,quantity)){
       console.log(items)
+      $("#"+cardid).find('#quantity').val(quantity);
+      if(isNaN(quantity)){
+        quantity = 0;
+      }
       items[cardid].quantity = quantity;
       
-      $("#"+cardid).find('#quantity').val(quantity);
+      
+
       var price = parseInt(items[cardid].price) * quantity;
       $("#"+cardid).find('#item_price').text(price);
+    }else{
+      items[cardid].quantity = getQuantitymax(i_d);
     }
 
 
@@ -653,6 +664,11 @@
       $("#checkoutproducts").empty();
       
       for(var key in items){
+        if (items[key].quantity == "0") {
+          alert("No Quantity Can be Zero");
+           $("#checkoutmodal").modal('hide');
+          return
+        }
         $("#checkoutproducts").append('<tr><td>'+items[key].name+'</td><td>'+items[key].quantity+'</td><td>Ksh. '+items[key].price+'</td></tr>');
         total = total + (parseFloat(items[key].price) * parseInt(items[key].quantity)) - (parseFloat(items[key].discount) * parseInt(items[key].quantity))
 

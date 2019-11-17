@@ -304,6 +304,7 @@
   <!-- Page level plugins -->
   <script src="static/vendor/datatables/jquery.dataTables.min.js"></script>
   <script src="static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="static/js/users.js"></script>
   <script type="text/javascript">
     
     $(document).ready(function() {
@@ -336,7 +337,7 @@
         var conf = confirm("Are You sure you want to Generate Pay Slip for "+name);
         if (conf == true) {
           var url = window.location.protocol+"//"+window.location.hostname+":4000/payslipPrint#"+id;
-          window.open(url,"_blank");
+          window.open(url,"","width=600,height=600");
         }
         
       });

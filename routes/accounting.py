@@ -149,19 +149,29 @@ def getfinancepayments():
 
 @routes.route('/getexpensetotal', methods = ['POST'])
 def getexpensetotal():
+	fromdate = str(request.json.get("fromdate"))
+	todate = str(request.json.get("todate"))
 	sql = "SELECT * FROM expenses WHERE status='accepted'"
 	response = db.selectAllFromtables(sql)
+	fromdate = datetime.strptime(fromdate, '%Y-%m-%d')
+	todate = datetime.strptime(todate, '%Y-%m-%d')
 	total = 0.0
 	for item in response:
-		if item['type'] == 'credit':
-			total = total + float(item['amount'])
-		else:
-			total = total - float(item['amount'])
+		order_date = datetime.strptime(item['date'],"%b-%d-%Y %H:%M:%S")
+		if order_date.date() >= fromdate.date() and order_date.date() <= todate.date():
+			if item['type'] == 'credit':
+				total = total + float(item['amount'])
+			else:
+				total = total - float(item['amount'])
 	return str(total)
 
 
 @routes.route("/getgeneralreport", methods = ['POST'])
 def getgeneralreport():
+	fromdate = str(request.json.get("fromdate"))
+	todate = str(request.json.get("todate"))
+	fromdate = datetime.strptime(fromdate, '%Y-%m-%d')
+	todate = datetime.strptime(todate, '%Y-%m-%d')
 	sql = "SELECT * FROM expenses WHERE status='accepted'"
 	response = db.selectAllFromtables(sql)
 	total_cash_in,total_cash_out, amount_in_finance,amount_in_pos = 0.0,0.0,0.0,0.0
@@ -169,21 +179,23 @@ def getgeneralreport():
 	count = 1
 	for item in response:
 		data = {"id":count}
-		if item['type'] == 'credit':
-			total_cash_in = total_cash_in + float(item['amount'])
-			amount_in_finance = amount_in_finance + float(item['amount'])
-			data['description'] = "Credit - {}".format(item['use'])
-			data['amount'] = item['amount']
-			data['type'] = "Credit"
+		order_date = datetime.strptime(item['date'],"%b-%d-%Y %H:%M:%S")
+		if order_date.date() >= fromdate.date() and order_date.date() <= todate.date():
+			if item['type'] == 'credit':
+				total_cash_in = total_cash_in + float(item['amount'])
+				amount_in_finance = amount_in_finance + float(item['amount'])
+				data['description'] = "Credit - {}".format(item['use'])
+				data['amount'] = item['amount']
+				data['type'] = "Credit"
 
-		else:
-			total_cash_in = total_cash_in - float(item['amount'])
-			total_cash_out = total_cash_out + float(item['amount'])
-			amount_in_finance = amount_in_finance - float(item['amount'])
-			data['description'] = "Debit - {}".format(item['use'])
-			data['amount'] = item['amount']
-			data['type'] = "Debit"
-		responsedata.append(data)
+			else:
+				total_cash_in = total_cash_in - float(item['amount'])
+				total_cash_out = total_cash_out + float(item['amount'])
+				amount_in_finance = amount_in_finance - float(item['amount'])
+				data['description'] = "Debit - {}".format(item['use'])
+				data['amount'] = item['amount']
+				data['type'] = "Debit"
+			responsedata.append(data)
 		count = count +1
 
 	sql2 = "SELECT * FROM payments"
@@ -191,20 +203,22 @@ def getgeneralreport():
 
 	for item in response:
 		data = {"id":count}
-		if item['served_by'] == "POS":
-			total_cash_in = total_cash_in + float(item['amount'])
-			amount_in_pos = amount_in_pos + float(item['amount'])
-			data['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
-			data['amount'] = item['amount']
-			data['type'] = "Sales"
-		else:
-			total_cash_in = total_cash_in + float(item['amount'])
-			amount_in_finance = amount_in_finance + float(item['amount'])
-			data['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
-			data['amount'] = item['amount']
-			data['type'] = "Sales"
-		count = count + 1
-		responsedata.append(data)
+		order_date = datetime.strptime(item['date_paid'],"%b-%d-%Y %H:%M:%S")
+		if order_date.date() >= fromdate.date() and order_date.date() <= todate.date():
+			if item['served_by'] == "POS":
+				total_cash_in = total_cash_in + float(item['amount'])
+				amount_in_pos = amount_in_pos + float(item['amount'])
+				data['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
+				data['amount'] = item['amount']
+				data['type'] = "Sales"
+			else:
+				total_cash_in = total_cash_in + float(item['amount'])
+				amount_in_finance = amount_in_finance + float(item['amount'])
+				data['description'] = "Sale - {} paid via {}".format(item['invoice_id'],item['payment_type'])
+				data['amount'] = item['amount']
+				data['type'] = "Sales"
+			count = count + 1
+			responsedata.append(data)
 
 	response = {"total_cash_in": total_cash_in,
 				"total_cash_out":total_cash_out,

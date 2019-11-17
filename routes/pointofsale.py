@@ -127,6 +127,27 @@ def getallPosorders():
 
     return jsonify(response)
 
+def getOnlyRequired(thedate,data):
+    totalsale = 0
+    unconfirmed = 0
+    for order in data:
+        order_date = datetime.strptime(order['date_paid'],"%b-%d-%Y %H:%M:%S")
+        if order_date.date() == thedate.date():
+            if order['confirmed'] == "Confirmed":
+                totalsale = totalsale + float(order['amount'])
+            else:
+                unconfirmed = unconfirmed + float(order['amount'])
+            
+    return {"totalsale": totalsale,"unconfirmed": unconfirmed}
+
+@routes.route('/getpossummary', methods = ["POST"])
+def getpossummary():
+    sql = "SELECT * FROM payments"
+    response = db.selectAllFromtables(sql)
+    dateTimeObj = datetime.now()
+    response = getOnlyRequired(dateTimeObj,response)
+    return jsonify(response)
+
 @routes.route('/cancelOrder/<id>', methods = ['POST','GET'])
 def cancelOrder(id):
     sql = "UPDATE orders SET checkout_status='cancelled' WHERE id = '{}'".format(id)
@@ -135,6 +156,16 @@ def cancelOrder(id):
         return jsonify({"response":"Order Cancelled successfully","code":200})
     else:
         return jsonify({"response":"Order Cancelled Failed","code":300})
+
+@routes.route('/confirmpayment', methods = ['POST'])
+def confirmpayment():
+    orderid = str(request.json.get("orderid"))
+    sql = "UPDATE payments SET confirmed ='Confirmed' WHERE id={}".format(orderid)
+    response = db.updaterecords(sql)
+    if response:
+        return jsonify({"response":"Payment Confirmed successfully","code":200})
+    else:
+        return jsonify({"response":"Payment Confirmation Failed","code":300})
 
 
 @routes.route('/payments/pos', methods = ['GET'])

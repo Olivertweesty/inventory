@@ -150,7 +150,7 @@ def warehousepages(name):
 
 
 context=('/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/fullchain.pem','/etc/letsencrypt/live/zakihila.jolivinconsolidated.co.ke/privkey.pem')
-# ,ssl_context = context
+# 
 if __name__ == "__main__":
     app.run(debug=True,port=4000,host="0.0.0.0",ssl_context = context)
     

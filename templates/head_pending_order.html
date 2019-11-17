@@ -288,6 +288,8 @@
                     <p id="order_id"></p>
                     <h6 class="m-0 font-weight-bold text-primary">Items:</h6>
                     <div id="items"></div>
+                    
+                    <h6 class="m-0 font-weight-bold text-primary">Total : <span style="color: black" id="total"></span></h6>
                     <button class="col-sm-12 btn btn-primary invisible"  id="serve" data-toggle="modal" data-target="#served">Process</button>                    
                   </div>
                 </div>
@@ -379,12 +381,16 @@
           // $('#serve').removeClass('invisible');
           $("#order_id").text(result['orderid'])
           $("#items").empty();
+          var total = 0.0;
           for(var item in result['items']){
             console.log(result['items'][item])
+            total = total + (parseFloat(result['items'][item]['selling_price']) * parseInt(result['items'][item]['quantity']));
             var txt = '<p>'+result['items'][item]['product_name']+'<span style="position:absolute;left:150px;"> X '+result['items'][item]['quantity']+'</span><p>'
             $("#items").append(txt);
             $("#items").append('<hr>');
           }
+          $("#total").text("Ksh. "+total);
+
         } 
       });
     }

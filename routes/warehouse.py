@@ -165,7 +165,7 @@ def getallorders(id):
 
 @routes.route('/getreciept/<id>',methods = ["POST","GET"])
 def getreciept(id):
-    sql = "SELECT o.orderid,o.items,o.date_served,o.date,c.mobile_number,o.tax,o.total_paid,o.payment_type,o.transport,o.discount,c.name FROM orders as o JOIN customers as c ON c.id = o.customer_id WHERE o.id = '{}'".format(id)
+    sql = "SELECT o.orderid,o.items,o.date_served,o.date,c.mobile_number,o.tax,o.total_paid,o.payment_type,o.transport,o.discount,c.name,c.company_name FROM orders as o JOIN customers as c ON c.id = o.customer_id WHERE o.id = '{}'".format(id)
     response = db.selectAllFromtables(sql)
     ids = dict(response[0])['items']
     ids = json.loads(ids.replace("'",'"'))
@@ -175,6 +175,7 @@ def getreciept(id):
                 "total_paid":dict(response[0])['total_paid'],
                 "date":dict(response[0])['date'],
                 "customer_name" : dict(response[0])['name'],
+                "company_name": dict(response[0])['company_name'],
                 "mobile_number" : dict(response[0])['mobile_number'],
                 "transport": dict(response[0])['transport'],
                 "tax": dict(response[0])['tax'],
@@ -271,10 +272,10 @@ def reversetransaction(id):
 
     new_quantity = quantity_2 - quantity
     if new_quantity < 0:
-        return jsonify({"response":"Unable to reverse transaction"})
+        return jsonify({"response":"Unable to reverse transaction Because Some quantity have been used"})
     else:
-        sql3 = "UPDATE products SET quantity=%s,status='reversed' WHERE id=%s"
-        response = db.insertDataToTable(sql3,new_quantity,product_id)
+        sql3 = "UPDATE products SET quantity={} WHERE id={}".format(new_quantity,product_id)
+        response = db.updaterecords(sql3)
         if response:
             return jsonify({"response":"Reversal successful"})
         else:

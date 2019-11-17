@@ -287,6 +287,8 @@
                                       <option>Unit of Measurement</option>
                                       <option>Kg</option>
                                       <option>Units</option>
+                                      <option>Sq. Feets</option>
+                                      <option>Metres</option>
                                     </select>
                                      
                                 </div>
@@ -618,7 +620,7 @@
         }
         console.log(product);
         ajaxObj = $.ajax({ 
-          url: "https://"+window.location.hostname+":4000/addproductcode",
+          url: window.location.protocol+"//"+window.location.hostname+":4000/addproductcode",
           data: JSON.stringify(product),
           type: "POST",
           contentType: "application/json",
